@@ -1,0 +1,3 @@
+= BI-SPOL-29
+:stem:
+:imagesdir: images

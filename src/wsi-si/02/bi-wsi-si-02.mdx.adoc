@@ -1,0 +1,163 @@
+= BI-WSI-SI-2
+:stem:
+:imagesdir: images
+
+== Popis
+
+Algoritmus na transformaci (převod) konceptuálního schématu na relační
+bývá součástí modelovacích nástrojů (oracle, EA..). Některé konstrukce
+mohou mít několik variant převedení (několik různých).
+
+== Postup transformace
+
+Jediná možnost provázání dat ze dvou relací je referenční integritou
+(FOREIGN KEY).
+
+* název entity latexmath:[$\rightarrow$] název relace
+* atribut entity latexmath:[$\rightarrow$] atribut relace
+* povinnost atributu entity latexmath:[$\rightarrow$] NOT NULL
+* atributy edentifikátoru entity latexmath:[$\rightarrow$] PRIMARY KEY
+* alternativní klíče latexmath:[$\rightarrow$] UNIQUE
+* u slabých entit latexmath:[$\rightarrow$] identifikátor vlasníka
+
+=== Transformace silné entity
+
+Daná entita se převede na tabulku s hodnotami
+*entita([.ul]#identifikator#, povinny_atribut, nepovinny_atribut)*.
+Podtržení znamená, že je to primární klíč.
+
+image:entita.png[image,scaledwidth=25.0%]
+
+=== Vztah 1:1, obě části jsou ve vztahu povinné
+
+Dojde k sjednocení daných entit do jedné tabulky
+*zamestnanec_vuz([.ul]#cislo_z#, jmneo_z, adresa, spz, vyrobce, model)*.
+Kde navíc *spz je NOT NULL a UNIQUE* (protože byl identifikátorem).
+
+image:oneToOne.png[image,scaledwidth=50.0%]
+
+=== Vztah 1:1, kde jen jedna část je povinná
+
+Entity se nemohou spojit kvůli nepovinnosti jedné strany. Převedou se
+tedy na dvě tabulky, kde tabulka, jež je nepovinnou částí, bude mít ID
+odkaz na povinnou část.
+
+image:oneToOneV2.png[image,scaledwidth=50.0%]
+
+* zamestnanec([.ul]#cislo_z#, jmeno_z, adresa)
+* vuz([.ul]#spz#, vyrobce, model, `cislo_z`) a [.ul]#cislo_z# je NOT
+NULL UNIQUE (kvůli zachování vazby 1:1)
+* vuz[cislo_z] latexmath:[$\subseteq$] zamestnanec[cislo_z]
+
+=== Vztah 1:1, obě nepovinné
+
+image:oneToOneV2.png[image,scaledwidth=50.0%]
+
+Lze vyřešit dvěmi způsoby. *První řešení* odpovídá předchozímu případu,
+akorát *cislo_z* v tabulce vuz bude *nepovinný*.
+
+Druhé řešení přidává relační tabulky:
+
+* zamestnanec([.ul]#cislo_z#, jmeno_z, adresa)
+* vuz([.ul]#spz#, vyrobce, model)
+* zamestnanec_vuz([.ul]#cislo_z#, spz), kde SPZ je NOT NULL a UNIQUE
+* zamestnanec_vuz[spz] latexmath:[$\subseteq$] vuz[spz]
+* zamestnanec_vuz[cislo_z] latexmath:[$\subseteq$] zamestnanec[cislo_z]
+
+=== Vztah 1:N, povinná účást stany N (determinant)
+
+image:oneToN.png[image,scaledwidth=60.0%]
+
+* pacient([.ul]#id_pac#, jmeno_pac, id_pok)
+* pokoj([.ul]#id_pok#, poc_luzek)
+* pacient[id_pok] latexmath:[$\subseteq$] pokoj[id_pok], kde id_pok je
+NOT NULL
+
+=== Vztah 1:N, nepovinná účást stany N (determinant)
+
+Opět dva způsoby jak se dá řešit, první je vzít řešení z předchozí
+ukázky a nastavit *[.ul]#id_pok# na nepovinný*. A druhé řešení je opět
+vytvoření vazební tabulky
+
+image:oneToNV2.png[image,scaledwidth=60.0%]
+
+* pacient([.ul]#id_pac#, jmeno_pac),
+* pokoj([.ul]#id_pok#, poc_luzek)
+* umisteni([.ul]#id_pac#, id_pok), kde id_pok je NOT NULL
+* umisteni[id_pac] latexmath:[$\subseteq$] pacient[id_pac]
+* umisteni[id_pok] latexmath:[$\subseteq$] pokoj[id_pok]
+
+=== Vztah M:N
+
+image:MToN.png[image,scaledwidth=60.0%]
+
+* kino([.ul]#id_kina#, nazev_kina),
+* film([.ul]#id_filmu#, nazev_filmu)
+* predstaveni([.ul]#id_kina, id_filmu#)
+* predstaveni[id_kina] latexmath:[$\subseteq$] kino[id_kina]
+* predstaveni[id_filmu] latexmath:[$\subseteq$] film[id_filmu]
+
+Toto řešení způsobuje to, že v jendom kině se může hrát film pouze
+jednou. Tento problém se řeší pomocí dekompozice.
+
+=== Dekompozice vztahu M:N
+
+image:decoMToN.png[image,scaledwidth=80.0%]
+
+* kino([.ul]#id_kina#, nazev_kina),
+* film([.ul]#id_filmu#, nazev_filmu)
+* predstaveni([.ul]#id_predstaveni#, datum, id_kina, id_filmu), ID kina
+a filmu jsou NOT NULL
+* predstaveni[id_kina] latexmath:[$\subseteq$] kino[id_kina]
+* predstaveni[id_filmu] latexmath:[$\subseteq$] film[id_filmu]
+
+=== Slabá entita
+
+Vezmeme v příklad čísla bloků a v jednotlivých blocích jsou pokoje.
+Bloky jsou číslované 1, 2,…,n a v každém bloku jsou číslované pokoje od
+1 do n. Pomocí samotného čísla pokoje se nedá identifikovat, kde se
+nachází, protože každý blok má pokoje stejně číslován. Ale pomocí
+kombinace číslo bloku + číslo pokoje jsmě již schopní pokoj najít.
+
+image:weakEntity.png[image,scaledwidth=40.0%]
+
+* blok([.ul]#id_bloku#, nazev_bloku),
+* pokoj([.ul]#id_pokoje, id_bloku#)
+* pokoj[id_bloku] latexmath:[$\subseteq$] blok[id_bloku]
+
+=== Identifikační závislost
+
+image:idenRelation.png[image,scaledwidth=40.0%]
+
+Každý uživatel má pouze jeden profil a ten profil patří pouze jednomu
+uživateli. Uživatel nemusí mít profil, ale pokud ho má, tak je jasně
+identifikován pomocí uživatele.
+
+* osoba([.ul]#id_osoby, jmeno_osoby#)
+* profil([.ul]#id_osoby#, fotka)
+* profil[id_osoby] latexmath:[$\subseteq$] osoba[id_osoby]
+
+== ISA hierarchie
+
+Jedná se o způsob jak vyřešit více vztahů při převodu. Rozdělují se na
+tři typy:
+
+* všechny vazby do jedné tabulky
+* polymorfismus
+* více oddělených tabulek
+
+Příklad:
+
+image:isa.png[image,scaledwidth=70.0%]
+
+* vše dohromady
+** osoba([.ul]#id_osoby#, email, telefon, jmneo, ico, dic)
+* polymorfismus
+** osoba(id_osoby, email, telefon), kde ID osoby je UNIQUE
+** fyzicka([.ul]#id_osoby#, jmneo)
+** pravnicka([.ul]#id_osoby#, ico, dic)
+** fyzicka[id_osoby] latexmath:[$\subseteq$] osoba[id_osoby]
+** pravnicka[id_osoby] latexmath:[$\subseteq$] osoba[id_osoby]
+* oddělené tabulky
+** fyzicka([.ul]#id_osoby#, email, telefon, jmneo)
+** pravnicka([.ul]#id_osoby#, email, telefon, ico, dic)

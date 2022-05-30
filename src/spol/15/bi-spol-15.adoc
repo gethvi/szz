@@ -1,0 +1,169 @@
+= BI-SPOL-15
+:stem:
+:imagesdir: images
+
+== Jazyk predikátové logiky
+
+Jazyk obsahuje _logické symboly_ a _mimologické symboly L_.
+
+* symboly pro _proměnné_ (x, y, z)
+* symboly pro _logické spojky_
+(latexmath:[$\neg, \wedge, \vee, \Rightarrow, \Leftarrow$])
+* symboly pro _kvantifikátory_ vždy následuje proměnná
+** obecný - "všichni" latexmath:[$\forall$]
+** existenční - "některé/existuje" latexmath:[$\exists$]
+* pomocné symboly - závorky
+* symboly pro _konstanty_ (K, S, …)
+* symboly pro _predikáty_ (latexmath:[$p, q, r$]) - dána četnost
+* symboly pro _funkce_ (latexmath:[$f, g, \dots$])
+
+=== Term
+
+Řetězec symbolů se nazývá `term` jestliže vznikne použitím těchto
+pravidel v konečně mnoho krocích:
+
+* každá proměnná a konstanta je term
+* jsou-li latexmath:[$t_1, t_2,\dots,t_n$] termy a latexmath:[$f$] je
+latexmath:[$n$]-ární funkční symbol, potom
+latexmath:[$f(t_1,\dots,t_n)$] je term
+
+=== Formule
+
+`Formule` je posloupnost symbolů, která vznikne aplikací následujících
+pravidel v konečné mnoha krocích:
+
+* je-li latexmath:[$n$]-ární predikátový symbol a
+latexmath:[$t_1,...,t_n$] jsou termy, pak latexmath:[$p(t_1,...,t_n)$]
+je formule - atomická formule
+* jsou-li A a B formule, pak
+latexmath:[$\neg A, (A \wedge B), (A \vee B)\dots$] jsou formule
+* je-li latexmath:[$x$] proměnná a A formule, pak
+latexmath:[$(\forall{x})$]A a latexmath:[$(\exists{x})$]A jsou formule
+
+=== Volné a vázané proměnné
+
+* podformule B je část formule A, která je sama formulí
+* proměnná x má vázaný výskyt v A právě, když se vyskytuje v její
+podformuli ve tvaru latexmath:[$(\forall{x})B(x)$] nebo
+latexmath:[$(\exists{x})B(x)$]
+* výskyt proměnné v A, který není vázaný, je volný výskyt
+
+* uzavřená formule obsahuje pouze vázané proměnné
+* otevřená formule obsahuje pouze volné proměnné
+
+== Interpretace jazyka
+
+Interpretace (realizace, struktura) latexmath:[$\mathcal{M}$] =
+latexmath:[$<M,\dots,K_\mathcal{M},\dots,p_\mathcal{M},\dots,f_\mathcal{M},\dots>$]
+jazyka L obsahuje:
+
+* neprázdnou množinu M, kterou nazýváme universum interpretace,
+* je-li K konstanta, pak její interpretaci
+latexmath:[$K_\mathcal{M} \in M$]
+* je-li p latexmath:[$n$]-ární predikát, pak latexmath:[$n$]-ární relaci
+latexmath:[$p_\mathcal{M} \subseteq M^n \rightarrow M$] jako jeho
+interpretaci
+* je-li f funkce mající n argumentů, pak funkci
+latexmath:[$f_\mathcal{M}: M^n \rightarrow M$] jako její interpretaci
+
+Jeden jazyk může mít více interpretací
+
+== Pravdivost formulí
+
+L je jazyk a M je jeho interpretace
+
+* ohodnocení proměnných je funkce latexmath:[$e$] z množiny proměnných,
+které každé volné proměnné přiřazuje nějaký prvek univerza M
+* výrazem latexmath:[$t[e]$] označujeme hodnotu termu latexmath:[$t$]
+při ohodnocení latexmath:[$e$].
+** je-li term latexmath:[$t$] proměnná latexmath:[$x$], pak
+latexmath:[$t[e]$] = latexmath:[$e(x)$]
+** je-li n-ární funkční symbol a term latexmath:[$t$] je
+latexmath:[$f(t_1,...,t_n)$], pak
+latexmath:[$t[e] = f(t_1[e],...,t_n[e])$]
+* výraz e(x/m) se označuje hodnocení, které všem proměnným přiřadí
+stejnou hodnotu jako e, jenom e(x) = m
+
+Pravdivost formule v interpretaci latexmath:[$\mathcal{M}$] při
+ohodnocení e se definuje indukcí podle složitosti formule
+
+image:logicalEvaluation.png[image]
+
+Formule A je pravdivá (platná) v interpretaci latexmath:[$\mathcal{M}$],
+právě když pro každé ohodnocení e je pravdivá, tj.
+latexmath:[$\mathcal{M} \models A[e]$]. Formule A je splnitelná, právě
+když v nějaké interpretaci latexmath:[$\mathcal{M}$] pro nějaké
+ohodnocení e je pravdivá. A je kontradikce, právě když není splnitelná.
+
+== Logická ekvivalence, logický důsledek
+
+* A a B jsou logicky ekvivaletní,
+latexmath:[$A \models B \wedge B \models A$], právě když pro každou
+interpretaci latexmath:[$\mathcal{M}$] a pro každé ohodnocení e platí:
+latexmath:[$\mathcal{M} \models A[e]$], právě když
+latexmath:[$\mathcal{M} \models B[e]$]
+* B je logickým důsledkem A, latexmath:[$A \models B$], právě když pro
+každou interpretaci latexmath:[$\mathcal{M}$] a pro každé ohodnocení e
+platí: jestliže latexmath:[$\mathcal{M} \models A[e]$], pak
+latexmath:[$\mathcal{M} \models B[e]$]
+
+== Příklad matematického příkladu
+
+* latexmath:[$(\exists{u})(x = u + u)$] - x je sudé = negace =
+latexmath:[$(\forall{u})\neg(x = u + u)$]
+* latexmath:[$\neg(\exists{u})(x = u + u)$] - x je liché
+* latexmath:[$(\exists{x})(x = y*z)$] - x dělí y
+
+== Teorie a Model
+
+* teorie je množina uzavřených formulí
+* interpretace latexmath:[$\mathcal{M}$] jazyka L je modelem T, jestliže
+každá formule platí v latexmath:[$\mathcal{M}$]
+* formule A je logický důsledek teroie T, jestliže v každém modelu
+teorie T platí A
+* teorie T je splnitelná, právě když má model
+
+Teorie ekvivalence:
+
+* L = r(x,y). Predikát r(x, y) je ekvivalence, jestliže platí
+** R: latexmath:[$(\forall{x}) r(x,x)$] - reflexifita
+** T:
+latexmath:[$(\forall{x})(\forall{y})(\forall{z})(r(x,y) \wedge r(x,y) \Rightarrow r(x,z))$]
+- tranzitivita
+** S latexmath:[$(\forall{x})(\forall{y})(r(x,y) \Rightarrow r(y,x))$] -
+symetrie
+
+Teorie neostrého uspořádání
+
+* L = q(x, y). Pro teorii neostrého uspořádání platí následující axiomy
+** R: latexmath:[$(\forall{x}) r(x,x)$] - reflexifita
+** T:
+latexmath:[$(\forall{x})(\forall{y})(\forall{z})(r(x,y) \wedge r(y,z) \Rightarrow r(x,z))$]
+- tranzitivita
+** As
+latexmath:[$(\forall{x})(\forall{y})(r(x,y) \wedge r(y,x) \Rightarrow (x = y))$]
+- slabá asymetrie
+
+Teorie ostrého uspořádání
+
+* pro teorii ostrého uspořádání platí následující axiomy
+** T:
+latexmath:[$(\forall{x})(\forall{y})(\forall{z})(r(x,y) \wedge r(x,y) \Rightarrow r(x,z))$]
+- tranzitivita
+** IR: latexmath:[$(\forall{x})\neg p(x,x)$] - ireflexivita
+
+=== Úplná teorie
+
+Teorie T je úplná právě když každá uzavřená formule jazyka L je buď
+logickým důsledkem T, nebo je vyvratitelná v T
+(latexmath:[$T \models \neg A$]).
+
+Příkladem úplné teorie je teorie neomezeného hustého lineárního
+uspořádání, pro kterou navíc oproti částečnému uspořádání platí:
+
+* latexmath:[$(\forall x)(\forall y)(p(x, y) \lor x = y \lor p(y, x))$]
+- linearita
+* latexmath:[$(\forall x)(\forall y)((x < y) \Rightarrow (\exists z)(x < z < y))$]
+- hustota
+* latexmath:[$(\forall{x})(\exists{y})(\exists{z})(y < x \wedge x < z)$]
+- neomezenost

@@ -1,0 +1,335 @@
+= BI-SPOL-6 Asymetrické kryptosystémy (šifra RSA, Diffie-Hellman, RSA digitální podpis), hešovací funkce (SHA-2, HMAC).
+:toc:
+:toc-title: Obsah
+:stem: latexmath
+:imagesdir: images
+
+
+== Asymetrické kryptosytémy
+
+* pro šifrování a dešifrování se používá rozdílného klíče
+* používají se soukromé klíče (SK) a veřejné klíče (VK)
+* šifruje se pomocí VK a dešifruje pomocí SK
+* SK se nedá z VK v rozumném čase zjistit
+
+=== RSA
+
+* zabezpečení utajené komunikace
+* každá dvojice používá šifrovací klíč
+** pokud je klíč známý => dešifrovací klíč vygenerovatelný pomocí malého
+počtu operací
+* šifrovací systém VK je řešením problému s přidělováním klíče
+** skládá se z veřejného klíče (VK) a tajného klíče (SK)
+** vypočítat dešifrovací transformaci ze šifrovací je problému
+** pomocí VK zřízena komunikace s několika subjekty
+** každý subjekt má VK a SK pro daný šifrovací systém
+** subjekt si ponechá určité utajené soukromé informace vnesené do
+konstrukce šifrovací transformace pomocí SK
+* seznam klíčů latexmath:[$VK_1, VK_2,\dots,VK_n$] je veřejný
+* subjekt 1 vyšle zprávu latexmath:[$m$] subjektu 2:
+** zpráva = blok (obvykle 1) určité délky; bloku OT latexmath:[$m$]
+odpovídá blok ŠT, písmena -> numerické ekvivalenty
+** subjekt 2 s použitím dešifrovací transformace dešifruje blok ŠT
+* dešifrovací transformaci nelze najít v rozumném čase bez znalosti
+klíče
+
+Definice:
+
+* latexmath:[$p$] a latexmath:[$q$] jsou prvočísla
+* latexmath:[$n = p*q$], latexmath:[$\Phi(n) = (p - 1)(q - 1)$]
+* zvolí se latexmath:[$e$], latexmath:[$1 < e < n$],
+gdc(latexmath:[$e$], latexmath:[$\Phi(n)$]) = 1 a spočte se
+latexmath:[$d = |e^{-1}|_{\Phi(n)}$]
+* VK = (n, e) - ten se zveřejní
+* SK = (d, e) - soukromý
+
+==== Princip systému
+
+* šifrovací systém VK a je založený na modulárním umocňování
+* dvojice (latexmath:[$e$], latexmath:[$n$]) je VK; latexmath:[$e$] -
+exponent, latexmath:[$n$] - modul
+* n = součin dvou privočísel latexmath:[$p$] a latexmath:[$q$], tj.
+latexmath:[$n = p*q$] a gcd(latexmath:[$e$],latexmath:[$\Phi(n)$]) = 1
+* zašifrování OT: písmena = numerické ekvivalenty, vytváří se bloky s
+největší možnou velikostí (se sudým počtem číslic)
+* pro zašifrování zprávy latexmath:[$m$] na ŠT latexmath:[$c$] se
+použije vztah:
+** latexmath:[$E(m) = c = |m^e|_n, 0 < c < n$]
+* pro dešifrování se použije inverze latexmath:[$d$] čísla
+latexmath:[$e$] modulo latexmath:[$\Phi(n)$] (existuje protože
+gcd(latexmath:[$e$], latexmath:[$\Phi(n)$]) = 1))
+* pro dešifrování bloku latexmath:[$c$] platí:
+** D(latexmath:[$c$]) =
+latexmath:[$|c^d|_n = |m^{ed}|_n = |m^{k*\Phi(n)+1}|_n = |(m^{\Phi(n)})^k*m|_n = |m|_n$]
+** kde latexmath:[$e*d = k*\Phi(n) + 1$] pro nějaké celé číslo
+latexmath:[$k (|ed|_{\Phi(n)} = 1)$] a z Eulerovy věty platí
+latexmath:[$|p^{\Phi(n)}|_n = 1$], kde gcd(latexmath:[$p$],
+latexmath:[$n$]) = 1
+* dvojice (d, n) je dešifrovací klíč - tajná část klíče
+
+image:rsaEncrypt.png[image,scaledwidth=80.0%]
+
+image:rsaDecrypt.png[Dešifrování RSA,scaledwidth=80.0%]
+
+==== Bezpečnost
+
+* modulární umocnění potřebné k šifrování zprávy s použitím RSA může být
+provedeno při VK a latexmath:[$m$] o velikosti latexmath:[$~200$]
+dekadických číslic za několik sekund
+* se znalostí latexmath:[$p$] a latexmath:[$q$] a s použítím Euklidova
+algoritmu lze najít dešifrovací klíč latexmath:[$d$]
+* bez znalosti prvočísel latexmath:[$p$] a latexmath:[$q$] není lehké
+nalézt dešifrovací klíč, najít je pomocí latexmath:[$\Phi(n)$] je
+podobně složité jako faktorizace celého čísla latexmath:[$n$]
+
+===== Problém faktorizace
+
+* jedná se o převedení čísla na součin jeho faktorů (rozklad na
+prvočísla)
+* pokud latexmath:[$p$] a latexmath:[$q$] jsou 100číslicová prvočísla,
+tak pak latexmath:[$n$] je 200číslicové
+* nejrychlejší známý algoritmus potřebuje pro faktorizaci
+latexmath:[$~10^6$] roků k faktorizci takového čísla
+* naopak, pokud je známo d, ale nezná se latexmath:[$\Phi(n)$], je možné
+lehce faktorizovat n, protože se ví, že latexmath:[$e*d - 1$] je
+násobkem latexmath:[$\Phi(n)$]
+* čím větší modulo, tím je výpočet náročnější
+* ochrana proti speciálním rychlým technikám:
+** obě hodnoty latexmath:[$p-1$] a latexmath:[$q-1$] by měly mít velký
+prvočíselný faktor
+** gcd(latexmath:[$p-1$], latexmath:[$q-1$]) by mělo být malé a
+latexmath:[$p$] a latexmath:[$q$] by měly mít rozdílnou desítkovou
+reprezentaci v délce několika málo číslic
+
+==== Digitální podpis
+
+* RSA lze použít pro vyslání podepsané zprávy
+* při použití podpisu se příjemce může ujistit, že:
+** zpráva přišla od oprávněného odesílatele
+** a je tomu tak na základě nestranného a objektivního testu
+* takové ověření je potřeba pro elektronickou počtu, elektronické
+bankovnictví, elektronický obchod…
+
+===== Princip
+
+* subject 1 vysílá podepsanou zprávu latexmath:[$m$]
+* subjekt 1 spočítá pro zprávu latexmath:[$m$] OT
+** latexmath:[$S = D_{SK_1}(m) = |m^{d_1}|_{n_1}$]
+** kde latexmath:[$SK_1$] = (latexmath:[$d_1, n_1$]) je tajný klíč pro
+subjekt 1
+* když latexmath:[$n_2 > n_1$], kde latexmath:[$VK_1$] =
+(latexmath:[$e_2$],latexmath:[$n_2$]) je veřejný šifrovací klíč pro
+subjekt 2, subjekt 1 zašifruje S pomocí vztahu
+** latexmath:[$c = E_{VK_2}(S) = |S^{e_2}|_{n_2}$]
+** latexmath:[$0 < c < n_2$]
+* když latexmath:[$n_2 < n$] subjekt 1 rozdělí S do bloků o velikosti
+menší než latexmath:[$n_2$] a zašifruje každý blok s použitím šifrovací
+transformace latexmath:[$E_{VK_2}$]
+* pro dešifrování subjekt 2 nejdříve použije soukromou dešifrovací
+transformaci latexmath:[$D_{SK_2}$] k získání S, protože
+** latexmath:[$D_{SK_2}(c) = D_{SK_2}(E_{VK_2}(S)) = S$]
+* k nalezení OT latexmath:[$m$] subjekt dále použije veřejnou šifrovací
+transoformaci latexmath:[$E_{VK_1}$], protože
+** latexmath:[$E_{VK_1}(S) = E_{VK_1}(D_{SK_1}(m)) = m$]
+* kombinace OT latexmath:[$m$] a podepsané verze S přesvědčí subjekt 2,
+že zpráva byla vyslána subjektem 1
+* také subjekt 1 nemůže odepřít, že on vyslal danou zprávu, žádný jiný
+subjekt než 1 nemůže generovat podepsanou zprávu S z originálního textu
+zprávy latexmath:[$m$]
+
+image:digitalSubscription.png[]
+
+=== Diffie-Hellman
+
+Vhodná šifra pro zřízení společného kníče pro dva a více subjektů. První
+účastník zvolí modulo latexmath:[$m$] a číslo latexmath:[$a$]. Každý
+objekt si zvolí svůj privátní klíč latexmath:[$k$]. Musí platit:
+
+* gcd(m, a) = 1
+* gcd(latexmath:[$k_i$], m-1) = 1
+
+==== Princip
+
+* volba veřejných prvků účastníkem A: latexmath:[$m$] prvočíslo a
+latexmath:[$a$] celé číslo latexmath:[$\rightarrow 0 < a < m$]
+* generování parametrů klíče účastníkem A: volba čísla
+latexmath:[$k_1 < m$] a výpočet latexmath:[$y_1 = |a^{k_1}|_m$]
+* účastník A odešle účastníkovi V čísla latexmath:[$a, m$] a
+latexmath:[$y_1$]
+* generování parametrů klíče účastníkem B: volba čísla
+latexmath:[$k_2 < m$] a výpočet latexmath:[$y_2 = |a^{k_2}|_m$]
+* účastník B odešle účasníkovi A číslo latexmath:[$y_2$]
+* generování společného klíče Ačkem: latexmath:[$K = |Y^{k_1}_2|_m$]
+* generování společného klíče Bčkem: latexmath:[$K = |Y^{k_2}_1|_m$]
+* veřejnými prvky jsou čísla latexmath:[$m$] a latexmath:[$a$]
+* neautorizovaný subjekt nemůže najít společný klíč latexmath:[$K$] v
+rozumném čase, protože je nucen hledat logaritmus modulo latexmath:[$m$]
+
+image:DH.png[image,scaledwidth=80.0%]
+
+==== Bezpečnost
+
+* délka klíče je přímo uměrná kvalitě šifry
+* když je latexmath:[$m$] prvočíslo a latexmath:[$m-1$] je součin malých
+prvočísel latexmath:[$\rightarrow$] je možné pomocí speciální metody
+nalézt logaritmus modulo latexmath:[$m$] méně operacemi než
+latexmath:[$O(log^2_2m)$]
+
+==== Problém diskrétního logaritmu
+
+* latexmath:[$C = t^k (mod p)$]
+* pokud se zná t, k a p latexmath:[$\Rightarrow$] C se spočítá snadno
+* inverzní operace je ale náročná - tzn. spočítat k ke znalosti t, p a C
+* latexmath:[$k = |log_t(C)|_p$], k = diskrétní logaritmus
+
+== Hešovací funkce
+
+Silný nástroj moderní kryptografie. Jedna z klíčových kryptologických
+myšlenek. Základní pojmy: _jednosměrnost_ a _bezkoliznost_.
+
+* původní význam hešovací funkce byla funkce, která libovolně velkému
+vstupu přiřadila krátký hash kód o pevně definované délce
+* v součastnosti se pojem hash funkce používá v kryptografii pro
+krypto-hash funkce, která má oproti původní definici ještě navíc
+vlastnosti *jednosměrnost* a *bezkoliznost*
+
+Vezme se přirozené číslo latexmath:[$d$] a množina latexmath:[$X$] všech
+binárnách řetězců délky 0 až latexmath:[$d$]. Funkce
+latexmath:[$f: X -> \{0, 1\}^n$] se nazve hešovací, pokud je jednosměrná
+`1. typu` a `bezkolizní`. Každému binárnímu řetězci z množiny X přiřadí
+binární hash-kód délky latexmath:[$n$] bitů.
+
+=== Vstup a výstup
+
+* hash funkce h zpracovává prakticky neomezeně dlouhá vstupní data M na
+krátký výstupní hash kód h(M) pevné a předem stanovené délky
+
+Z hlediska bezpečnosti se požaduje, aby se hešovací funkce chovala jako
+náhodné orákulum:
+
+* *orákulum* = libovolný nástroj, který na základě vstupu odpoví nějakým
+výstupem. Na ten samý vstup, musí odpovědět stejně
+* *náhodné orákulum* - orákulum, které na nový vstup odpoví náhodným
+výběrem výstupu z množiny výstupů
+
+=== Jednosměrnost
+
+Funkce latexmath:[$f: X \rightarrow Y$], pro něž je snadné z jakékoli
+hodnoty latexmath:[$x \in X$] vypočítat latexmath:[$y = f(x)$], ale pro
+nějaký náhodně vybraný obraz latexmath:[$y \in f(X)$] nelze najít její
+vzor latexmath:[$x \in X$] tak, aby latexmath:[$y = f(x).$] Jednosměrné
+funkce se dělí na:
+
+* jednosměrné, pro které je výpočetně nemožné, ale teoretický
+existující, najít vzor z obrazu
+* jednosměrné funkce s padacími vrátky, u kterých lze najít vzor z
+obrazu, ale jen za předpokladu znalosti "padacích vrátek" - klíče
+
+image:oneWayHashFunction.png[image,scaledwidth=60.0%]
+
+=== Bezkoliznost
+
+==== Bezkoliznost 1. řádu
+
+Je odolnost proti kolizi a požaduje, aby bylo výpočetně nezvládnutelné
+nalezení libovolných dvou různých zpráv tak, že budou mít stejnou hash.
+Pokud k tomu dojde, tak se nalezla kolize. (lidsky: pro dvě lib. se
+nesmí zjistit, že se zahashují stejně)
+
+* bezkoliznost se zásadně využívá k digitálním podpisům
+* nepodepisuje se přímo zpráva, ale pouze její hash
+* bezkoliznost zaručuje, že není možné nalézt dva dokumenty se stejnou
+hash
+
+==== Bezkoliznost 2. řádu
+
+Hashovací funkce latexmath:[$h$] je odolná proti nalezení 2. vzoru,
+jestliže pro daný náhodný vzor x je výpočetně nezvládnutelné nalézt 2.
+jiný vzor tak, že se zahashují stejně. (lidsky: máme vzor a nesmíme k
+tomu najít druhý, aby se zahashovaly stejně)
+
+=== Konstrukce moderních hash funkcí
+
+Moderní hash funkcí, může být velmi dlouhá. Zpráva se proto zpracovává
+po částech. Nutnost hashování po blocích a zarovnávat vstupní zprávy na
+celistvý počet bloků. Zarovnání musí být bezkolizní a umožňovat
+jednoznačné odejmutí.
+
+==== Zarovnání
+
+Zarovnání musí být jednoznačné, aby nevznikly jednoduché kolize.
+Doplněním například 0 bitem by způsobilo zmatek, který poslední nultý
+bit je platný. U nových hash funkcí se doplní bit 1 a pak zbytek 0. Tím
+se rozezná, kde je konec zprávy.
+
+==== Damgard-Merklovo zesílení
+
+Jedná se o doplnění o délku původní zprávy. Zpráva je doplněna bitem 1 a
+pak bity 0 tak, aby na konci zbylo 64 bitů volných. Do nich je vyplněna
+hodnota bitů původní zprávy. Začlenění informace o délce původní zprávy
+eliminuje případné útoky. Současné hash funkce používají DM princip
+iterativně s využitím kompresní funkce.
+
+Kompresní metoda zpracuje aktuální blok zprávy a výsledek je určitá
+hodnota, která nutně tvoří vstup do další iterace. Ta funkce má dva
+vstupy, předchozí krok a další blok. Prvotní zavolání obsahuje první
+blok a definovanou konstantu, která se říká _inicializační hodnota_.
+
+=== SHA-2
+
+Pod SHA-2 patří SHA-(224/256/384/512).
+
+Založen na Damgard-Merklově konstrukci:
+
+* je to iterativní konstrukce
+* f zpracovává aktuální blok zprávy latexmath:[$M_i$] a výsledek je
+kontext latexmath:[$H_i$]
+* latexmath:[$H_i$] nutně tvoří vstup do f v dalším kroku
+* f má tedy vstupy latexmath:[$H_{i-1}$] a latexmath:[$M_i$]
+
+image:sha2.png[SHA2 kompresní funkce,scaledwidth=60.0%]
+
+SHA = Secure Hash Algorithm
+
+* nástupce SHA-1
+* nejvýznamější rozdíly jsou v délce hashovacího kódu, který určuje
+odolnost hashového kodu vůči nalezení kolizí 1. a 2. řádu
+
+image:shaCompare.png[image,scaledwidth=60.0%]
+
+=== HMAC
+
+Klíčované hashované autentizační kódy zpráv HMAC zpracovávají hashováním
+nejen zprávu M, ale spolu s ní i nějaký tajný klíč K. Jsou proto podobné
+autentizačnímu kódu zprávy MAC, ale místo blokové šifry se použije
+hashovací.
+
+Používají se k nepadělatelnému zabezpečení zpráv a autentizaci
+(prokázáním znalosti tajného klíče). HMAC je obecná konstrukce, která
+využívá obecnou hashovací funkci. Podle konkrétní hashovací funkce,
+která se konkrétně používá, se označuje výsledná funkce (HMAC-SHA-1(M,
+K) používá sha-1, kde M je zpráva a K je tajný klíč).
+
+==== Algoritmus
+
+Definuje se konstantní řetězen _ipad_ jako řetězec b/8 bajtů s hodnotou
+0x36 a _opad_ jako řetězec b/8 bajtů s hodnotou 0x5C. Klíč
+latexmath:[$K$] se doplní bity 0 vlevo od MSB bitu klíče do délky b-bitu
+a označí se latexmath:[$K^+$]. Definuje se hodnota
+latexmath:[$HMAC_k(M)$] jako:
+
+latexmath:[$HMAC_k(M) = H((K^+ \oplus opad)||H((K^+ \oplus ipad)||M))$]
+
+==== Nepadělatelnost
+
+Pokud je kod připojen za zprávu M, detekuje neúmyslnou chybu při jejím
+přenosu. Zabraňuje útočníkovi změnit zprávu a současně změnit HMAC,
+protože bez znalosti klíče nelze nový HMAC vypočítat. Správný HMAC je
+autentizací původu dat, odesílatel musel znát tajný klíč.
+
+==== Průkaz znalosti
+
+HMAC může být použit jako průkaz znalosti tajného sdíleného klíče při
+autentizaci entit. Dotazovatel odešlne náhodou výzvu, které se říká
+_challenge_ a od provozovatele dostane odpověď _response_. Prokazovatel
+zná tajný klíč. Útočník z hodnoty response klíč nemůže odvodit.

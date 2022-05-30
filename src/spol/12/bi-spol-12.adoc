@@ -1,0 +1,147 @@
+= BI-SPOL-12
+:stem:
+:imagesdir: images
+
+
+== Frobeniova věta
+
+Nechť latexmath:[$\mathbb{A}\in T^{m,n}$]. *Hodností matice*
+latexmath:[$\mathbb{A}$] nazýváme dimenzi lineárního obalu souboru řádků
+matice latexmath:[$\mathbb{A}$] (jako vektorů z latexmath:[$T^{1,n}$]) a
+značíme ji latexmath:[$h(\mathbb{A})$]:
+
+[latexmath]
+++++
+\[h(\mathbb{A})=dim\langle \mathbb{A}_{1:},\dots,\mathbb{A}_{m:}\rangle.\]
+++++
+
+Nechť latexmath:[$\mathbb{A}\in T^{m,n}$].
+
+[arabic]
+. Soustava latexmath:[$m$] lineárních rovnich o latexmath:[$n$]
+neznámých latexmath:[$\mathbb{A} \mathbbm{x}=\mathbbm{b}$] je řešitelná,
+tj. latexmath:[$S\neq\theta$], právě tehdy, když
++
+[latexmath]
+++++
+\[h(\mathbb{A})=h(\mathbb{A} | \mathbbm{b}).\]
+++++
+. Je-li latexmath:[$h(\mathbb{A})=h$], pak množina řešení
+latexmath:[$\mathbb{A} \mathbbm{x}=\theta$] je podprostor dimenze
+latexmath:[$n-h$], tedy existuje LN soubor vektorů
+latexmath:[$(\mathbbm{z}_1,\dots,\mathbbm{z}_{n-h})$] v
+latexmath:[$T^{n,1}$] takový, že
++
+[latexmath]
+++++
+\[S_0=\begin{cases}
+       \{\theta\}, & \text{pokud $n=h$,} \\
+       \langle \mathbbm{z}_1,\dots,\mathbbm{z}_{n-h}\rangle, & \text{pokud $h<n$.}
+       \end{cases}\]
+++++
+Je-li navíc latexmath:[$h(\mathbb{A}|\mathbbm{b})=h$], potom platí:
++
+[latexmath]
+++++
+\[S=\widetilde{\mathbbm{x}} + S_0,\]
+++++
+kde latexmath:[$\widetilde{\mathbbm{x}}$] je *partikulární řešení*
+latexmath:[$\mathbb{A} \widetilde{\mathbbm{x}}=\mathbbm{b}$].
+
+== Vlastnosti a popis množiny řešení
+
+Soustava lineárních rovnic (zapsaných v HST matice):
+[latexmath]
+++++
+\begin{pmatrix}[c|c]
+\mathbb{A}\mathbbm{x}&\mathbbm{b}
+\end{pmatrix}
+++++
+může mít:
+
+* Žádné řešení – poslední sloupec je hlavní
+* Jedno řešení – všechny sloupce, kromě posledního jsou hlavní
+* Více řešení – sloupce jsou hlavní nebo vedlejší (poslední sloupec
+nesmí být hlavní) Pro popis množiny řešení se nalezne obal LN souboru
+možných řešení. _viz. Frobeniova věta_
+
+== Soustavy lineárních rovnic
+
+Nechť latexmath:[$n,m\in\mathbb{N}$] a pro všechna
+latexmath:[$i\in\{1,\dots, m\}$] a latexmath:[$j\in\{1, \dots, n\}$]
+platí, že latexmath:[$a_{ij} \in\mathbb{R}$] a
+latexmath:[$b_i \in\mathbb{R}$]. Systém rovnic
+
+[latexmath]
+++++
+\[\begin{aligned}
+{7}
+a_{11} x_1 &&\; + \;&& a_{12} x_2 &&\; + \cdots + \;&& a_{1n} x_n &&\; = \;&&& b_1 \\
+a_{21} x_1 &&\; + \;&& a_{22} x_2 &&\; + \cdots + \;&& a_{2n} x_n &&\; = \;&&& b_2 \\
+\vdots\;\;\; &&     && \vdots\;\;\; &&  \ddots\;\;\;&& \vdots\;\;\; &&     &&& \,\vdots \\
+a_{m1} x_1 &&\; + \;&& a_{m2} x_2 &&\; + \cdots + \;&& a_{mn} x_n &&\; = \;&&& b_m \\\end{aligned}\]
+++++
+
+nazýváme *soustavou* latexmath:[$m$] *lineárních rovnic o*
+latexmath:[$n$] *neznámých*
+latexmath:[$x_1,\dots, x_n \in\mathbb{R}$]. +
+Číslu latexmath:[$aij$] říkáme latexmath:[$j$]**tý koeficient**
+latexmath:[$i$]**té rovnice**.
+
+Množinu všech uspořádaných latexmath:[$n$]tic
+latexmath:[$(x_1, x_2,\dots, x_n) \in\mathbb{R}^n$], pro které po
+dosazení do (2) je splněno všech latexmath:[$m$] rovnic, nazýváme
+*množinou řešení soustavy* a značíme ji latexmath:[$S$]. Platí-li
+latexmath:[$b_1 = b_2 = \dots = b_m = 0$], říkáme, že soustava (2) je
+*homogenní*. Není-li soustava homogenní, je *nehomogenní*.
+
+=== Horní stupňovitý tvar
+
+O matici latexmath:[$\mathbb{D}\in R^{m,n}$] řekneme, že je v *horním
+stupňovitém tvaru*, jestliže všechny řádky jsou nulové, nebo existuje
+latexmath:[$k\in\hat{m}$] tak, že řádky latexmath:[$1$] až
+latexmath:[$k$] matice latexmath:[$\mathbb{D}$] jsou nenulové a řádky
+latexmath:[$k + 1$] až latexmath:[$m$] jsou nulové a jestliže platí
+následující:
+
+Označme pro každé latexmath:[$i\in\hat{k}$] index nejlevějšího
+nenulového prvku v latexmath:[$i$]tém řádku jako latexmath:[$j_i$], tj.
+
+[latexmath]
+++++
+\[j_i=\min{\{\ell\in\hat{n}|\mathbb{D}\neq 0\}}.\]
+++++
+Potom platí latexmath:[$1 \leq j_1 < j_2 < \cdots < j_k$].
+
+Je-li matice v horním stupňovitém tvaru, potom sloupcům s indexy
+latexmath:[$j_1, j_2, \dots , j_k$] říkáme *hlavní sloupce*, ostatním
+říkáme *vedlejší sloupce*.
+
+O soustavě latexmath:[$\mathbb{A}\mathbbm{x} = \mathbbm{b}$] řekneme, že
+je v horním stupňovitém tvaru, pokud matice této soustavy
+latexmath:[$(\mathbb{A}|\mathbbm{b})$] je v horním stupňovitém tvaru.
+
+=== Postup pro řešení SLR
+
+* Převedu SLR do matice latexmath:[$(\mathbb{A}|\mathbbm{b})$].
+* Převedu do HST pomocí GEM.
+* Poslední sloupec hlavní latexmath:[$\rightarrow$] nemá řešení.
+* Jinak:
+** Najdu volné a vázané proměnné (odpovídá vedlejším a hlavním
+sloupcům).
+** Pro partikulární řešení zvolim volné proměnné libovolně a dopočítám
+vázané proměnné.
+** Pro latexmath:[$S_0$] zvolim libovolnou bázi (třeba standardní).
+** Pro každý bazický vektor dopočítám z homogenní rovnice vázané
+proměnné a dostanu bázi latexmath:[$S_0$].
+** Řešením je latexmath:[$S=\widetilde{\mathbbm{x}}+S_0$], kde
+latexmath:[$S_0$] je lineární obal báze.
+
+== Gaussova eliminační metoda
+
+Cílem GEM je převést matici do horního stupňovitého tvaru, pomocí úprav
+latexmath:[$(G1)$], latexmath:[$(G2)$] a latexmath:[$(G3)$].
+
+* Prohození dvou řádků.
+* Vynásobení jednoho řádku nenulovým číslem.
+* Přičtení jednoho řádku k jinému.

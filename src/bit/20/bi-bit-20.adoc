@@ -1,0 +1,153 @@
+= BI-BIT-20 Teorie informace (entropie, vzdálenost jednoznačnosti).
+:toc:
+:toc-title: Obsah
+:toclevels: 3
+:stem: latexmath
+:imagesdir: images
+
+== Teorie informace
+Základy položeny C. E. Shannonem v pracích z roku 1948 a 1949.
+
+* teorie informace
+* teorie šifrovacích systémů
+
+*Absolutní bezpečnost* -- pokud z jakkoliv dlouhého šifrového textu nezískáme žádnou informaci o původní zprávě.
+
+U většiny praktických šifer -- a zvláště u těch historických -- získáváme s delším šifrovým textem stále více informací o původní zprávě. Tyto informace nemusí být bezprostředně viditelné.
+
+=== Entropie
+Entropie je *množství informace obsažené ve zprávě*.
+
+Teorie informace měří entropii zprávy *průměrným počtem bitů* nezbytných k jejímu zakódování při optimálním kódování (minimum bitů).
+
+Entropie zprávy ze zdroje X je:
+
+stem:[H(X) = - \sum_{i=1}^{\infty} p_i \log_{2} p_i]
+
+* stem:[p_1, . . . , p_n] jsou pravdpravděpodobnosti jednotlivých zpráv stem:[X_1, . . . , X_n] ze zdroje stem:[X]
+
+* stem:[−p_i \log_{2} p_i] je počet bitů nutných k optimálnímu zakódování zprávy stem:[X_i]
+
+*Maximální entropie* nabývá zdroj, který produkuje všechny zprávy se stejnou pravděpodobností. Má-li zdroj stem:[n] zpráv s se stejnou pravděpodobností stem:[\frac{1}{n}], pak dosahuje maximální entropie stem:[\log_{2}n].
+
+==== Příklady
+
+===== Příklad 1
+Mějme 2 možné zprávy: „panna“ nebo „orel“ a nechť mají stejnou pravděpodobnost -> entropie zprávy z tohoto zdroje je:
+
+stem:[H(X) = −0.5 · (−1) − 0.5 · (−1) = 1]
+
+Zprávy z tohoto zdroje obsahují jeden bit informace.
+
+===== Příklad 2
+Mějme zdroj, který vydává zprávy: „bílý“ s pravděpodobností stem:[\frac{1}{4}]
+a „černý“ s pravděpodobností stem:[\frac{1}{4}] -> entropie zprávy z tohoto zdroje je:
+
+stem:[H(X) = 0.25 · \log_{2} 4 + 0.75 \log_{2} 43 = 0.25 · 2 + 0.75 · 0.41 = 0.81]
+
+Zprávy z tohoto zdroje obsahují v průměru necelý bit informace.
+
+===== Příklad 3
+Mějme zdroj, který vydává jedinou zprávu s pravděpodobností 1 -> entropie zprávy z tohoh zdroje je:
+
+stem:[H(X) = -1 · 0 = 0]
+
+Takový zdroj nemá žádnou *neurčitost* a zprávy z něj nenesou žádnou informaci.
+
+==== Neurčitost
+Entropie zprávy vyjadřuje také míru *neurčitosti* zprávy.
+
+*Neurčitost* zprávy je počet bitů, které potřebujeme získat luštěním šifrového textu s cílem určit otevřený text.
+
+==== Obsažnost jazyka (průměrná entropie)
+Je *průměrná entropie na 1 znak* (průměrný počet bitů informace v jednom znaku).
+
+Vyjádřena vztahem (uvažujeme X jako množinu všech N-znakových zpráv):
+
+stem:[R_n = \frac{H(X)}{N}]
+
+Se vzrůstajícím počtem znaků roste entropie zdroje stem:[H(X)] pomalu (pomaleji než stem:[N]).
+
+U přirozených jazyků proto s rostoucím počtem znaků stem:[N] bude stem:[R_n]  klesat:
+
+stem:[\lim_{ N \to \infty } R_n = r ]
+
+Konstanta stem:[r] je *obsažnost jazyka vzhledem k jednomu písmenu*.
+
+Pro hovorovou angličtinu je stem:[r = 1.3] až stem:[1.5] bitů na znak.
+
+==== Absolutní obsažnost jazyka
+Mějme stejně pravděpodobné zprávy tvořené v jazyce s L stejně pravděpodobnými znaky. Obsažnost takového jazyka bude:
+
+stem:[R_n = \frac{N · \log_2 L}{N} = \log_2 L = R]
+
+stem:[R] nazýváme *absolutní obsažnost jazyka*.
+
+Absolutní obsažnosti jazyka dosahuje takový jazyk, který poskytuje generátor náhodných znaků. Je to maximální neurčitost, kterou přirozené jazyky nemohou dosáhnout, neboť jednotlivé znaky tvoří slova a věty, které mají odlišné pravděpodobnosti.
+
+Absolutní obsažnost jazyka se znaky stem:[{a,b,...,z}] (26 znaků) je:
+
+stem:[R = \frac{26 · \log_2 26}{26} = \log_2 26 = 4.7] bitů.
+
+==== Nadbytečnost jazyka vzhledem k jednomu písmenu
+Nadbytečnost (redundance) jazyka vzhledem k jednomu písmenu nám vyjadřuje, *kolik bitů je v jednom znaku daného jazyka nadbytečných*. Vyjádřena je vztahem:
+
+stem:[D = R - r]
+
+Číslo stem:[\frac{100D}{R}] pak udává procentuálně, kolik bitů jazyka je nadbytečných.
+
+===== Příklad 1
+Pro angličtinu máme počet znaků: stem:[L = 26]
+
+Absolutní obsažnost pro 26 znaků je: stem:[R = \log_2 26 = 4.7] bitů
+
+Obsažnost anglického jazyka je: stem:[r = 1.5] bitů
+
+Nadbytečnost anglického jazyka je tedy: stem:[D = 4.7 - 1.5 = 3.2] bitů
+
+Procentuálně: stem:[\frac{100 · 3.2}{4.7} = 68\%] nadbytečných bitů na písmeno.
+
+===== Příklad 2
+Nadbytečnost anglického jazyka kodovaného v ASCII.
+
+Pro ASCII máme počet znaků: stem:[L = 256]
+
+Absolutní obsažnost pro 256 znaků je: stem:[R = \log_2 256 = 8] bitů
+
+Obsažnost anglického jazyka je: stem:[r = 1.5] bitů
+
+Nadbytečnost anglického jazyka je tedy: stem:[D = 8 - 1.5 = 6.5] bitů
+
+Procentuálně: stem:[\frac{100 · 6.5}{8} = 81\%] nadbytečných bitů na znak.
+
+=== Vzdálenost jednoznačnosti
+Vzdálenost jednoznačnosti je *počet znaků otevřeného textu*, pro který množství informace o otevřeném textu obsažené v šifrovém textu dosáhne takového bodu, že je možný jen jeden jediný odpovídajcí otevřený text.
+
+Definována vztahem:
+
+stem:[\delta_U = \frac{H(K)}{D}] kde:
+
+stem:[H(K)] je neurčitost (entropie) klíče
+
+stem:[D] je nadbytečnost jazyka otevřené zprávy
+
+==== Příklad
+Mějme obecnou jednoduchou substituci nad anglickou abecedou. Její vzdálenost jednoznačnosti je:
+
+stem:[\delta_U = \frac{H(K)}{D} = \frac{\log_2{(26!)}}{3.2} = \frac{88.8}{3.2} = 27.6]
+
+V šifrovém textu o délce 28 znaků je tedy dostatečné množství informace na to, aby zbýval v průměru *jediný možný otevřený text*. K rozluštění jednoduché substituce v angličtině postačí tedy v průměru 28 znaků šifrového textu.
+
+[CAUTION]
+Vzdálenost jednoznačnosti je odhad množství informace nutného k vyluštění dané úlohy. Neříká však nic o složitosti takové úlohy.
+
+==== Zvyšování vzdálenosti jednoznačnosti
+
+Ze vztahu pro výpočet vzdálenosti jednoznačnosti plyne, že pro její zvýšení je nutné snížit jmenovatele stem:[D] (nadbytečnost).
+
+Podle Shannona jsou základními technikami pro snížení redundance:
+
+* *konfůze* -- maří vztahy mezi otevřeným textem a šifrovým textem
+** nejjednoduší konfůzí je substituce (např. Césarova šifra)
+* *difůze* -- rozprostírá redundanci otevřeného textu
+** nejjednoduší difůzí je transpozice

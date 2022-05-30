@@ -1,0 +1,115 @@
+== BI-BIT-16 - Bezpečnost databází. Útoky typu SQL Injection a obrana proti nim.
+
+=== SQL Injection
+
+____
+Útok SQL Injection spočívá ve vložení SQL dotazu v jako (uživatelský)
+vstup programu. Pokud je vstup používán programem pro sestavení SQL
+dotazu do databáze, může být útočníkem tento SQL dotaz změněn a dojde k
+jeho vykonání.
+____
+
+=== Blind SQL Injection
+
+____
+Získat data z databáze je někdy možné i v případech, kdy aplikace
+obsahuje zranitelnost typu SQL Injection, ale neposkytuje přímo výpis
+dat.
+____
+
+Základní myšlenka: 1. Zkonstrujeme dotaz, u kterého dokážeme rozlišit
+dva odlišné stavy (úspěch/neúspěch, nějaká data/žádná data, delší/kratší
+doba odezvy…) 2. Metodou půlení intervalu zjistíme konkrétní hodnoty v
+databázi. 3. Příklad:
+
+[source,sql]
+----
+-- Očekávaný dotaz: 
+UPDATE tabulka SET pocet=pocet+1 WHERE id=123
+-- Skutečný dotaz 1:
+UPDATE tabulka SET pocet=pocet+1 WHERE id=123 AND heslo>='a' AND SLEEP(5) IS NOT NULL
+-- Pokud dotaz trvá přes 5 sekund, pak sloupec heslo záznamu 123 začíná na malé písmeno.
+-- Skutečný dotaz 2:
+UPDATE tabulka SET pocet=pocet+1 WHERE id=123 AND heslo>='n' AND SLEEP(5) IS NOT NULL
+-- Skutečný dotaz 3:
+UPDATE tabulka SET pocet=pocet+1 WHERE id=123 AND heslo>='g' AND SLEEP(5) IS NOT NULL
+-- atd. Po zjištění prvního písmene se pustíme do druhého, pak třetího, atd.
+----
+
+=== Obrana proti SQL Injection
+
+==== Princip nejmenších oprávnění
+
+Omezení oprávnění uživatelů v rámci DBMS na nejmenší nutnou úrověň.
+
+===== Přidělování práv:
+
+[source, sql]
+GRANT opravneni ON objekt TO uzivatel
+
+Oprávnění: `SELECT, UPDATE, INSERT, DELETE, EXECUTE, ALL…`
+
+Objekt: tabulka, pohled, procedura…
+
+Uživatel: uživatelské jméno nebo role
+
+===== Odebírání práv:
+
+[source, sql]
+REVOKE opravneni ON objekt FROM uzivatel
+
+=== Validace a escapování
+Kontrola vstupů Escapování znaků se speciálním významem v SQL ###
+Parametrizované dotazy v SQL > Parametrizovaný příkaz je příkaz, který
+má na místě jednoho nebo více parametrů nevyplněné hodnoty; jejich
+vyplnění je ponecháno na službách databázového systému.
+
+Příklad parametrizovaného SQL dotazu:
+
+[source,sql]
+----
+SELECT * FROM tabulka WHERE name= ?
+----
+
+==== Procedury v SQL
+
+____
+(SQL Procedura je předem připravený a pojmenovaný SQL dotaz uložený
+přímo v databázovém systému, který spouštíme SQL dotazem EXEC a kterému
+můžeme přidat parametry. Je to taková obdoba funkce z programování.)
+____
+
+Příklad ošetření např. použitím `QUOTENAME`:
+
+[source,sql]
+----
+CREATE PROCEDURE sp_MySetPassword
+@loginname sysname,
+@old sysname,
+@new sysname
+AS
+DECLARE @command varchar(2000)
+SET @command = 'UPDATE users SET password=' + QUOTENAME(@new, '''') +
+' WHERE username=' + QUOTENAME(@loginname, '''') +
+' AND password=' + QUOTENAME(@old, '''')
+-- Execute the command.
+EXEC (@command)
+GO
+----
+
+==== Specializované nástroje
+
+Můžeme použít specializované nástroje pro obranu proti SQL injection.
+
+===== SQL firewall
+
+Nástroj, který detekuje strukturu prováděného příkazu a porovnává ji s
+připraveným seznamem povolených struktur → neznámá struktura je
+automaticky zamítnuta. Základní problém: vytvoření seznamu povolených
+struktur.
+
+===== Nástroj pro testování zranitelností
+
+Provádíme útok proti vlastní aplikaci ještě předtím, než ho provede
+skutečný útočník. Můžeme opravit chyby dříve, než aplikaci zpřístupníme
+uživatelům. Řada nástrojů, např. Sqlmap.

@@ -1,0 +1,84 @@
+== BI-BIT-15 - Úrovně bezpečnostních oprávnění. Běh programu při nízkých oprávněních.
+
+=== Proč omezovat práva procesu?
+
+Získá-li škodlivý kód kontrolu nad procesem, disponuje právy, se kterými
+byl proces spuštěn (tedy například uživatelem `root` nebo
+`Administrator`).
+
+Oprávnění, které nemáte (proces nemá), nemůže být zneužito.
+
+=== Proč programy vyžadují zvýšená oprávnění?
+
+Aplikace, pokud pomineme administrační nástroje, vyžadují zvýšená
+oprávnění v drtivé většině jen z těchto tří důvodů: 1. Kvůli ACL - Zápis
+na místo, kam může zapisovat jen administrátor. Typická taková místa
+jsou `C:\Program Files` nebo `C:\Windows`.
+
+[arabic, start=2]
+. Kvůli problémům s právy
+. Kvůli přístupu k `LSA secrets`
+
+=== Obecně k omezování práv procesu
+
+Každý program má dělat jen to, co má, a nic víc. Má k tomu používat jen
+ta práva, která nezbytně potřebuje. Ostatních práv se má vzdát.
+
+Když už musíte něco udělat se zvýšenými oprávněními, udělejte:
+
+* Nový proces, který provede pouze úkol, který vyžaduje administrátorská
+oprávnění (WinAPI ShellExecute[Ex]).
+* Uživatel rozhodne, zda spuštění nového procesu s jinými credentials,
+které mají patřičné oprávnění, povolí.
+
+Napadnout takto nově spuštěný proces bude velmi složité, zvlášť když
+nemá útočník téměř žádný prostor pro útok.
+
+=== Windows
+
+==== Windows User Account Control (UAC)
+
+Objevuje se poprvé ve Windows Vista. Jde o nástroj, jak zpětně
+kompatibilním způsobem eliminovat hrozby plynoucí z toho, že uživatelé
+jsou zvyklí pracovat pod administrátorským účtem.
+
+Slouží především k ochraně uživatele!
+
+Po přihlášení je uživateli vytvořen token. Je-li uživatel administrátor,
+je navíc vytvořena kopie tokenu se zeštíhlenými právy a je do ní
+zaneseno deny-only SID skupiny BUILTIN.
+
+Zeštíhlený token je pak použit ke spuštění procesu Explorer.exe.
+
+Všechny uživatelské procesy jsou potomky procesu Explorer.exe, dědí tedy
+zeštíhlený token a běží s nízkými oprávněními.
+
+Administrátoři mohou elevovat a použít plný (nezeštíhlený) token ke
+spuštění buď nového procesu, nebo nové instance COM komponenty (např.
+ovládací panel ``Datum a čas'' při změně systémového času).
+
+=== Linux
+
+==== Capabilities
+
+Od kernelu 2.2 (1999) má Linux podporu pro tzv. Capabilities. Účel:
+rozdělit dříve monolitickou ``všemocnost'' uživatele root na menší
+části, které mohou být selektivně zapínány a vypínány podle toho, které
+operace daný proces potřebuje.
+
+Tři základní skupiny Capabilities pro vlákno: - Permitted: Capabilities,
+které může vlákno získat. Je nastavena během spuštění procesu a dále do
+ní nelze cap. přidávat, jen ubírat. - Inheritable: Capabilities, které
+se přidávají do Permitted skupiny procesu, který je z aktuálního vlákna
+spuštěn. - Effective: Capabilities, které se používají pro ověření,
+jestli vlákno může nebo nemůže provést danou činnost.
+
+Capabilities lze nastavovat také pro soubory nástrojem `setcap`: -
+Permitted: Capabilities, které vlákno dostane automaticky. -
+Inheritable: Maska capabilities, které vlákno může zdědit od volajícího
+vlákna. - Effective: Příznak, zda se při spuštění mají cap. ze skupiny
+Permitted propsat do skupiny Effective vlákna.
+
+V Linuxu existují řešení jako AppArmor a SELinux, které umožňují pro
+každý program vytvořit individuální profil obsahující povolené
+capabilities.

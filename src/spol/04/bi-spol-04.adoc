@@ -1,0 +1,237 @@
+= BI-SPOL-4
+:stem:
+:imagesdir: images
+
+== Základní pojmy
+
+=== Graf
+
+*Neorientovaný graf je uspořádaná dvojice (latexmath:[$V, E$])*, kde
+
+* V je neprázdná konečná množina vrcholů,
+* E je množina hran.
+
+*Množina všech možných hran: latexmath:[$\binom{V}{2}$].* Platí tedy
+latexmath:[$E \subseteq \binom{V}{2} \subseteq 2^V$], kde
+latexmath:[$2^V$] je množina všech podmnožin množiny V.
+
+*Nechť latexmath:[$G$] je graf.* Pak:
+
+* latexmath:[$V(G)$] značí jeho množinu vrcholů a latexmath:[$|V(G)|$]
+velikost této množiny
+* latexmath:[$E(G)$] značí jeho množinu hran a latexmath:[$|E(G)|$]
+velikost této množiny
+
+Dále, *nechť latexmath:[$e = \{u, v\}$] je hrana grafu G.* Pak:
+
+* latexmath:[$u$] a latexmath:[$v$] jsou *koncové vrcholy*
+* oba koncové body jsou si na grafu latexmath:[$G$] navzájem *sousedy*
+* oba koncové body jsou *incidentní* s hranou latexmath:[$e$]
+
+=== Doplněk
+
+*Doplěk* latexmath:[$\overline{G}$] grafu latexmath:[$G = (V, E)$] je
+graf latexmath:[$(V, \binom{V}{2} \backslash E)$].
+
+image:doplnek.png[image,scaledwidth=50.0%]
+
+=== Isomorfismus
+
+Grafy latexmath:[$G$] a latexmath:[$H$] jsou *isomorfní*, právě tehdy,
+když existuje zobrazení latexmath:[$f:V(G)~\rightarrow~V(H)$], kde
+latexmath:[$f$] je bijekce a pro každou dvojici vrcholů latexmath:[$u$]
+a latexmath:[$v$] z latexmath:[$V(G)$] platí,
+latexmath:[$\{u,v\} \in E(G)$] právě tehdy, když
+latexmath:[$\{f(u), f(v)\} \in E(H)$].
+
+*Automorfismus* grafu latexmath:[$G$] je isomorfismus, grafu
+latexmath:[$G$] se sebou samým. (ukazuje symetrie grafu)
+
+=== Vrcholy
+
+*Stupeň* vrcholu latexmath:[$v$] v grafu latexmath:[$G$] je počet hran,
+které vrchol latexmath:[$v$] obsahují a značíme jej
+latexmath:[$deg_G(v)$].
+
+*Otevřené okolí* vrcholu latexmath:[$v$] v grafu latexmath:[$G$] je
+množina všech sousedů vrcholu latexmath:[$v$] a značíme jej
+latexmath:[$N_G(v$]).
+
+*Uzavřené okolí* vrcholu latexmath:[$v$] v grafu latexmath:[$G$] je
+latexmath:[$N_G(v) \cup \{v\}$] a značíme jej latexmath:[$N_G[v]$].
+
+*Regulární graf*, je graf, ve kterém mají všechny vrcholy stejný stupeň.
+
+*Princip sudosti* latexmath:[$\sum_{v \in V} deg_G(v) = 2|E|$]
+
+=== Podgraf
+
+Graf latexmath:[$H$] je *podgrafem* grafu latexmath:[$G$], když
+latexmath:[$V(H) \subseteq V(G)$] a latexmath:[$E(H) \subseteq E(G)$];
+tuto skutečnost značíme latexmath:[$H \subseteq G$].
+
+Graf latexmath:[$H$] je *indukovaným podgrafem* grafu latexmath:[$G$],
+když latexmath:[$V(H) \subseteq V(G)$] a
+latexmath:[$E(H) = E(G) \cap \binom{V(H)}{2}$]; tuto skutečnost značíme
+latexmath:[$H \leq G$].
+
+image:graf.png[image,scaledwidth=95.0%]
+
+== Typy grafů
+
+=== Úplný graf latexmath:[$K_n$]
+
+_Graf, kde jsou všechny vrcholy spojeny hranou se všemi ostatními
+vrcholy._
+
+*Nechť latexmath:[$n \geq 1$]. Úplný graf na n vrcholech
+latexmath:[$K_n$] je graf (latexmath:[$V, \binom{V}{2}$]), kde
+latexmath:[$|V| = n$].*
+
+=== Úplný latexmath:[$k$]-partitní graf
+
+_Graf, rozdělený na latexmath:[$k$] skupin, kde je každý vrchol spojen
+hranou se všemi vrcholy ze všech ostatních skupin, ale není spojen s
+žádným vrcholem ze své vlastní skupiny._
+
+*Nechť latexmath:[$\forall i ∈ \{1, . . . k\} : n_i \geq 1$]. Úplný
+latexmath:[$k$]-partitní graf latexmath:[$K_{n1,n2,...,nk}$] je graf
+(latexmath:[$\cup^k _{i=1} V_i, E),$]kde
+latexmath:[$\forall i, j ∈ \{1, . . . , k\}, i \neq j : V_i \cap V_j = \emptyset, |V_i| = n_i$]
+a
+latexmath:[$E = \{\{x, y\} | \exists i, j \in \{1, . . . , k\}, i \neq j : x ∈ V_i, y ∈ V_j\}$],
+neboli
+latexmath:[$E = \binom{ \cup^k_{i=1} V_i}{2} \backslash \cup^k_{i=1} \binom{V_i}{2}$].*
+
+=== Cesta latexmath:[$P_m$]
+
+_Graf, který má latexmath:[$m$] hran, latexmath:[$m+1$] vrcholů a tvoří
+cestu._
+
+*Nechť latexmath:[$m \geq 0$]. Cesta délky latexmath:[$m$]* (s
+latexmath:[$m$] hranami) *latexmath:[$P_m$] je graf
+(latexmath:[$\{0, . . . , m\}, \{\{i, i + 1\} | i \in \{0, . . . ,m-1\}\}$]).*
+
+=== Kružnice latexmath:[$C_n$]
+
+_Graf, který ma latexmath:[$n$] vrcholů i hran a na všechny vrcholy
+navazují právě dvě hrany._
+
+*Nechť latexmath:[$n \geq 3$]. Kružnice délky latexmath:[$n$]
+latexmath:[$C_m$] je graf
+(latexmath:[$\{1, . . . , n\}, \{\{i, i + 1\} | i \in \{1, . . . ,n-1\}\} \cup \{\{1, n\}\}$]).*
+
+=== Hvězda latexmath:[$S_n$]
+
+_Uplný bipartitní graf, kde je v první partitě právě jeden vrchol a ve
+druhé alespoň jeden vrchol._
+
+*Nechť latexmath:[$n \geq 1$]. Hvězda s latexmath:[$n$] paprsky
+latexmath:[$S_n$] je graf latexmath:[$K_{1,n}$].*
+
+== Procházení grafu
+
+=== Vzdálenost
+
+Vzdálenost latexmath:[$d(u, v)$] dvou vrcholů latexmath:[$u$] a
+latexmath:[$v$] v (orientovaném) grafu latexmath:[$G$] je délka
+nejkratší (orientované) cesty v latexmath:[$G$] z vrcholu
+latexmath:[$u$] do vrcholu latexmath:[$v$]. Pokud z latexmath:[$u$] do
+latexmath:[$v$] žádná cesta neexistuje, definujeme
+latexmath:[$d(u, v) = \inf$].
+
+=== DFS
+
+_Prohledávání do hloubky_
+
+....
+Algoritmus DFS_graf (graf G, vrchol v):
+(1) pro každý vrchol u ∈ V (G):
+(2)     stav(u) := nenalezený
+(3) DFS(v)
+
+DFS (vrchol v):
+(4) Když stav(v) není nenalezený
+(5)     return
+(6) stav(v) := otevřený
+(7) Pro každého souseda u vrcholu v:
+(8)     DFS(u)
+(9) stav(v) := uzavřený
+....
+
+=== BFS
+
+_Prohledávání do šířky_
+
+....
+Algoritmus BFS(G, s):
+(1) pro každý vrchol v ∈ V (G):
+(2)     stav(v) := nenalezený
+(3)     D(v) := P(v) := undef
+(4) stav(s) := otevřený
+(5) D(s) := 0
+(6) Q := fronta obsahující s
+(7) Dokud je fronta Q neprázdná:
+(8)     Odeber začátek fronty Q, označ ho v
+(9)     Pro všechny sousedy w vrcholu v:
+(10)        Pokud stav(w) = nenalezený:
+(11)        stav(w) := otevřený
+(12)        D(w) := D(v) + 1
+(13)        P(w) := v
+(14)        přidej w do fronty Q
+(15)    stav(v) := uzavřený
+....
+
+== Souvislost
+
+=== Souvislý graf
+
+Graf latexmath:[$G$] je *souvislý*, pokud pro každé dva vrcholy
+latexmath:[$u$], latexmath:[$v$] v grafu latexmath:[$G$] existuje
+latexmath:[$u$]-latexmath:[$v$]-cesta.
+
+=== Souvislá komponenta
+
+Indukovaný podgraf latexmath:[$H$] grafu latexmath:[$G$] je souvislou
+komponentou, pokud je souvislý a neexistuje žádný souvislý podgraf
+latexmath:[$F$], latexmath:[$F \neq H$], grafu latexmath:[$G$] takový,
+že latexmath:[$H \subseteq F$]. (Souvislá komponenta je tedy v inkluzi
+maximální souvislý podgraf grafu latexmath:[$G$]).
+
+== Topologické uspořádání grafu
+
+=== Definice
+
+Topologické uspořádání orientovaného acyklického grafu
+latexmath:[$G = (V, E)$] je takové pořadí vrcholů
+latexmath:[$v_1, v_2, . . . , v_n$] grafu latexmath:[$G$], že pro každou
+hranu latexmath:[$(vi, vj) \in E$] platí latexmath:[$i~<~j$].
+
+=== TopSort
+
+image:topSort.png[image,scaledwidth=80.0%]
+
+== Ohodnocený graf
+
+=== Minimální kostra
+
+Nechť latexmath:[$G = (V , E)$] je souvislý neorientovaný graf a
+latexmath:[$w : E \rightarrow R$] váhová funkce, která přiřazuje hranám
+čísla – jejich váhy. Váhovou funkci můžeme přirozeně rozšířit na
+podgrafy: Váha latexmath:[$w(H)$] podgrafu latexmath:[$H \subseteq G$]
+je součet vah jeho hran. Kostra je minimální, pokud má mezi všemi
+kostrami nejmenší váhu.
+
+image:jarnik.png[image,scaledwidth=80.0%]
+
+image:kruskal.png[image,scaledwidth=80.0%]
+
+=== Hledaní nejkratšíí cesty
+
+_*Dijkstrův*: předpokládá nezáporné ohodnocení hran_
+
+_*Bellmanův-Fordův*: předpokládá neexistenci záporných cyklů v grafu_
+
+image:dijkstra.png[image,scaledwidth=80.0%]
+
+image:bellman-ford.png[image,scaledwidth=80.0%]

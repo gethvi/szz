@@ -1,0 +1,176 @@
+= BI-SPOL-5
+:stem:
+:imagesdir: images
+
+== Binární haldy
+
+image:binary-heap.png[image,scaledwidth=40.0%]
+
+Binární minimová halda je datová struktura tvaru binárního stromu, v
+jehož každém vrcholu latexmath:[$x$] je uložen jeden klíč
+latexmath:[$k(x)$] a která splňuje tyto dvě vlastnosti:
+
+* *Tvar haldy*: Strom má všechny hladiny kromě poslední plně obsazené.
+Poslední hladina je zaplněna od levého okraje směrem k pravému.
+* *Haldové uspořádání*: Je-li latexmath:[$v$] vrchol a latexmath:[$s$]
+jeho syn, plat latexmath:[$k(v)\leq k(s)$].
+* Binární halda s latexmath:[$n$] prvky má latexmath:[$\lfloor$]log
+latexmath:[$n \rfloor + 1$] hladin.
+* Binární halda s latexmath:[$n$] prvky má
+latexmath:[$\lceil n/2\rceil$] listů a latexmath:[$\lfloor n/2 \rfloor$]
+vnitřních vrcholů.
+
+=== Vložení prvku do haldy
+
+* latexmath:[$O($]loglatexmath:[$~n)$]
+* Tvar haldy dovoluje přidat okamžitě nový prvek na konec nejspodnější
+hladiny.
+* Pokud by již byla plná, založíme novou hladinu.
+* Pokud je haldové uspořádání mezi novým listem latexmath:[$l$] a jeho
+otcem latexmath:[$o$] v pořádku, můžeme skončit. Pokud ne, prohodíme
+latexmath:[$k(l)$] a latexmath:[$k(o)$].
+* Tím ale může nastat problém mezi klíčem vrcholu latexmath:[$o$] a
+klíčem otce vrcholu latexmath:[$o$] latexmath:[$\implies$] prohodíme a
+opakujeme BubbleUp
+
+=== Odstranění minima
+
+* latexmath:[$O($]loglatexmath:[$~n)$]
+* Odstranění kořene r stromu haldy by porušilo vlastnost Tvar haldy.
+* Prohoď klíče vrcholů latexmath:[$root$] a latexmath:[$last$], odstraň
+vrchol latexmath:[$last$] a potom přesuň klíč z latexmath:[$root$] na
+správné místo tak, aby opět platilo haldové uspořádání. BubbleDown
+
+=== Reprezentace pomocí pole
+
+Kořen haldy uložíme do nultého prvku pole (latexmath:[$array[0]$]). Poté
+pro každý prvek latexmath:[$array[n]$] jsou jeho následníci uloženi v
+latexmath:[$array[2n+1]$] a latexmath:[$array[2n+2]$].
+
+== Binominální strom
+
+image:binominal-tree.png[image,scaledwidth=40.0%]
+
+Binomiální strom řádu latexmath:[$k$] (značíme latexmath:[$B_k$]) je
+uspořádaný (záleží na pořadí synů) zakořeněný strom, pro který platí:
+
+* latexmath:[$B_0$] je tvořen pouze kořenem.
+* Pro latexmath:[$k \geq 1$] získáme latexmath:[$B_k$] ze stromů
+latexmath:[$B_0, B_1, . . . , B_k-1$] tak, že přidáme nový kořen a
+kořeny těchto stromů uděláme (takto popořadě) syny nového kořene.
+
+image:BHMerge.png[image,scaledwidth=80.0%]
+
+== Binominální halda
+
+image:binominal-heap.png[image,scaledwidth=40.0%]
+
+Binomiální halda obsahující latexmath:[$n$] prvků se skládá ze souboru
+binomiálních stromů latexmath:[$T = T_1, . . . , T_i$], kde
+
+* Uchovávané prvky jsou uloženy ve vrcholech stromů latexmath:[$T_i$].
+Prvek uložený ve vrcholu latexmath:[$v \in V(T_i)$] značíme
+latexmath:[$k(v)$].
+* Pro každý strom latexmath:[$T_i$] platí tzv. haldové uspořádání,
+neboli pro každý latexmath:[$v \in V(T_i)$] a jeho syny
+latexmath:[$s_1, . . . , s_k$] platí latexmath:[$k(v) \leq k(s_j)$],
+latexmath:[$j = 1, . . . , k$].
+* V souboru latexmath:[$T$] se žádný řád binomiálního stromu nevyskytuje
+více než jednou.
+* Soubor stromů latexmath:[$T$] je uspořádán vzestupně podle jejich řádů
+(tedy podle stupňů jejich kořenů a tedy podle velikosti).
+
+Binomiální strom latexmath:[$B_k$] se vyskytuje v souboru stromů
+latexmath:[$n$]-prvkové binomiální haldy právě tehdy, když je v
+dvojkovém zápisu čísla latexmath:[$n$] nastavený latexmath:[$k$]-tý
+nejnižší bit na 1.
+
+latexmath:[$n$]-prvková binomiální halda sestává z latexmath:[$O($]log
+latexmath:[$n)$] binomiálních stromů.
+
+*Složitost*
+
+* Vložení latexmath:[$O($]log latexmath:[$n)$]
+* Nalezení minima při udržení pointeru na minimum: latexmath:[$O(1)$],
+jinak latexmath:[$O($]log latexmath:[$n)$]
+* Extrakce minima latexmath:[$O($]log latexmath:[$n)$]
+* Merge latexmath:[$O($]log latexmath:[$n)$]
+* Build latexmath:[$O(n)$]
+* Delete latexmath:[$O($]log latexmath:[$n)$]
+
+*Merge* hald probíhá stejně, jako sčítání dvou binárních čísel.
+
+== Vyhledávací stromy
+
+=== BVS
+
+image:bvs.png[image,scaledwidth=40.0%]
+
+Binární vyhledávací strom (BVS) je binární strom, v jehož každém vrcholu
+latexmath:[$v$] je uložen unikátní klíč latexmath:[$k(v)$]. Přitom pro
+každý vrchol latexmath:[$v$] musí platit:
+
+* Pokud latexmath:[$a \in L(v)$], pak latexmath:[$k(a) < k(v)$] .
+* Pokud latexmath:[$b \in R(v)$], pak latexmath:[$k(b) > k(v)$].
+
+Binární vyhledávací strom nazveme dokonale vyvážený, pokud pro každý
+jeho vrchol v platí latexmath:[$|L(v)|~-~|R(v)|~\leq~1$].
+
+*Složitost* základních operací na BVS je průměrně latexmath:[$O($]log
+latexmath:[$n)$], ale může dosáhnout až latexmath:[$O(n)$].
+
+=== AVL
+
+Binární vyhledávací strom nazveme AVL stromem, pokud pro každý jeho
+vrchol v platí latexmath:[$h(l(v))~-~h(r(v)) \leq 1$].
+
+Budeme v každém vrcholu latexmath:[$v$] udržovat číslo
+latexmath:[$δ(v) = h(r(v)) - h(l(v))$], které nazveme znaménko vrcholu
+latexmath:[$v$].
+
+V korektním AVL stromu může nabývat jen těchto hodnot:
+
+* δ(v) = +1 (pravý podstrom hlubší) – takový vrchol značíme
+latexmath:[$+$],
+* δ(v) = -1 (levý podstrom hlubší) – značíme latexmath:[$-$],
+* δ(v) = 0 (oba podstromy stejně hluboké) – značíme
+latexmath:[$\cdot$].
+
+*Složitost* základních operací na AVL je latexmath:[$O($]log
+latexmath:[$n)$].
+
+image:avl1.png[image]
+
+image:avl2.png[image]
+
+== Hešovací tabulky
+
+=== Hešování s řetízky
+
+Prvky jsou ukládány do pole či spojového seznamu odpovídající
+příslušnému heši.
+
+image:hashRetizky.png[image,scaledwidth=50.0%]
+
+=== Otevřená adresace
+
+Prvky jsou ukládány na další následující místo v poli získané za pomoci
+dvojité hešovací funkce. V případě mazání prvku se zamění za značku
+smazaného prvku, který značí možnou existenci dalších prvků s
+ekvivalentním hešem. Následně, pokud narazíme na značku smazaného prvku
+při vkládání, tak se prvek vloží na místo značky. V případě, že na tuto
+značku narazíme při vyhledávání, tak pokračujeme na další iteraci
+algoritmu, protože jestli při uložení byla tato pozice již zaplněná,
+může hledaný prvek být jinde.
+
+*Dvojité hešování*:Prohledávací posloupnost je dána funkcí
+latexmath:[$h(k, i) = (f(k) + i \cdot g(k)) \text{mod } m$], kde
+latexmath:[$f : U \rightarrow \{0, . . . , m - 1\}$] a
+latexmath:[$g : U → \{1, . . . , m - 1\}$] jsou dvě různé hešovací
+funkce, latexmath:[$m$] je prvočíslo a latexmath:[$i$] je počet
+neúspěšných pokusů v aktuální operaci Protože je latexmath:[$m$]
+prvočíslo, je s ním latexmath:[$g(k)$] vždy nesoudělné a posloupnost
+navštíví každou přihrádku právě jednou. latexmath:[$m$] odpovídá
+velikosti pole, které se používá pro ukládání.
+
+image:hashOpenInsert.png[image,scaledwidth=80.0%]

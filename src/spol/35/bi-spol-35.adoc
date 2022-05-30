@@ -1,0 +1,368 @@
+= BI-SPOL-35
+:stem:
+:imagesdir: images
+
+== Primtivní funkce
+
+Nechť latexmath:[$f$] je funkce definovaná na intervalu
+latexmath:[$(a,b)$], kde latexmath:[$-\infty\leq a < b\leq + \infty$].
+Funkci latexmath:[$F$] splňující podmínku
+
+[latexmath]
+++++
+\[F'(x) = f(x) \ \text{pro každé} \ x \in (a,b)\]
+++++
+nazýváme *primitivní funkcí* k funkci latexmath:[$f$] na intervalu
+latexmath:[$(a,b)$].
+
+Nechť latexmath:[$F$] je primitivní funkcí k funkci latexmath:[$f$] na
+intervalu latexmath:[$(a,b)$]. Pak latexmath:[$G$] je primitivní funkcí
+k funkci latexmath:[$f$] na intervalu latexmath:[$(a,b)$] právě tehdy,
+když existuje konstanta latexmath:[$c \in \mathbb{R}$] taková, že
+
+[latexmath]
+++++
+\[G(x) = F(x) + c, \quad \text{pro každé} \ x\in(a,b).\]
+++++
+
+== Neurčitý integrál
+
+Nechť k funkci latexmath:[$f$] existuje primitivní funkce na intervalu
+latexmath:[$(a,b)$]. Množinu všech primitivních funkcí k funkci
+latexmath:[$f$] na latexmath:[$(a,b)$] nazýváme neurčitým integrálem a
+značíme jej latexmath:[$\int f$] nebo
+latexmath:[$\int f(x) \,\mathrm{d}x$].
+
+=== Inverze
+
+[latexmath]
+++++
+\[\int g'(x) \,\mathrm{d}x = g(x) + c, \quad x\in(a,b)\]
+++++
+
+[latexmath]
+++++
+\[\left(\int f\right)'(x) = f(x), \quad x\in(a,b).\]
+++++
+
+=== Operace
+
+==== Sčtání a násobení konstantou
+
+[latexmath]
+++++
+\[\int (f+g) = \int f + \int g \quad \text{a} \quad \int (\alpha f) = \alpha \int f,\]
+++++
+
+==== Per partes
+
+Nechť funkce latexmath:[$f$] je diferencovatelná na intervalu
+latexmath:[$(a,b)$] a latexmath:[$G$] je primitivní funkce k funkci
+latexmath:[$g$] na intervalu latexmath:[$(a,b)$] a konečně nechť
+existuje primitivní funkce k funkci latexmath:[$f'G$]. Potom existuje
+primitivní funkce k funkci latexmath:[$fg$] a platí
+
+[latexmath]
+++++
+\[\int fg = f G - \int f' G.\]
+++++
+
+==== Substituce
+
+*Věta o substituci I* Nechť pro funkce latexmath:[$f$] a
+latexmath:[$\varphi$] platí
+
+* latexmath:[$f$] má primitivní funkci latexmath:[$F$] na intervalu
+latexmath:[$(a,b)$],
+* latexmath:[$\varphi$] je na intervalu latexmath:[$(\alpha,\beta)$]
+diferencovatelná,
+* latexmath:[$\varphi\big((\alpha,\beta)\big) \subset (a,b)$]
+
+Pak funkce latexmath:[$f\big(\varphi(x)\big)\cdot\varphi'(x)$] má
+primitivní funkci na intervalu latexmath:[$(\alpha,\beta)$] a platí
+
+[latexmath]
+++++
+\[\int f\big(\varphi(x)\big)\cdot\varphi'(x) \,\mathrm{d}x = F\big( \varphi(x) \big).\]
+++++
+
+*Věta o substituci II* Nechť latexmath:[$f$] je definována na intervalu
+latexmath:[$(a,b)$] a nechť latexmath:[$\varphi$] je
+bijekcefootnote:[zobrazení latexmath:[$f$], které přiřazuje každému
+prvku latexmath:[$H_f$] právě jeden prvek z latexmath:[$D_f$]] intervalu
+latexmath:[$(\alpha,\beta)$] na latexmath:[$(a,b)$] s nenulovou konečnou
+derivací. Pak platí
+
+[latexmath]
+++++
+\[\int f(\varphi(t)) \varphi'(t) \,\mathrm{d}t = G(t) + C \quad \Longrightarrow \quad \int f(x) \,\mathrm{d}x = G\big(\varphi^{-1}(x)\big) + C\]
+++++
+
+== Riemannův integrál
+
+=== Infimum
+
+Buď latexmath:[$A$] neprázdná zdola omezená podmnožina množiny reálných
+čísel. Číslo latexmath:[$\alpha\in\mathbb{R}$] nazveme infimem množiny
+latexmath:[$A$], značíme latexmath:[$\inf A$], právě když
+
+[arabic]
+. pro každé latexmath:[$x\in A$] platí latexmath:[$\alpha\leq x$]
+(latexmath:[$\alpha$] je dolní závora latexmath:[$A$]),
+. pokud latexmath:[$\beta\in \mathbb{R}$] také splňuje předchozí bod,
+pak latexmath:[$\beta\leq\alpha$] (latexmath:[$\alpha$] je největší
+dolní závora latexmath:[$A$]).
+
+Pokud množina latexmath:[$A$] není zdola omezená, pak klademe
+latexmath:[$\inf A:=-\infty$]. Pro prázdnou množinu klademe
+latexmath:[$\inf \emptyset:=+\infty$].
+
+=== Supremum
+
+Buď latexmath:[$A$] neprázdná zdola omezená podmnožina množiny reálných
+čísel. Číslo latexmath:[$\alpha\in\mathbb{R}$] nazveme supremem množiny
+latexmath:[$A$], značíme latexmath:[$\sup A$], právě když
+
+[arabic]
+. pro každé latexmath:[$x\in A$] platí latexmath:[$\alpha\geq x$]
+(latexmath:[$\alpha$] je horní závora latexmath:[$A$]),
+. pokud latexmath:[$\beta\in \mathbb{R}$] také splňuje předchozí bod,
+pak latexmath:[$\beta\geq\alpha$] (latexmath:[$\alpha$] je nejmenší
+honrní závora latexmath:[$A$]).
+
+Pokud množina latexmath:[$A$] není shora omezená, pak klademe
+latexmath:[$\sup A:=+\infty$]. Pro prázdnou množinu klademe
+latexmath:[$\sup \emptyset:=-\infty$].
+
+=== Norma dělení
+
+Buď dán interval latexmath:[$\langle a,b \rangle$]. Konečnou množinu
+latexmath:[$\sigma = \{x_0,x_1,\ldots,x_n\}$] takovou, že
+latexmath:[$a = x_0 < x_1 < \cdots < x_n = b$] nazýváme dělením
+intervalu latexmath:[$\langle a,b \rangle$]. Bodům
+latexmath:[$x_k, k=1,2,\ldots,n-1$] říkáme dělící body intervalu
+latexmath:[$\langle a,b \rangle$]. Intervalu
+latexmath:[$\langle x_{k-1},x_k \rangle$] říkáme částečný interval
+intervalu latexmath:[$\langle a,b \rangle$] při dělení
+latexmath:[$\sigma$]. Číslo
+
+[latexmath]
+++++
+\[\nu(\sigma) := \max \{ \Delta_k \mid k = 1,2,\ldots,n \}, \quad \text{kde} \quad \Delta_k := x_k - x_{k-1}, \ k = 1,2,\ldots,n,\]
+++++
+
+nazýváme *normou dělení* latexmath:[$\sigma$].
+
+=== Součet funkce
+
+Buďte funkce latexmath:[$f$] definovaná a omezená na intervalu
+latexmath:[$J=\langle a,b \rangle$] a
+latexmath:[$\sigma=\{x_0,x_1,…,x_n\}$] dělení intervalu latexmath:[$J$].
+Součty
+
+[latexmath]
+++++
+\[S(\sigma,f) := \sum_{i=1}^n \Delta_i \sup_{\langle x_{i-1},x_i\rangle} f \quad \text{a} \quad s(\sigma,f) := \sum_{i=1}^n \Delta_i \inf_{\langle x_{i-1},x_i\rangle} f\]
+++++
+
+nazýváme *horním součtem funkce* a *dolním součtem funkce*
+latexmath:[$f$] při dělení latexmath:[$\sigma$].
+
+image:fig_dolni_soucet.png[image]
+
+image:fig_horni_soucet.png[image]
+
+=== Horní a dolní integrál
+
+Pro funkci latexmath:[$f$] definovanou a omezenou na uzavřeném intervalu
+latexmath:[$J=\langle a,b \rangle$] definujeme čísla
+
+[latexmath]
+++++
+\[\overline{\int_a^b} f(x) \,\mathrm{d}x := \inf\{ S(\sigma) \mid \sigma \ \text{dělení} \ J \} \ \text{a} \ \underline{\int_a^b} f(x) \,\mathrm{d}x := \sup\{ s(\sigma) \mid \sigma \ \text{dělení} \ J \}.\]
+++++
+
+a nazýváme *horním integrálem*, resp. *dolním integrálem*, funkce
+latexmath:[$f$] na intervalu latexmath:[$J$].
+
+=== Definice Riemanova integrálu
+
+Pokud pro funkci latexmath:[$f$] definovanou a omezenou na uzavřeném
+intervalu latexmath:[$J$] platí
+
+[latexmath]
+++++
+\[\overline{\int_a^b} f(x)\,\mathrm{d}x = \underline{\int_a^b} f(x) \,\mathrm{d}x \in \mathbb{R},\]
+++++
+
+pak jejich společnou hodnotu nazýváme *Riemannovým integrálem* funkce
+latexmath:[$f$] na intervalu latexmath:[$J$] a toto číslo značíme
+symboly
+
+[latexmath]
+++++
+\[\int_a^b f, \quad \text{případně} \quad \int_a^b f(x)\,\mathrm{d}x.\]
+++++
+
+Posloupnost dělení latexmath:[$\sigma_n$] nazveme *normální*, pokud pro
+její normy platí
+latexmath:[$\lim\limits_{n\to\infty} \nu(\sigma_n) = 0.$]
+
+=== Postačujíící podmínka pro existenci RI
+
+Buď latexmath:[$f$] spojitá funkce na intervalu
+latexmath:[$\langle a,b \rangle$]. Potom existuje její Riemannův
+integrál na intervalu latexmath:[$\langle a,b \rangle$]. Pokud je navíc
+latexmath:[$(\sigma_n)$] normální posloupnost dělení intervalu
+latexmath:[$\langle a,b \rangle$] potom limity
+
+[latexmath]
+++++
+\[\lim_{n\to\infty} s(\sigma_n, f) \quad \text{a} \quad \lim_{n\to\infty} S(\sigma_n,f)\]
+++++
+
+existují, a jsou rovny Riemannově integrálu funkce f na intervalu
+latexmath:[$\langle a,b \rangle$].
+
+=== Integrální součet
+
+Pro funkci f spojitou na uzavřeném intervalu
+latexmath:[$\langle a,b \rangle$] a dělení
+latexmath:[$\sigma={x_0,x_1,…,x_n}$], kde latexmath:[$x_0=a$] a
+latexmath:[$x_n=b$], tohoto intervalu definujeme integrální součet
+funkce latexmath:[$f$] při dělení latexmath:[$σ$] předpisem
+
+[latexmath]
+++++
+\[\mathcal{J}(\sigma,f) = \sum_{i=1}^n f(\alpha_i) \Delta_i,\]
+++++
+
+kde latexmath:[$\alpha_i$] patří do intervalu
+latexmath:[$\langle x_{i-1},x_i\rangle$], latexmath:[$i=1,2,…,n$].
+
+==== Vztah s Riemannovým integrálem
+
+[latexmath]
+++++
+\[\int_a^b f(x) \,\mathrm{d}x = \lim_{n\to\infty} \mathcal{J}(\sigma_n,f),\]
+++++
+
+=== Vlastnosti
+
+==== Aditivita integrálu
+
+Nechť latexmath:[$f$] a latexmath:[$g$] jsou spojité funkce na intervalu
+latexmath:[$\langle a,b \rangle$]. Potom pro Riemannův integrál funkce
+latexmath:[$f+g$] (která je také automaticky spojitá na
+latexmath:[$\langle a,b \rangle$]) platí
+
+[latexmath]
+++++
+\[\int_a^b (f+g)(x)\,\mathrm{d}x = \int_a^b f(x)\,\mathrm{d}x + \int_a^b g(x)\,\mathrm{d}x.\]
+++++
+
+==== Multiplikativita integrálu
+
+Nechť f je spojitá na intervalu latexmath:[$\langle a,b \rangle$] a
+latexmath:[$c\in \mathbb{R}$] je konstanta. Potom pro Riemannův integrál
+funkce latexmath:[$cf$] platí
+
+[latexmath]
+++++
+\[\int_a^b (cf)(x)\,\mathrm{d}x = c \int_a^b f(x)\,\mathrm{d}x.\]
+++++
+
+==== Aditivita integrálu v mezích
+
+Riemannův integrál funkce latexmath:[$f$] na intervalu
+latexmath:[$\langle a,b \rangle$] existuje, právě když pro každé
+latexmath:[$c\in\langle a,b \rangle$] existují Riemannovy integrály
+funkce f na intervalech latexmath:[$\langle a,c \rangle$] a
+latexmath:[$\langle c,b \rangle$]. V takovém případě navíc platí
+
+[latexmath]
+++++
+\[\int_a^b f(x)\,\d x  = \int_a^c f(x)\,\d x + \int_c^b f(x)\,\d x.\]
+++++
+
+==== Nerovnosti mezi integrály
+
+Nechť jsou latexmath:[$f$] a latexmath:[$g$] spojité funkce na intervalu
+latexmath:[$\langle a,b \rangle$] a nechť platí nerovnost
+latexmath:[$f(x)\leq g(x)$] pro všechna
+latexmath:[$x\in\langle a,b \rangle$]. Potom pro jejich Riemannovy
+integrály platí
+
+[latexmath]
+++++
+\[\int_a^b f(x)\,\mathrm{d}x \leq \int_a^b g(x)\,\mathrm{d}x.\]
+++++
+
+==== Newtonova formule
+
+Nechť f je funkce spojitá na intervalu latexmath:[$\langle a,b \rangle$]
+s primitivní funkcí F. Pak platí rovnost
+
+[latexmath]
+++++
+\[\int_a^b f(x) \,\mathrm{d}x = F(b) - F(a) =: \Big[ F(x) \Big]_a^b.\]
+++++
+
+=== Zobecněný RI
+
+Nechť f je funkce definovaná na intervalu latexmath:[$\langle a,b )$]
+pro nějaké latexmath:[$a\in\mathbb{R}$] a
+latexmath:[$b\in(a,+\infty\rangle$], která je Riemanovsky integrabilní
+na intervalulatexmath:[$\langle a,c \rangle$] pro každé
+latexmath:[$c\in(a,b)$]. Pokud existuje konečná limita
+
+[latexmath]
+++++
+\[\lim_{c \to b_-} \int_a^c f(x)\, \d x,\]
+++++
+
+pak její hodnotu značíme
+
+[latexmath]
+++++
+\[\int_a^b f(x)\, \d x,\]
+++++
+
+nazýváme zobecněným Riemannovým integrálem funkce latexmath:[$f$] na
+intervalu latexmath:[$\langle a,b )$] a říkáme, že integrál
+latexmath:[$\int_a^b f(x)\, \d x$] konverguje.
+
+=== Vlastnosti RI
+
+Nechť latexmath:[$f$] je funkce spojitá na uvažovaných intervalech.
+
+* Je-li latexmath:[$f$] sudá funkce na
+latexmath:[$\langle -a,a \rangle$], pak
+latexmath:[$\displaystyle\int_{-a}^a f(x) \mathrm{d}x = 2 \int_0^a f(x) \mathrm{d}x$]
+* Je-li latexmath:[$f$] lichá funkce na
+latexmath:[$\langle -a,a \rangle$], pak
+latexmath:[$\displaystyle\int_{-a}^a f(x) \mathrm{d}x = 0$]
+* Je-li latexmath:[$f$] periodická na latexmath:[$\mathbb{R}$] s
+periodou latexmath:[$T$], pak pro každé latexmath:[$a,b\in\mathbb{R}$]
+platí
+latexmath:[$\displaystyle\int_a^{a+T} f(x)\mathrm{d}x = \int_b^{b+T} f(x) \mathrm{d}x$]
+
+=== Výpočet obsahů plošných útvarů
+
+Nechť latexmath:[$f$] a latexmath:[$g$] jsou funkce spojité na
+latexmath:[$\langle a,b \rangle$] takové, že latexmath:[$f(x)\geq g(x)$]
+pro každé latexmath:[$x\in\langle a,b \rangle$]. Pak obsah plochy
+latexmath:[$P$] ohraničené přímkami latexmath:[$x=a$] a
+latexmath:[$x=b$] a grafy funkcí latexmath:[$f$] a latexmath:[$g$] je
+roven
+
+[latexmath]
+++++
+\[P = \int_a^b \big( f(x) - g(x) \big) \,\mathrm{d}x.\]
+++++
+
+image:fig_vypocet_plochy.png[image]
+
+== Tabulky
+
+image:integraly.png[image]

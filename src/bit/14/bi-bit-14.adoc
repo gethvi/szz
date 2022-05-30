@@ -1,0 +1,134 @@
+== BI-BIT-14 - Přetečení bufferu, jeho druhy. Metody obrany, způsoby překonání obran.
+
+____
+Přetečení bufferu nastává, přepíšeme-li jeden anebo více bajtů dat za
+koncem bufferu.
+____
+
+* přetečení bufferu je jedna z nejzávažnějších chyb
+* tato zranitelnost může být útočníkem zneužita až ke spuštění vlastního
+kódu
+* k přetečení bufferu zásobníků může dojít jak v zásobníku, tak i na
+haldě
+
+=== Přetečení bufferu na zásobníku (stack overflow)
+
+____
+Přetečení bufferu na zásobníku nastává, přepíšeme-li jeden anebo více
+bajtů dat za koncem bufferu, který je uložen na zásobníku.
+____
+
+==== Základní princip
+
+Za alokovaným bufferem na zásobníku následují další hodnoty. Jednou z
+nich je návratová adresa, od které se začne vykonávat kód po skončení
+současné funkce. Cílem útoku je tuto hodnotu přepsat na takovou, aby
+obsahovala adresu námi zapsaného bufferu. Začne se tedy vykonávat kód,
+který jsme vložili do bufferu.
+
+=== Přetečení bufferu na haldě (heap overflow)
+
+____
+Přetečení bufferu na zásobníku nastává, přepíšeme-li jeden anebo více
+bajtů dat za koncem bufferu, který je uložen na haldě.
+____
+
+* Paměť na haldě alokujeme např. pomocí funkce malloc
+* Nemyslete si, že heap overflow není exploitovatelné!
+** záleží na implementaci alokačních funkcí.
+** některé implementace ukládají za konec bloku jeho velikost a pointer
+na další blok.
+* Cíleným zápisem za konec bloku můžeme donutit program zapsat na námi
+určené místo.
+** tím můžeme dosáhnout ovládnutí procesu tak, jako v případě stack
+overflow
+
+==== Metody ochrany proti přetečení bufferu
+
+===== Na úrovni operačního systému
+
+====== Data Execution Prevention (DEP)
+
+* XD (Exec. Disable)/NX (Non-Executable) bit v položce tabulky stránek
+(Page Table Entry).
+* Bit #63 v každé PTE.
+* Nekompatibilní s 32bitovým stránkováním — PTE má jen 32 bitů!
+* Vyžaduje stránkování Phys. Addr. Extension (PAE) nebo stránkování
+IA-32e (64 bitů).
+* Jak DEP zabrání exploitování přetečení bufferu:
+** Stránky (na zásobníku) jsou normálně nespustitelné (W^X).
+** K přetečení může dojít, avšak v okamžiku, ve kterém se program pokusí
+takovou stránku spustit, je generována výjimka (kernel-mode
+ATTEMPTED_EXECUTE_OF_NOEXECUTE_MEMORY/user-mode
+STATUS_ACCESS_VIOLATION). Tím dojde k okamžitému ukončení programu.
+
+Implementováno od Windows XP SP 2, Linux od roku 2000.
+
+====== Address Space Layout Randomization (ASLR)
+
+Aby mohl útočník spustit exploit, musí přepsat návratovou adresu: buď
+adresou v bufferu, který přepsal; anebo adresou jmp/call esp/ebp
+instrukce v programu nebo v knihovně nahrané do procesu; anebo adresou
+funkce v programu nebo v knihovně nahrané do procesu. → Pokud by adresa
+byla různá při každém spuštění programu, jeho šance na úspěch by značně
+poklesly. Při zavádění ASLR kompatibilního programu do paměti je program
+umístěn na náhodnou adresu. Totéž se pak stane s jeho zásobníkem a
+haldou. Totéž u knihoven (viz dále).
+
+===== Na úrovni programu
+
+====== StackGuard (kanárková metoda)
+
+* Rozšíření překladače, které pozměňuje kód emitovaný překladačem pro
+generování funkčního prologu a epilogu.
+* Vkládá na zásobník slovo — ``kanárka''— při vstupu do funkce.
+* Tím zamezuje změně návratové adresy z funkce, která je hlavní cestou,
+jak spustit útočníkem zadaný kód, a to: detekováním změny kanárka a
+následným ukončením programu — předpokládá se, že návratovou adresu
+nelze změnit bez změny kanárka. Útočník nemůže změnit návratovou adresu
+a tedy spustit svůj kód.
+
+====== Stack Smashing Protector (kanárková metoda)
+
+* součást GCC
+* vylepšená verze StackGuard
+
+====== Stack Smashing Protector (kanárková metoda)
+
+* Windows
+* překlad s `/GS`
+
+====== Safe Structured Exception Handling (bezpečné ošetření strukturovaných výjimek)
+
+* Windows
+* překlad s `/SAFESEH`
+* Útočník se může pokusit přepsat obsluhu vyjímek vlastním kódem.
+* Safe SEH obsluhy vyjímek před spuštěním obsluhy kontroluje proti
+překladačem generovanému seznamu obslužných rutin.
+
+====== Structured Exception Handler Overwrite Protection
+
+* Windows
+* používá se, pokud není přeloženo s `/SAFESEH`
+* detekuje, pokud došlo ke změně v řetězu obsluh vyjímek
+
+====== Kódování ukazatelů
+
+* ukazatele na funkce jsou zakódovány náhodnou hodnotou (použitím XOR) a
+dekódovány až tesně před použitím
+
+==== Metody obcházení ochrany proti přetečení bufferu
+
+===== Return Oriented Programming (ROP)
+
+* Nespustitelný zásobník neznamená, že program nelze exploitovat.
+* U ROP se kód exploitu skládá z částí, které již v programu jsou, a to
+z epilogů funkcí + 1 instrukce před začátkem epilogu. Z těchto +1
+instrukcí a návratů na různé části epilogů v programu složíme část
+exploitu, která zavolá SetProcessDEPPolicy, VirtualProtect nebo
+NtSetInformationProcess, po jejichž vykonání je již zásobník
+spustitelný! Posloupnosti návratových adres a výplní, které slouží pro
+pop instrukce v epilogu, nazýváme ROP chain.
+
+→ Tuto metodu lze použít i v případě, že je zapnuté ASLR, pokud se do
+procesu nahrává byť jediné DLL, které ASLR nepodporuje!!!!!!

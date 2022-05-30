@@ -1,0 +1,445 @@
+= BI-SPOL-34
+:stem:
+:imagesdir: images
+
+== Limita funkce
+
+=== Definice
+
+Buďte latexmath:[$f$] reálná funkce reálné proměnné a
+latexmath:[$a \in \overline{\mathbb{R}}\ (\overline{\mathbb{R}}=\mathbb{R}\cup{\pm\infty})$].
+Nechť latexmath:[$f$] je definovaná na okolí bodu latexmath:[$a$], s
+možnou výjimkou bodu a samotného. Řekneme, že
+latexmath:[$c \in \overline{\mathbb{R}}$] je limitou funkce
+latexmath:[$f$] v bodě latexmath:[$a$], právě když pro každé okolí
+latexmath:[$H_c$] bodu latexmath:[$c$] existuje okolí latexmath:[$H_a$]
+bodu latexmath:[$a$] takové, že z podmínky
+latexmath:[$x \in H_a \backslash \{a\}$] plyne
+latexmath:[$f(x) \in H_c$].
+
+V symbolech:
+
+latexmath:[$(\forall H_c)(\exists H_a)(\forall x \in D_f)(x \in H_a \backslash \{a\} \implies f(x) \in H_c)$].
+
+Tuto skutečnost zapisujeme:
+
+latexmath:[$\lim\limits_{x \rightarrow a} f(x) = c$],
+latexmath:[$\lim\limits_a f = c$].
+
+=== latexmath:[$\epsilon$]-latexmath:[$\delta$] definice
+
+[latexmath]
+++++
+\[\big(\forall\epsilon>0\big)\big(\exists\delta>0\big)\big( \forall x \in D_f)( 0 < |x - a| < \delta \ \Rightarrow \ |f(x) - c| < \epsilon\big).\]
+++++
+
+=== Heineho věta
+
+latexmath:[$\lim\limits_{x \rightarrow a} f(x) = c$], právě když je
+latexmath:[$f$] definována na okolí bodu latexmath:[$a$] (s možnou
+výjimkou bodu latexmath:[$a$]) a pro každou posloupnost
+latexmath:[$(x_n)_{n=1}^\infty$] s limitou latexmath:[$a$] a splňující
+
+latexmath:[$\{x_n \mid n\in\mathbb{N}\} \subset D_f \backslash \{a\}$]
+
+platí latexmath:[$\lim\limits_{x \rightarrow \infty} f(x_n) = c$].
+
+image:nor_lim.png[image]
+
+=== Jednostraná limita
+
+Buďte latexmath:[$f$] reálná funkce reálné proměnné a
+latexmath:[$a \in \mathbb{R}$]. Nechť latexmath:[$f$] je definovaná na
+levém, resp. pravém, okolí bodu latexmath:[$a$]. Řekneme, že
+latexmath:[$c\in\overline{\mathbb{R}}$] je limitou funkce
+latexmath:[$f$] v bodě latexmath:[$a$] zleva, resp. zprava, právě když
+pro každé okolí latexmath:[$H_c$] bodu latexmath:[$c$] existuje levé
+okolí latexmath:[$H^-_a$], resp. pravé okolí latexmath:[$H^+_a$], bodu
+latexmath:[$a$] takové, že z podmínky
+
+latexmath:[$x \in H^-_a \ \{a\}, \ \text{resp.} \ x \in H^+_a \ \{a\}$],
+
+plyne
+
+latexmath:[$f(x) \in H_c$].
+
+Zapisujeme
+
+latexmath:[$\lim\limits_{x\to a-} f(x) = c, \text{nebo} \lim\limits_{a-} f = c$],
+
+resp.
+
+latexmath:[$\lim\limits_{x\to a+} f(x) = c, \text{nebo} \lim\limits_{a+} f = c$].
+
+=== Heineho věta pro jednostranné limity
+
+latexmath:[$\lim\limits_{x \rightarrow a_-} f(x) = c$], resp.
+latexmath:[$\lim\limits_{x \rightarrow a_+} f(x) = c$], právě když je
+latexmath:[$f$] definována na levém, resp. pravém, okolí bodu
+latexmath:[$a$] a pro každou posloupnost
+latexmath:[$(x_n)_{n=1}^\infty$] s limitou latexmath:[$a$] a splňující
+
+latexmath:[$\{x_n\, |\, n\in\mathbb{N}\} \subset D_f \cap (-\infty,a), \quad \textrm{resp.} \quad \{x_n\, |\, n\in\mathbb{N}\} \subset D_f \cap (a,+\infty)$],
+
+platí latexmath:[$\lim\limits_{x \rightarrow \infty} f(x_n) = c$].
+
+image:jed_lim.png[image]
+
+=== Vlastnosti
+
+Hodnota limity závisí na okolí bodu, nikoli na samotném bodě. Funkce
+latexmath:[$f$] v bodě latexmath:[$a$] ani nemusí být definovaná, přesto
+limita může existovat. Příkladem je funkce
+latexmath:[$f(x)\nolinebreak :=\nolinebreak \text{sgn} \frac{1}{x^2}$],
+latexmath:[$D_f = \mathbb{R} \backslash \{0\}$]. Ačkoliv latexmath:[$0$]
+nepatří do latexmath:[$D_f$] platí
+latexmath:[$\lim\limits_{x\to 0} f(x) = 1$].
+
+Nechť latexmath:[$a \in \mathbb{R}$]. Limita
+latexmath:[$\lim\limits_{x \rightarrow a} f(x)$] existuje a je rovna c ∈
+R, právě když existují obě jednostranné limity
+latexmath:[$\lim\limits_{x \rightarrow a_+} f(x)$] a
+latexmath:[$\lim\limits_{x \rightarrow a_-} f(x)$] a obě jsou rovny c.
+
+Nechť latexmath:[$f$] a latexmath:[$g$] jsou funkce,
+latexmath:[$a,b,c \in \overline{\mathbb{R}}$] a platí tři podmínky
+
+* latexmath:[$\displaystyle\lim_{x\to a} g(x) = b$],
+* latexmath:[$\displaystyle\lim_{x\to b} f(x) = c$],
+* buď
+latexmath:[$(\exists H_a)(\forall x\in D_g\cap H_a \backslash \{a\})(g(x) \neq b)$]
+nebo latexmath:[$(b\in D_f \ \text{a} \ f(b) = c)$].
+
+Potom platí latexmath:[$\displaystyle\lim_{x\to a} f(g(x)) = c$].
+
+Nechť latexmath:[$f$] a latexmath:[$g$] jsou funkce a
+latexmath:[$a \in \overline{\mathbb{R}}$]. Potom
+
+[latexmath]
+++++
+\[\begin{aligned} \lim_a (f + g) &= \lim_a f + \lim_a g, \\ \lim_a f \cdot g &= \lim_a f \cdot \lim_a g, \\ \lim_a \frac{f}{g} &= \frac{\lim_a f}{\lim_a g}, \end{aligned}\]
+++++
+platí v případě, že výrazy na pravé straně jsou definovány a v posledním
+případě za předpokladu, že latexmath:[$\frac{f}{g}$] je definována na
+okolí bodu latexmath:[$a$] s možnou výjimkou bodu latexmath:[$a$]
+samotného.
+
+=== Důsledek heineho věty
+
+Nechť latexmath:[$f$] je funkce definovaná na okolí bodu a
+latexmath:[$a\in\overline{\mathbb{R}}$] a
+latexmath:[$(x_n)_{n=1}^\infty$] , latexmath:[$(z_n)_{n=1}^\infty$] jsou
+dvě reálné posloupnosti patřící do latexmath:[$D_f$] , konvergující k
+latexmath:[$a$] a splňující podmínky latexmath:[$x_n\neq a$] a
+latexmath:[$z_n\neq a$] pro všechna latexmath:[$n\in\mathbb{N}$] . Pokud
+limity
+latexmath:[$\lim\limits_{n\to\infty} f(x_n) \textrm{ a } \lim\limits_{n\to\infty} f(z_n)$]
+existují a jsou různé, nebo alespoň jedna z nich neexistuje, potom
+limita latexmath:[$\lim\limits_{x \rightarrow a} f(x)$] neexistuje.
+
+=== Nerovnost
+
+Mějme funkce latexmath:[$f$] a latexmath:[$g$] a nechť existují limity
+latexmath:[$\displaystyle\lim_{x\to a} f(x)$] a
+latexmath:[$\displaystyle\lim_{x\to a} g(x)$]. Pak platí následující dvě
+tvrzení:
+
+* Pokud
+latexmath:[$\displaystyle\lim_{x\to a} f(x) < \lim_{x\to a} g(x)$],
+potom existuje okolí latexmath:[$H_a$] bodu latexmath:[$a$] takové, že
+pro všechna latexmath:[$x\in H_a \backslash\{a\}$] platí
+latexmath:[$f(x) < g(x)$].
+* Pokud existuje okolí latexmath:[$H_a$] bodu latexmath:[$a$] takové, že
+pro všechna latexmath:[$x\in H_a \backslash\{a\}$] je
+latexmath:[$f(x) \leq g(x)$], potom
+latexmath:[$\displaystyle \lim_{x\to a} f(x) \leq \lim_{x\to a} g(x)$].
+
+=== Limita sevřené funkce
+
+Nechť pro funkce latexmath:[$f$], latexmath:[$g$], latexmath:[$h$] a
+body latexmath:[$a, c \in \overline{\mathbb{R}}$] platí:
+
+* existuje okolí latexmath:[$H_a$] bodu latexmath:[$a$] takové, že pro
+každé latexmath:[$x\in H_a\backslash\{a\}$] platí
+latexmath:[$f(x) \leq g(x) \leq h(x)$]
+* existují
+latexmath:[$\displaystyle\lim_{x\to a}f(x) = \lim_{x\to a}h(x) = c$]
+
+Potom existuje i latexmath:[$\displaystyle\lim_{x\to a} g(x)$] a je
+rovna latexmath:[$c$].
+
+== Derivace funkce
+
+=== Definice
+
+Nechť latexmath:[$f$] je funkce definovaná na okolí bodu
+latexmath:[$a\in\mathbb{R}$]. Pokud existuje limita
+
+[latexmath]
+++++
+\[\lim_{x\to a} \frac{f(x) - f(a)}{x-a}\]
+++++
+
+nazveme její hodnotu *derivací funkce* latexmath:[$f$] v bodě
+latexmath:[$a$] a označíme latexmath:[$f'(a)$]. Pokud je tato limita
+konečná (tj. latexmath:[$f'(a) \in \mathbb{R}$]) řekneme, že funkce
+latexmath:[$f$] je diferencovatelná v bodě latexmath:[$a$].
+
+Buď latexmath:[$f$] funkce s definičním oborem latexmath:[$D_f$]. Nechť
+latexmath:[$M$] označuje množinu všech latexmath:[$a\in D_f$] takových,
+že existuje konečná derivace latexmath:[$f'(a)$]. Derivací funkce
+latexmath:[$f$] nazýváme funkci s definičním oborem latexmath:[$M$],
+která každému latexmath:[$x \in M$] přiřadí latexmath:[$f'(x)$]. Tuto
+funkci značíme symbolem latexmath:[$f'$].
+
+*Další možná značení:*
+
+[latexmath]
+++++
+\[f'(a), \quad \dot{f}(a), \quad \frac{\mathrm{d}f}{\mathrm{d}x}(a).\]
+++++
+
+image:tecna.png[image]
+
+=== Tečna
+
+Nechť existuje latexmath:[$f'(a)$]. Tečnou funkce latexmath:[$f$] v bodě
+latexmath:[$a$] nazýváme
+
+* přímku s rovnicí latexmath:[$x=a$] je-li funkce latexmath:[$f$]
+spojitá v bodě latexmath:[$a$] a latexmath:[$f'(a) = +\infty$] nebo
+latexmath:[$f'(a) = -\infty$].
+* přímku s rovnicí latexmath:[$y = f(a) + f'(a) (x-a)$] je-li
+latexmath:[$f'(a) \in\mathbb{R}$] (tj. je-li latexmath:[$f$]
+diferencovatelná v bodě latexmath:[$a$]).
+
+=== Operace
+
+==== Sčítání, násobení, dělení
+
+Nechť funkce latexmath:[$f$] a latexmath:[$g$] jsou diferencovatelné v
+bodě latexmath:[$a$]. Potom platí:
+
+* latexmath:[$(f+g)'(a) = f'(a) + g'(a)$]
+* latexmath:[$(f\cdot g)'(a) = f'(a) g(a) + f(a) g'(a)$]
+* latexmath:[$\displaystyle\left(\frac{f}{g}\right)'(a) = \frac{f'(a)g(a) - f(a)g'(a)}{g(a)^2}$],
+pokud latexmath:[$g(a) \neq 0$]
+
+==== Složená funkce
+
+Nechť latexmath:[$g$] je funkce diferencovatelná v bodě latexmath:[$a$],
+latexmath:[$f$] je diferencovatelná v bodě latexmath:[$g(a)$]. Potom
+funkce latexmath:[$f \circ g$] je diferencovatelná v bodě
+latexmath:[$a$] a platí
+
+[latexmath]
+++++
+\[(f \circ g)'(a) = f'\big( g(a) \big) \cdot g'(a).\]
+++++
+
+==== Inverzní funkce
+
+Buďte latexmath:[$f$] spojitá a ryze monotónní na intervalu
+latexmath:[$I=(a,b)$] a bod latexmath:[$c \in I$]. Má-li inverzní funkce
+latexmath:[$f^{-1}$] konečnou nenulovou derivaci v bodě
+latexmath:[$f(c)$], potom má latexmath:[$f$] derivaci v bodě
+latexmath:[$c$] a platí
+
+[latexmath]
+++++
+\[f'(c) = \frac{1}{(f^{-1})'(f(c))}.\]
+++++
+
+== Průběh funkce
+
+=== Spojitost
+
+Nechť latexmath:[$f$] je reálná funkce reálné proměnné a nechť bod
+latexmath:[$a \in D_f$]. Řekneme, že funkce latexmath:[$f$] *je spojitá
+v bodě* latexmath:[$a$] jestliže nastává alespoň jedna z následujících
+možností:
+
+* latexmath:[$\displaystyle \lim_{x\to a} f(x) = f(a)$],
+* funkce latexmath:[$f$] je definována jen na pravém okolí bodu
+latexmath:[$a$], přesněji
+latexmath:[$(\exists H_a)(H_a \cap D_f = H^+_a)$], a
+latexmath:[$\displaystyle \lim_{x\to a+} f(x) = f(a)$],
+* funkce latexmath:[$f$] je definována jen na levém okolí bodu
+latexmath:[$a$], přesněji
+latexmath:[$(\exists H_a)(H_a \cap D_f = H^-_a)$], a
+latexmath:[$\displaystyle \lim_{x\to a-} f(x) = f(a)$].
+
+Funkce latexmath:[$f$] *je spojitá* v bodě latexmath:[$a$] *zprava*,
+pokud latexmath:[$\displaystyle\lim_{x\to a+} f(x) = f(a)$]. Funkce
+latexmath:[$f$] *je spojitá* v bodě latexmath:[$a$] *zleva*, pokud
+latexmath:[$\displaystyle\lim_{x\to a-} f(x) = f(a)$].
+
+Funkde latexmath:[$f$] *je spojitá na intervalu latexmath:[$J$]*, právě
+kdyz je spojitá v každém bodě intervalu *latexmath:[$J$]*.
+
+=== Extrémy funkce
+
+Řekneme, že funkce latexmath:[$f$] má v bodě latexmath:[$a \in D_f$]
+
+[arabic]
+. lokální maximum
+. lokální minimum
+. ostré lokální maximum
+. ostré lokální minimum
+
+právě když existuje okolí (v krajním bodě jednostranné)
+latexmath:[$H_a \subset D_f$] bodu latexmath:[$a$] tak, že
+
+[arabic]
+. pro všechna latexmath:[$x \in H_a$] platí
+latexmath:[$f(x) \leq f(a)$],
+. pro všechna latexmath:[$x \in H_a$] platí
+latexmath:[$f(x) \geq f(a)$],
+. pro všechna latexmath:[$x \in H_a \backslash \{a\}$] platí
+latexmath:[$f(x) < f(a)$],
+. pro všechna latexmath:[$x \in H_a \backslash \{a\}$] platí
+latexmath:[$f(x) > f(a)$],
+
+Nechť funkce latexmath:[$f$] má v bodě latexmath:[$a$] lokální extrém.
+Potom latexmath:[$f'(a)=0$], nebo derivace v bodě latexmath:[$a$]
+neexistuje.
+
+Funkce latexmath:[$f$] spojitá a definovaná právě na uzavřeném intervalu
+latexmath:[$\langle a,b \rangle$] nabývá maxima a minima (tzv. globální
+extrém). Extrém může být pouze v krajních bodech latexmath:[$a,b$] a v
+bodech kde je derivace rovna latexmath:[$0$] nebo neexistuje.
+
+=== Věty o přírustku funkce
+
+==== Rolleova
+
+Nechť funkce latexmath:[$f$] splňuje podmínky
+
+[arabic]
+. latexmath:[$f$] je spojitá na intervalu
+latexmath:[$\langle a,b \rangle$],
+. latexmath:[$f$] má derivaci v každém bodě intervalu
+latexmath:[$(a,b)$],
+. latexmath:[$f$] latexmath:[$(a)=f(b)$].
+
+Potom existuje latexmath:[$c\in(a,b)$] tak, že latexmath:[$f'(c)=0$].
+
+image:roll.png[image]
+
+==== Lagrangeova
+
+Nechť funkce latexmath:[$f$] splňuje podmínky
+
+[arabic]
+. latexmath:[$f$] je spojitá na intervalu
+latexmath:[$\langle a,b \rangle$],
+. latexmath:[$f$] má derivaci v každém bodě intervalu
+latexmath:[$(a,b)$],
+
+Potom existuje bod latexmath:[$c \in (a,b)$] tak, že
+latexmath:[$\displaystyle f'(c) = \frac{f(b) - f(a)}{b-a}$], nebo
+ekvivalentně latexmath:[$f(b) - f(a) = f'(c) (b-a)$].
+
+image:lagrange.png[image]
+
+=== Důsledky
+
+Nechť latexmath:[$J$] je interval s krajními body latexmath:[$a$] a
+latexmath:[$b$]. Potom vnitřkem intervalu latexmath:[$J$] nazveme
+otevřený interval latexmath:[$(a,b)$]. Značíme ho
+latexmath:[$J^\circ=(a,b)$].
+
+==== Rostoucí, klesající, konstantní
+
+Nechť latexmath:[$f$] je spojitá na intervalu latexmath:[$J$] a nechť
+pro každé latexmath:[$x\in J^\circ$] existuje latexmath:[$f'(x)$]. Potom
+platí následujících pět tvrzení:
+
+[arabic]
+. latexmath:[$\big(\forall x\in J^\circ\big)\big(f'(x) \geq 0\big) \implies f$]
+je rostoucí na latexmath:[$J$],
+. latexmath:[$\big(\forall x\in J^\circ\big)\big(f'(x) \leq 0\big) \implies f$]
+je klesající na latexmath:[$J$],
+. latexmath:[$\big(\forall x\in J^\circ\big)\big(f'(x) > 0\big) \implies f$]
+je ostře rostoucí na latexmath:[$J$],
+. latexmath:[$\big(\forall x\in J^\circ\big)\big(f'(x) < 0\big) \implies f$]
+je ste klesající na latexmath:[$J$],
+. latexmath:[$\big(\forall x\in J^\circ\big)\big(f'(x) = 0\big) \implies f$]
+je konstantní na latexmath:[$J$].
+
+==== Konvexní, konkávní
+
+Funkci latexmath:[$f$] definovanou na intervalu latexmath:[$J$] nazveme
+*konvexní na intervalu* (resp. *konkávní na intervalu*) latexmath:[$J$],
+právě když pro každé latexmath:[$x_1,x_2,x_3 \in J$] splňující
+latexmath:[$x_1<x_2<x_3$], leží bod latexmath:[$(x_2,f(x_2))$] buďto pod
+(resp. nad) přímkou spojující body latexmath:[$(x_1,f(x_1))$] a
+latexmath:[$(x_3,f(x_3))$], nebo na ní.
+
+Funkci latexmath:[$f$] definovanou na intervalu latexmath:[$J$] nazveme
+*ryze konvexní na intervalu* (resp. *ryze konkávní na intervalu*)
+latexmath:[$J$], právě když pro každé latexmath:[$x_1,x_2,x_3 \in J$]
+splňující latexmath:[$x_1<x_2<x_3$], leží bod latexmath:[$(x_2,f(x_2))$]
+buďto pod (resp. nad) přímkou spojující body latexmath:[$(x_1,f(x_1))$]
+a latexmath:[$(x_3,f(x_3))$].
+
+Buď latexmath:[$f$] funkce spojitá na intervalu latexmath:[$J$], která
+má druhou derivaci v každém bodě intervalu latexmath:[$J^\circ$].
+
+* Funkce latexmath:[$f$] je konvexní na intervalu latexmath:[$J$], právě
+když latexmath:[$f''(x)\geq0$]pro každé latexmath:[$x\in J^\circ$].
+* Je-li latexmath:[$f''(x)>0$] v každém bodě latexmath:[$x\in J^\circ$],
+pak je latexmath:[$f$] ryze konvexní na latexmath:[$J$].
+
+Nechť funkce latexmath:[$f$] má konečnou derivaci v bodě
+latexmath:[$a\in D_f$]. Pokud existuje okolí latexmath:[$H_a$] bodu a
+takové, že pro všechna latexmath:[$x\in H_a \backslash {a}$] leží
+všechny body latexmath:[$(x,f(x))$] nad (resp. pod) tečnou funkce
+latexmath:[$f$] v bodě latexmath:[$a$],
+
+[latexmath]
+++++
+\[y = f(a) + f'(a) (x-a),\]
+++++
+nebo na ní, pak latexmath:[$f$] nazveme konvexní v bodě latexmath:[$a$]
+(resp. konkávní v bodě latexmath:[$a$]).
+
+==== Lokální minimum a maximum
+
+Buď latexmath:[$f$] funkce diferencovatelná v každém bodě intervalu
+latexmath:[$J$] a nechť latexmath:[$f'(c)=0$] pro jisté
+latexmath:[$c\in J^\circ$].
+
+* Pokud je latexmath:[$f$] konvexní na intervalu latexmath:[$J$], pak má
+funkce latexmath:[$f$] v bodě latexmath:[$c$] *lokální minimum*.
+* Pokud je latexmath:[$f$] konkávní na intervalu latexmath:[$J$], pak má
+funkce latexmath:[$f$] v bodě latexmath:[$c$] *lokální maximum*.
+
+==== Inflexní bod
+
+Nechť latexmath:[$f$] je spojitá v bodě latexmath:[$c$]. Bod
+latexmath:[$c$] nazýváme inflexním bodem funkce latexmath:[$f$], právě
+když existuje latexmath:[$\delta>0$] takové, že latexmath:[$f$] je ryze
+konvexní na intervalu (latexmath:[$c-\delta,c)$] a ryze konkávní na
+intervalu latexmath:[$(c,c+\delta)$], nebo naopak.
+
+==== Asymptoty
+
+Řekneme, že funkce latexmath:[$f$] má v bodě
+latexmath:[$a \in \mathbb{R}$] asymptotu latexmath:[$x=a$], právě když
+latexmath:[$\displaystyle\lim_{x\to a+} f(x)$] nebo
+latexmath:[$\displaystyle\lim_{x\to a-} f(x)$] je rovna
+latexmath:[$+\infty$] nebo latexmath:[$-\infty$]. Řekneme, že přímka
+latexmath:[$y=kx+q$] je asymptotou funkce latexmath:[$f$] v
+latexmath:[$+\infty$], resp. v latexmath:[$-\infty$], když
+
+[latexmath]
+++++
+\[\lim_{x\to\infty} \big( f(x) - kx - q \big) = 0 \ \text{resp.} \ \lim_{x\to-\infty} \big( f(x) - kx-q \big) = 0.\]
+++++
+
+image:prubeh.png[image]
+
+== Tabulky
+
+image:derivace.png[image]

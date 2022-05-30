@@ -1,0 +1,102 @@
+= BI-SPOL-30
+:stem:
+:imagesdir: images
+
+== Správa úkolů, požadavků, chyb
+
+Pomáhá vyřešit organizaci práce v týmu
+
+* evidence úkolů - co je nutné udělat
+* přidělování - kdo to bude dělat
+* plánování - do kdy je nutné úkol udělat
+* kontrola splnění úkolů
+* vyhodnocení odvedené práce
+
+=== Používané nástroje
+
+* Trac tickets
+* Mantis
+* Bugzilla
+* JIRA
+* GitLab/Github
+* Redmine
+* Youtrack
+
+=== Typický životní cyklus úkolu/chyby
+
+Kroky:
+
+* Team leader/project manager vyvoří úkol/nahlášení chyby
+latexmath:[$\rightarrow$] stav *_Nový(New)_*
+* přiřazení úkolu řešiteli (Team leader), převzetí úkolu řešitelem
+latexmath:[$\rightarrow$] stav *_Přiřazemý(Assigned)_*
+* dokončení úkolu latexmath:[$\rightarrow$] stav *_Vyřešený(Resolved)_*
+** reportér nesouhlasí s řešením latexmath:[$\rightarrow$] stav
+*_Znovuotevřený(Reopen)_*
+*** dokončení úkolu latexmath:[$\rightarrow$] stav
+*_Vyřešený(Resolved)_*
+*** nebo přiřazení úkolu jinému řešiteli latexmath:[$\rightarrow$] stav
+*_Přiřazený(Assigned)_*
+** nebo potvrzení vyřešení reportérem latexmath:[$\rightarrow$] stav
+*_Uzavřený(Closed)_*
+
+image:cycle.png[image,scaledwidth=100.0%]
+
+== Sdílení a správa souborů
+
+=== Hlavní přínosy
+
+Řeší více dílčích problémů
+
+* verzování
+** udržuje kompletní historii každého souboru pod správnou verzí
+** lze se k jednotlivým verzím v minulosti kdykoliv vrátit
+* zálohování
+** v případě poškození/ztráty souborů je možné je obnovit
+
+=== Používané nástroje
+
+* centralizované
+** SVN
+** CVS
+* distribuované
+** GIT
+** Mercurial
+
+==== Centralizované nástroje
+
+* veškeré revize/verze souborů jsou uloženy pouze v centrálním
+repozitáři
+* na lokálním počítači je pouze pracovní kopie (aktuální revize/verze)
+souborů
+
+==== Distribuované nástroje
+
+* na lokálním počítači jsou uloženy všechny revize/verze
+* díky tomu může být velká část operací prováděna lokálně
+
+=== Principy řešení spolupráce
+
+Dělí se na dva principy
+
+* zamknutí - úprava - odemknutí (lock - modify - unlock)
+latexmath:[$\rightarrow$] pouze centralizované systémy
+* kopie - úprava - sloučení (copy - modify - merge)
+latexmath:[$\rightarrow$] centralizované i distribuované systémy
+
+==== zamknutí - úprava - odemknutí
+
+* může způsobit organizační problém
+** zbytečně blokovaní práce uživatelů při zapomenutí odemknutí po
+dokončení práce
+** nutnost násilného uvolnění zámku, které může způsobit ztrátu odvedené
+práce
+* vynucuje serializovaný přístup i při nekonfliktních úpravách
+* využítí pro soubory, které nelze po částech sloučit (grafika,
+modely...)
+
+==== kopie - úprava - sloučení
+
+* častěji využívaný způsob spolupráce
+* odstaňuje problémy zamykacího režimu
+* v případě konfliktních změn je nutné provést ruční sloučení

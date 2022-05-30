@@ -1,0 +1,173 @@
+= BI-SPOL-36
+:stem:
+:imagesdir: images
+
+== Posloupnost
+
+=== Definice
+
+Zobrazení množiny latexmath:[$\mathbb{N}$] do množiny
+latexmath:[$\mathbb{R}$] nazýváme reálná posloupnost.
+
+=== Limita
+
+Reálná posloupnost latexmath:[$(a_n)_{n=1}^\infty$] má limitu
+latexmath:[$\alpha\in\overline{\mathbb{R}}$], právě když pro každé okolí
+latexmath:[$H_\alpha$] bodu latexmath:[$\alpha$] lze nalézt
+latexmath:[$n_0\in\mathbb{N}$] takové, že pro všechna
+latexmath:[$n\in\mathbb{N}$] větší než latexmath:[$n_0$] platí
+latexmath:[$a_n\in H_\alpha$]. V symbolech
+
+[latexmath]
+++++
+\[\big({\forall H_\alpha} \big) \big({\exists n_0\in\mathbb{N}} \big) \big({\forall n \in \mathbb{N}} \big) \big({n>n_0 \, \Rightarrow \, a_n \in H_\alpha} \big).\]
+++++
+
+Tuto skutečnost můžeme zapsat několika možnými ekvivalentními způsoby:
+
+[latexmath]
+++++
+\[\lim_{n\to\infty} a_n = \alpha \quad \text{nebo} \quad \lim a_n = \alpha \quad \text{nebo} \quad a_n \to \alpha.\]
+++++
+
+=== Konvergence
+
+Buď latexmath:[$(a_n)_{n=1}^\infty$] posloupnost. Pokud pro její limitu
+platí latexmath:[$\displaystyle\lim_{n\to\infty} a_n \in\mathbb{R}$],
+pak se nazývá konvergentní. V ostatních případech ji nazýváme
+divergentní.
+
+== Řada
+
+=== Definice
+
+Formální výraz tvaru
+
+[latexmath]
+++++
+\[\sum_{k=0}^\infty a_k = a_0 + a_1 + a_2 + \cdots,\]
+++++
+
+kde latexmath:[$(a_k)_{k=0}^\infty$] je zadaná číselná posloupnost,
+nazýváme číselnou řadou. Pokud je posloupnost částečných součtů
+
+[latexmath]
+++++
+\[s_n := \sum_{k=0}^n a_k, \quad n\in\mathbb{N}_0,\]
+++++
+
+konvergentní, nazýváme příslušnou řadu také konvergentní. V opačném
+případě mluvíme o divergentní číselné řadě. Součtem konvergentní řady
+latexmath:[$\sum_{k=0}^\infty a_k$] nazýváme hodnotu limity
+latexmath:[$\displaystyle\lim_{n\to\infty} s_n$]
+
+=== Konvergence řady
+
+==== Nutná podmínka konvergence
+
+Pokud řada latexmath:[$\sum_{k=0}^\infty a_k$] konverguje, potom pro
+limitu jejích sčítanců platí
+latexmath:[$\displaystyle \lim_{k\to\infty} a_k = 0$].
+
+*Důsledek* Pokud limita posloupnosti latexmath:[$(a_k)^∞_k=0$] je
+nenulová nebo neexistuje, potom řada latexmath:[$\sum_{k=0}^\infty a_k$]
+není konvergentní.
+
+==== Bolzano-Cauchy
+
+Řada latexmath:[$\displaystyle\sum_{k=0}^\infty a_k$] konverguje právě
+tehdy, když pro každé latexmath:[$\epsilon>0$] existuje
+latexmath:[$n_0\in\textbf{R}$] tak, že pro každé latexmath:[$n\geq n_0$]
+a latexmath:[$p\in\mathbb{N}$] platí
+
+[latexmath]
+++++
+\[|a_n + a_{n+1} + \cdots + a_{n+p}| < \epsilon .\]
+++++
+
+==== Absolutní konvergence
+
+Číselnou řadu latexmath:[$\sum_{k=0}^\infty a_k$] nazýváme absolutně
+konvergentní, pokud číselná řada latexmath:[$\sum_{k=0}^\infty |a_k|$]
+konverguje.
+
+Pokud řada absolutně konverguje, potom tato řada konverguje.
+
+==== Leibnizovo kritérium
+
+Buď latexmath:[$(a_k)_{k=0}^\infty$] klesající posloupnost s nezápornými
+členy konvergující k nule. Potom je řada
+
+[latexmath]
+++++
+\[\sum_{k=0}^\infty (-1)^k a_k\]
+++++
+
+konvergentní.
+
+==== Srovnávací kritérium
+
+Buďte latexmath:[$\sum_{k=0}^\infty a_k$] a
+latexmath:[$\sum_{k=0}^\infty b_k$] číselné řady. Potom platí
+následující dvě tvrzení.
+
+* Nechť pro každé latexmath:[$k\in\mathbb{N}$] platí nerovnost
+latexmath:[$0\leq|a_k|\leq b_k$] a nechť řada
+latexmath:[$\sum_{k=0}^\infty a_k$] konverguje. Potom řada
+latexmath:[$\sum_{k=0}^\infty b_k$]absolutně konverguje.
+* Nechť pro každé latexmath:[$k\in\mathbb{N}$] platí nerovnosti
+latexmath:[$0\leq a_k\leq b_k$] a latexmath:[$\sum_{k=0}^\infty a_k$]
+diverguje. Potom i řada latexmath:[$\sum_{k=0}^\infty b_k$] diverguje.
+
+==== d’Alembertovo kritérium
+
+Nechť latexmath:[$a_k>0$] pro každé latexmath:[$k\in \mathbb{N}_0$].
+Pokud
+
+[latexmath]
+++++
+\[\lim_{k\to\infty} \frac{a_{k+1}}{a_k} > 1,\]
+++++
+
+potom řada latexmath:[$\sum_{k=0}^\infty a_k$] diverguje. Pokud ovšem
+
+[latexmath]
+++++
+\[\lim_{k\to\infty} \frac{a_{k+1}}{a_k} < 1,\]
+++++
+
+potom řada latexmath:[$\sum_{k=0}^\infty a_k$] konverguje.
+
+=== Odhadování růstu
+
+Nechť latexmath:[$f$] je spojitá funkce na
+latexmath:[$\langle 1,+\infty)$] a latexmath:[$n\in\mathbb{N}$]. Je-li
+latexmath:[$f$] klesající, pak
+
+[latexmath]
+++++
+\[f(n) + \int_1^n f(x) \,\mathrm{d} x \leq \sum_{k=1}^n f(k) \leq f(1) + \int_1^n f(x) \,\mathrm{d}x.\]
+++++
+
+Je-li latexmath:[$f$] rostoucí, pak
+
+[latexmath]
+++++
+\[f(1) + \int_1^n f(x) \,\mathrm{d} x \leq \sum_{k=1}^n f(k) \leq f(n) + \int_1^n f(x) \,\mathrm{d}x.\]
+++++
+
+==== Integráln kritérium
+
+Buď latexmath:[$\displaystyle\sum_{n=1}^\infty a_n$] číselná řada s
+kladnými členy taková, že existuje spojitá a monotónní funkce definovaná
+na latexmath:[$\langle 1,+\infty)$] taková, že latexmath:[$f(n)=a_n$]
+pro každé latexmath:[$n$]. Potom
+
+* Pokud integrál
+latexmath:[$\displaystyle\int_1^\infty f(x)\,\mathrm{d}x$] konverguje,
+pak číselná řada latexmath:[$\displaystyle\sum_{n=1}^\infty a_n$]
+konverguje.
+* Pokud integrál
+latexmath:[$\displaystyle\int_1^\infty f(x)\,\mathrm{d}x$] diverguje,
+pak číselná řada latexmath:[$\displaystyle\sum_{n=1}^\infty a_n$]
+diverguje.

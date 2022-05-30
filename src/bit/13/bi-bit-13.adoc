@@ -1,0 +1,131 @@
+= BI-BIT-13 Základní bezpečnostní principy. Modelování bezpečnostních rizik, metodiky STRIDE a DREAD.
+:toc:
+
+== Důležité bezpečnostní principy
+
+. Myslete jako útočník
+. Učte se z předešlých chyb
+. Minimalizujte plochy pro útok
+. Používejte vrstvenou bezpečnost
+. Vyžadujte nejmenší oprávnění
+. Zpětná kompatibilita je bezpečnostní problém
+. Externí systémy jsou vždy nebezpečné
+. Plánujte selhání – defenzivní programování
+. Selhávejte do bezpečného módu
+. Bezpečnostní vlastnosti != bezpečné vlastnosti
+. Rozumějte security through obscurity
+. Nemíchejte kód a data
+. Opravujte správně bezpečnostní záležitosti
+
+== Modelování bezpečnostních rizik
+
+=== Hrozba (Threat)
+
+____
+Je potenciální příčina nežádoucího incidentu, který může mít za následek
+poškození systému nebo organizace.
+____
+
+Příklad hrozby: Napadení autentizačního mechanismu nějaké služby
+prostřednictvím použití hrubé síly (zkoušení hesel).
+
+=== Zranitelnost (Vulnerability)
+
+____
+Je slabé místo aktiva nebo skupiny aktiv, které může být využito jednou
+nebo více hrozbami.
+____
+
+Příklad zranitelnosti: Chyba v konkrétní verzi knihovny OpenSSL, z níž
+lze útokem Heartbleed (CVE-2014-0160) získat citlivá data.
+
+=== Modelování hrozeb
+
+. Dekompozice (rozložení na komponenty)
+. Identifikace hrozeb (komponenty považujeme za cíle útoku, hrozby
+identifikujeme ptaním se na otázky např. dle STRIDE)
+. Hodnocení závažnosti hrozeb (identifikované hrozby hodnotíme dle
+závažnosti např. metodikou DREAD nebo CVSS)
+. Zmenšování/odstraňování hrozeb
+. Opakujeme opět od bodu 1
+
+==== STRIDE
+
+Klasifikační schéma STRIDE:
+
+* **S**poofing of Identity — podvržení
+identity uživatele. Je zásadní pro víceuživatelské aplikace a databázové
+systémy.
+* **T**ampering with Data — neautorizované pozměnění dat.
+Zejména u webových aplikaci hrozí, že uživatelé pozmění data v GET a
+POST požadavcích, uložené cookies, HTTP hlavičky, atd.
+* **R**epudiation — popření transakce uživatelem. U systémů s nedostatečným logováním hrozí popření transakce uživatelem.
+* **I**nformation Disclosure — únik
+informací.
+* **D**enial of Service — odepření služby. K odepření často
+dochází zahlcením dané služby požadavky.
+* **E**levation of Privilege — neautorizované zvýšení oprávnění.
+
+==== DREAD
+
+Metodika hodnocení hrozeb DREAD, uvažuje Riziko ∈ [0, 10], přičemž 10
+značí nejvyšší riziko.
+
+Riziko se počítá jako průměr z následujících vlastností (každou
+ohodnotíme rozsahem [0, 10]):
+
+- **D**amage potential — potenciál škody.
+- **R**eproducibility — jak snadné je hrozbu zopakovat.
+- **E**xploitability — jak moc úsilí je nutné pro provedení útoku.
+- **A**ffected Users — množství postižených uživatelů.
+- **D**iscoverability — odhad toho, jak snadné je tuto zranitelnost najít.
+
+==== CVSS (Common Vulnerability Scoring System)
+
+Novější metodika, která reaguje na nedostatky DREAD. V současnosti velmi
+rozšířená.
+
+Základní metriky mají jen několikaúrovňovou škálu:
+
+* Attack Vector: síť, blízká síť, lokální přístup, fyzický přístup
+* Attack Complexity: nízká, vysoká
+* Privileges Required: žádná, nízká, vysoká
+* User Interaction:
+není potřeba, nezbytná
+* Scope: únik ze sandboxu, není úniku
+* Confidentiality Impact: vysoký, nízký, žádný - Integrity Impact: vysoký,
+nízký, žádný
+* Availability Impact: vysoký, nízký, žádný
+
+Další zpřesnění je možné dosáhnout pomocí časových metrik a metrik
+prostředí.
+
+Výsledné skóre RiskCVSS ∈ [0, 10] je vypočítáno na základě složitějšího
+vzorce.
+
+==== CWSS (Common Weakness Scoring System)
+
+Ještě novější, ještě komplikovanější.
+
+Tři základní skupiny charakteristik:
+
+* Base finding
+* Attack surface
+* Environmental
+
+5-6 metrik v každé skupině.
+
+Detailní rozdělení bodů u každé metriky.
+
+=== Zmenšování/odstraňování hrozeb
+
+* Identifikované a Nalezené hrozby seřadíme podle jejich skóre.
+* Určíme ty nejvíce nebezpečné.
+* Vybereme ty hrozby, u nichž je pravděpodobné, že se stanou
+zranitelnostmi.
+* Příklad: Při nešifrovaném přenosu citlivých dat mezi klientským
+počítačem a serverem, bude hrozba úniku citlivých dat reálná a díky
+snadnému provedení útoku se změní ve zranitelnost. Zvolíme a
+implementujeme jednu ze 4 strategií řešení hrozby: 1 ponechat hrozbu v
+programu 2 informovat uživatele o hrozbě 3 odstranit problém 4 zmenšit
+hrozbu Pokračujeme studiem aplikace od začátku.

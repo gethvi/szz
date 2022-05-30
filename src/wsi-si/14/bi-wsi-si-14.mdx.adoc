@@ -1,0 +1,134 @@
+= BI-WSI-SI-14
+:stem:
+:imagesdir: images
+
+== Definice
+
+Lambda (latexmath:[$\lambda$]) kalkul je formální systém používaný v
+teoretické informatice a matematice pro studium funkcí a rekurze, lambda
+kalkul je Turing-complete. Funkce zapsané v lambda kalkulu lze poté
+vyhodnotit pomocí substituce.
+
+=== Syntaxe lambda kalkulu
+
+U lambda kalkulu se používá prefixový zápis, tedy operátory se píší před
+operandy, například `(+ (* 5 3)(* 5 3))`. Vyhodnocení poté probíhá zleva
+doprava a to následovně:
+
+[arabic]
+. `(+ (* 5 3) (* 5 3))`
+. `(+ 15 (* 5 3))`
+. `(+ 15 15)`
+. `30`
+
+Zápis funkce s proměnnou se poté zapisuje takto:
+latexmath:[$(\lambda x. + x\ 1)$].
+
+=== Beta redukce
+
+Vyhodnocování funkcí v lambda kalkulu se dělá pomocí beta
+(latexmath:[$\beta$]) redukce. Beta redukce provedená na příkladu zápisu
+funkce:
+
+[arabic]
+. latexmath:[$(\lambda x. + x\ 1)$]
+. latexmath:[$(\lambda x. + x\ 1)2$] 2 za závorkou je argumentem funkce.
+. latexmath:[$(+\ 2\ 1)$]
+. 3
+
+Další platné zápisy:
+latexmath:[$(\lambda x. + x\ x)\ 2 \Rightarrow (+\ 2\ 2)$].
+
+=== Volné a vázáné proměnné
+
+V lambda kalkulu rozlišuje dva typy proměnných a to vázané a volné.
+Vázané proměnné jsou takové proměnné, které jsou zároveň argumentem dané
+funkce. Lambda kalkul má lokální rozsah platnosti (scope). Například pro
+funkci latexmath:[$(\lambda x . + x\ y)$] je vázanou proměnnou
+latexmath:[$x$] a latexmath:[$y$] je v tomto případě volná proměnná.
+
+=== Alfa redukce
+
+Alfa latexmath:[$(\alpha)$] redukce odstraňuje přetížení identifikátorů
+pomocí přejmenování argumentu a jeho vázaných proměnných. Ukázka na
+latexmath:[$(\lambda x . (\lambda x . +\ (-\ x\ 1))\ x\ 3)\ 9$].
+
+[arabic]
+. latexmath:[$(\lambda y . +\ (-\ y\ 1)\ 9\ 3)$]
+. latexmath:[$(+\ (-\ 9\ 1)\ 3)$]
+. latexmath:[$(+\ 8\ 3)$]
+
+=== Eta redukce
+
+Eta latexmath:[$(\eta)$] redukce (optimalizace):
+latexmath:[$(\lambda x. fx) = f$] pokud se x nevyskytuje nikde volně v
+latexmath:[$f$].
+
+[arabic]
+. latexmath:[$(\lambda x.(\lambda y.yy)x)$]
+. latexmath:[$(\lambda y. yy)$] (po latexmath:[$\eta$] redukci)
+
+=== Pořadí vyhodnocování
+
+Rozlišujeme 2 možná pořadí vyhodnocování, normální (lazy) a aplikativní
+(strict), přičemž platí, že pokud lze výraz vyhodnotit více způsoby a
+výsledný výraz je v normálním tvaru, pak všechny způsoby produkují
+stejný výsledek.
+
+Normální vyhodnocování probíhá tak, že nejdříve nalezneme nejlevější
+latexmath:[$\lambda$] a její argumenty a proveď na nich substituci. Pro
+aplikativní vyhodnocování se postupuje tak, že opět nalezneme nejlevější
+latexmath:[$\lambda$] a její aplikuj její argumenty, pak proveď
+substituci. U aplikativního vyhodnocování může dojít k zacyklení.
+
+Normálním tvarem poté pokládáme takový tvar lambda výrazu, na kterém již
+nelze provádět beta redukci.
+
+=== Zápis čísel v lambda kalkulu
+
+Churchova čísla je způsob jak reprezentovat přirozená čísla v
+latexmath:[$\lambda$]-kalkulu. Každé číslo je reprezentováno jako funkce
+s dvěma parametry, první parametr se latexmath:[$n$]-krát opakuje, druhý
+je jakousi "zarážkou".
+
+* latexmath:[$0 = (\lambda s.(\lambda z.z))$]
+* latexmath:[$1 = (\lambda s.(\lambda z. (s z)))$]
+* latexmath:[$2 = (\lambda s.(\lambda z. (s (s z))))$]
+* latexmath:[$3 = (\lambda s.(\lambda z. (s (s (s z)))))$]
+
+Případně ve zkráceném zápisu:
+latexmath:[$\lambda sz.z = 0 | \lambda sz. s(z) = 1$]
+
+Vybrané operace s čísly pak zavádíme následovně:
+
+* latexmath:[$+~x~1 =~$]succlatexmath:[$~= (\lambda x. \lambda s. \lambda z. s (x s z))$]
+* latexmath:[$-~x~1 =~$]predlatexmath:[$~= (\lambda x. \lambda s. \lambda z. x (\lambda f. \lambda g.g (f s)) (\lambda g.z) (\lambda m.m))$]
+* latexmath:[$+~x~y =~$]addlatexmath:[$~= (\lambda x. \lambda y. \lambda s. \lambda z. x s (y s z))$]
+* latexmath:[$*~x~y =~$]multlatexmath:[$~= (\lambda x. \lambda y. \lambda z. x (y z)) nebo * x y = (\lambda x. \lambda y. \lambda s. \lambda z. x (y s) z)$]
+
+=== Kombinátor
+
+Výraz bez volných proměnných se nazývá kombinátor.
+
+Příklady:
+
+Rekurze::
+  - latexmath:[$Y:~\lambda f.(\lambda x.~f~(x~x))~(\lambda x.~f~(x~x))$]
+Indentita::
+  - latexmath:[$I:~\lambda x.x$]
+Aplikace::
+  - latexmath:[$APP:~\lambda f.\lambda x.(f~x)$]
+Cyklus::
+  - latexmath:[$L:~(\lambda x.(x~x)~\lambda x.(x~x))$]
+
+=== Rekurze
+
+Rekurze se dá vytvořit pomocí Y-kombinátoru. Ukázka použití na
+faktoriálu:
+
+* Y-kombinátor -
+latexmath:[$Y=\lambda f.(\lambda x.~f~(x~x))~(\lambda x.~f~(x~x))$]
+* Fibonacciho posloupnost
+latexmath:[$F_0=(\lambda f.\lambda x.(=~n~0)~1~(f~(-~n~1)))$]
+* latexmath:[$F = Y F_0 = (\lambda f.(\lambda x.~f~(x~x))~(\lambda x.~f~(x~x))) (\lambda f.\lambda x.(=~n~0)~1~(f~(-~n~1)))$]
+* latexmath:[$F~5 = 120$]

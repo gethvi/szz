@@ -1,0 +1,211 @@
+= BI-SPOL-13
+:stem:
+:imagesdir: images
+
+== Součin matic
+
+Nechť latexmath:[$m,n,p\in \mathbb{N}$],
+latexmath:[$\mathbb{A}\in T^{m,n}$] a
+latexmath:[$\mathbb{B}\in T^{n,p}$]. Součinem těchto matic je matice
+latexmath:[$\mathbb{D}=\mathbb{A}\mathbb{B}$], pro jejíž prvky platí:
+
+[latexmath]
+++++
+\[d_{ij}=\sum_{k=1}^{n}{a_{ik} b_{kj}}\]
+++++
+
+== Regulární a inverzní matice
+
+Nechť latexmath:[$\mathbb{A}\in T^{n,n}$]. Pokud existuje
+latexmath:[$\mathbb{A}\in T^{n,n}$] tak, že
+
+[latexmath]
+++++
+\[\mathbb{A}\mathbb{B}=\mathbb{B}\mathbb{A}=\mathbb{E}\]
+++++
+Potom nazveme matici latexmath:[$\mathbb{A}$] *regulární* a matici
+latexmath:[$\mathbb{B}$] *inverzní*. Inverzní matici značíme
+latexmath:[$\mathbb{B}=\mathbb{A}^{-1}$].
+
+Buď latexmath:[$\mathbb{A}\in T^{n,n}$]. Následující tvrzení jsou
+ekvivalentní:
+
+* latexmath:[$\mathbb{A}$] je regulární.
+* Soubor řádků matice latexmath:[$\mathbb{A}$] je LN.
+* latexmath:[$h(\mathbb{A}) = n$].
+* latexmath:[$\mathbb{A} \sim \mathbb{E}$].
+
+=== Výpočet inverzní matice
+
+Nechť latexmath:[$\mathbb{A} \in T^{n,n}$]. Ověřte, zda je matice
+regulární a pokud je, nalezněte k ní matici inverzní
+latexmath:[$\mathbb{A}^{-1}$].
+
+[arabic]
+. Hledáme matici latexmath:[$\mathbb{A}^{-1}$] s vlastností
+latexmath:[$\mathbb{A}^{-1}\mathbb{A} = \mathbb{A}\mathbb{A}^{-1} = \mathbb{E}$].
+. Doplněním zadané matice o jednotkovou matici stejného rozměru sestavme
+dvoublokovou rozšířenou matici
+latexmath:[$(\mathbb{A} | \mathbb{E}) \in T^{n,2n}$].
+. Na celou latexmath:[$(\mathbb{A} | \mathbb{E})$] používáme řádkové
+úpravy GEM, pro libovolnou posloupnost řádkových úprav realizovaných
+regulární maticí latexmath:[$\mathbb{P}$] pak platí
++
+[latexmath]
+++++
+\[(\mathbb{A} | \mathbb{E}) \sim (\mathbb{P}\mathbb{A} | \mathbb{P}\mathbb{E}) = (\mathbb{P}\mathbb{A} | \mathbb{P}).\]
+++++
+Víme, že levou část je možné převést na jednotkovou matici právě tehdy,
+když je latexmath:[$\mathbb{A}$] regulární. Vznikne-li při úpravách
+latexmath:[$\mathbb{A}$] na horní stupňovitý tvar *nulový řádek*, pak
+latexmath:[$\mathbb{A}$] je singulární a *inverze neexistuje*.
+. Je-li latexmath:[$\mathbb{A}$] regulární, pak pro úpravy
+latexmath:[$\mathbb{P}$] vedoucí k převedení levého bloku matice
+latexmath:[$(\mathbb{A} | \mathbb{E})$] na jednotkovou matici platí
+latexmath:[$\mathbb{P} = \mathbb{A}^{-1}$], tedy
+latexmath:[$(\mathbb{A} | \mathbb{E}) \sim (\mathbb{E} | \mathbb{A}^{-1})$]
+a pravý blok výsledné matice obsahuje hledanou
+latexmath:[$\mathbb{A}^{-1}$].
+
+== Vlastní čísla
+
+Řekneme, že latexmath:[$\lambda \in \mathbb{C}$] je *vlastní číslo
+operátoru* latexmath:[$A \in \mathcal{L}(V)$], právě když existuje
+latexmath:[$x \in V$] , latexmath:[$x \neq \theta$], takový, že
+latexmath:[$Ax = \lambda x$]. Vektor latexmath:[$x$] pak nazýváme
+*vlastním vektorem operátoru* latexmath:[$A$] *příslušejícím vlastnímu
+číslu* latexmath:[$\lambda$]. Množinu všech vlastních čísel
+latexmath:[$A$] nazýváme *spektrem* operátoru A a značíme symbolem
+latexmath:[$\sigma(A)$].
+
+Analogicky pro matice latexmath:[$\mathbb{A}\in \mathbb{C}^{n,n}$], kde
+latexmath:[$\mathbb{A}={}^{\varepsilon}A^{}$].
+
+Charakteristický polynom matice latexmath:[$\mathbb{A}$] (ozn.
+latexmath:[$p_\mathbb{A}$]) definujeme předpisem
+latexmath:[$p_\mathbb{A}(\lambda) := \det(\mathbb{A} - \lambda \mathbb{E})$].
+
+Je-li latexmath:[$\lambda \in C$] vlastní číslo operátoru
+latexmath:[$A \in \mathcal{L}(V_n)$], pak podprostor
+latexmath:[$\ker{(A- \lambda E)}$] nazýváme *vlastním podprostorem
+operátoru* latexmath:[$A$] příslušejícím vlastnímu číslu
+latexmath:[$\lambda$].
+
+Nechť latexmath:[$\lambda \in C$] je vlastní číslo operátoru
+latexmath:[$A \in \mathcal{L}(V_n)$]. Číslo
+latexmath:[$\text{d} (A - \lambda E) = \dim{\ker{(A-\lambda E)}}$]
+nazýváme *geometrickou násobností* vlastního čísla latexmath:[$\lambda$]
+a značíme ji latexmath:[$\nu_g(\lambda)$].
+
+Nechť latexmath:[$A \in \mathcal{L}(V_n)$] a
+latexmath:[$\lambda \in \sigma(A)$]. Násobnost čísla
+latexmath:[$\lambda$] jako kořene charakteristického polynomu
+latexmath:[$p_A$] operátoru latexmath:[$A$] nazýváme *algebraickou
+násobností* vlastního čísla latexmath:[$\lambda$] a značíme ji
+latexmath:[$\nu_a(\lambda )$].
+
+*Determinant* matice latexmath:[$\mathbb{A}\in \mathbb{C}^{n,n}$] je
+číslo:
+
+[latexmath]
+++++
+\[\det{\mathbb{A}} = \sum_{\pi\in S_n} \mathop{\mathrm{sgn}}\pi \cdot a_{1\pi(1)} a_{2\pi(2)} \cdots a_{n\pi(n)}.\]
+++++
+
+=== Výpočet determinantu
+
+Determinant se dá vypočítat kombinací následujících postupů:
+
+* Přes definici.
+* Sarrusovo nebo křížové pravidlo. (Soros zde asi nepomůže)
+* Je-li matice latexmath:[$\mathbb{A}$] trojúhelníková (tj.
+latexmath:[$\mathbb{A}_{ij} = 0$] pro latexmath:[$i > j$]), lze
+determinant spočítat vynásobením čísel na diagonále.
+* latexmath:[$\det{\mathbb{A}}=\det{\mathbb{A}^T}$]
+* Úprava GEM
+** Prohození dvou řádků - mění znaménko determinantu.
+** Vynásobení jednoho řádku nenulovým číslem - determinant se tím číslem
+musí vydělit.
+** Přičtení k jednomu řádku latexmath:[$\alpha$]násobek jiného řádku -
+determinant se nemění.
+
+=== Výpočet vlastních čísel
+
+* Pro danou matici latexmath:[$\mathbb{A} \in \mathbb{C}^{n,n}$] hledáme
+nenulové vektory latexmath:[$\mathbbm{x}$] a čísla
+latexmath:[$\lambda\in\mathbb{C}$] splňující rovnici
++
+[latexmath]
+++++
+\[\mathbb{A}\mathbbm{x} = \lambda \mathbbm{x}.\]
+++++
+* To je ekvivalentní hledání latexmath:[$\lambda$] takové, že homogenní
+soustava rovnic
++
+[latexmath]
+++++
+\[(\mathbb{A} - \lambda \mathbb{E})\mathbbm{x} = \theta\]
+++++
+má nenulové řešení.
+* To nastává ale tehdy a jen tehdy (vzpomeňme Frobeniovu větu), když je
+matice latexmath:[$\mathbb{A} - \lambda \mathbb{E}$] singulární
+(neregulární).
+* A to je zase ekvivalentní tomu, že determinant matice
+latexmath:[$\mathbb{A} - \lambda \mathbb{E}$] je roven nule: abychom
+tedy našli vlastní číslo, řešíme rovnici
++
+[latexmath]
+++++
+\[\det(\mathbb{A} - \lambda \mathbb{E}) = 0.\]
+++++
+* Pro zadané vlastní číslo latexmath:[$\lambda$] už najdeme vlastní
+vektory snadno jako řešení homogenní soustavy uvedené výše.
+
+== Diagonalizace matice
+
+Matice latexmath:[$\mathbb{A},\mathbb{B}\in \mathbb{C}^{n,n}$] nazveme
+*podobné*, právě když existuje regulární
+latexmath:[$\mathbb{P}\in \mathbb{C}^{n,n}$] tak, že:
+
+[latexmath]
+++++
+\[\mathbb{A} = \mathbb{P}^{-1}\mathbb{B}\mathbb{P}\]
+++++
+
+Ekvivalentně platí, že matice
+latexmath:[$\mathbb{A}, \mathbb{B} \in C^{n,n}$] jsou podobné právě
+tehdy, když jsou obě maticemi stejného lineárního operátoru (v nějakých
+bázích), tedy když existuje latexmath:[$\mathbb{A} \in \mathcal{L}(V)$]
+a báze latexmath:[$\mathcal{X}, \mathcal{Y}$] takové, že
+
+[latexmath]
+++++
+\[{}^{\mathcal{X}}\mathbb{A}^{} = \mathbb{A}
+  \text{ a současně }
+  {}^{\mathcal{Y}}\mathbb{A}^{} = \mathbb{B}.\]
+++++
+
+Operátor latexmath:[$\mathbb{A} \in \mathcal{L}(V)$] nazveme
+*diagonalizovatelný*, jestliže existuje báze latexmath:[$\mathcal{X}$]
+prostoru latexmath:[$V_n$] taková, že matice
+latexmath:[${}^{\mathcal{X}}\mathbb{A}^{}$] je diagonální (matice je
+*diagonalizovatelná*, je-li podobná diagonální matici).
+
+* Operátor latexmath:[$A \in \mathcal{L}(V)$] je diagonalizovatelný
+právě když
+latexmath:[$\forall\lambda_0 \in \sigma (A) : \nu_a(\lambda_0) = \nu_g(\lambda_0)$].
+* Libovolný soubor vlastních vektorů, ve kterém každý přísluší jinému
+vlastnímu číslu, je vždy LN.
+* Zadání tedy znamená:
+** nalézt spektrum latexmath:[$\sigma (A)$],
+** ke každému vlastnímu číslu nalézt bázi vlastního podprostoru,
+** porovnat algebraické a geometrické násobnosti u každého
+latexmath:[$\lambda \in \sigma (A)$],
+** rovnají-li se pro každé latexmath:[$\lambda \in \sigma (A)$], bázi
+latexmath:[$\mathcal{X}$] sestavíme popořadě z bazických vektorů všech
+vlastních podprostorů. Matice přechodu
+latexmath:[${}^{\mathcal{X}}E^{\varepsilon}$] je bude obsahovat ve
+sloupcích, diagonální matice operátoru
+latexmath:[${}^{\mathcal{X}}A^{}$] bude na diagonále obsahovat v
+odpovídajícím pořadí všechna vlastní čísla (každé zopakované tolikrát,
+kolik je jeho násobnost).

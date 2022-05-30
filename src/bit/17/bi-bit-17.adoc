@@ -1,0 +1,84 @@
+= BI-BIT-17 - Bezpečnost webových aplikací. Útoky typu Denial of Service a obrana proti nim.
+
+== Útok typu Denial of Service
+
+____
+Za DoS útok považujeme takový útok z jednoho zdroje na počítač,
+aplikaci, sdílený prostředek, službu, atd., který má za účel učinit cíl
+útoku částečně nebo zcela nedostupným pro legitimní uživatele.
+____
+
+Typicky jde o:
+
+* útoky na stabilitu aplikace anebo i operačního systému
+* zahlcení CPU
+* zaplnění paměti
+* vyhladovění nejrůznějších
+prostředků
+* zahlcení celé šíře pásma síťové infrastruktury provozem
+
+=== Druhy a příklady DoS útoků:
+
+* Ping of Death
+* NetBios OOB Data
+* SlowLoris
+
+== Distribuovaný Denial-of-Service (DDoS)
+
+____
+DDoS útok je útok typu DoS, při kterém mnoho útočníků útočí současně na
+jednu oběť.
+____
+
+=== Druhy a příklady DDoS útoků:
+
+* SYN Flood
+* Teardrop Attack
+* ICMP Flood
+* NTP Reflection
+* DNS Amplification
+* SSDP Reflection
+* Memcached Amplification
+* P2P útoky
+
+== Permanentní útoky typu DoS (PDoS)
+
+____
+Jde o útok na nedostatečně zabezpečenou správu zařízení. Účelem je
+destrukce cílového zařízení např. přeflashovaním firmwaru na nekonečnou
+smyčku nebo náhodná data. Alternativně může dojít k zavedení trojského
+koně přímo do hardwaru. Někdy se také označuje jako ``phlashing''.
+____
+
+Typicky se týká počítačů, routerů, tiskáren, mobilních telefonů či
+tabletů.
+
+Existují i útoky na mechanické vlastnosti zařízení (např. hlavičky
+disků).
+
+== Obrana
+
+=== Obrana na síťové úrovní
+
+* filtrováním síťového provozu na firewallu (např. blokování IP)
+* použitím IDS (intrusion detection system) na detekování
+** pokud se systém aktivně snaží útoky zastavit, nazývá se IPS
+(intrusion prevention system)
+** obvykle funguje buď podle signatur nebo statisticky
+
+=== Obrana na aplikační úrovni
+
+Používá-li náš software nějaké sdílené prostředky, které mohou být cílem
+DoS útoku, je vhodné zamyslet se nad použitím: - Kvót — uživatelé našeho
+programu mohou použít dohromady maximálně N prostředků daného druhu.
+Zavedení kvót je poměrně jednoduché, ale je třeba mít na paměti, že je
+nutné dát správci aplikace možnosti nastavení kvót: kvóty nastavené
+přímo ve zdrojovém kódu jsou problematické, protože nemohou reagovat na
+změny v rozsahu použití. Kvóty lze zavést jak na úrovni aplikaci, tak na
+úrovni jednotlivých uživatelů. - Historie — uživatele a jejich spojení
+můžeme nepřijmout pro vyčerpání kvóty, anebo můžeme i danou
+session/uživatele odpojit. Pro odpojovací účely je vhodné si zřídit
+tabulku obsahující historii činnosti uživatelů a stavů (byl-li například
+klient již autentizován, z jaké sítě se připojuje, je-li session
+aktivní, atd.). Na základě záznamů v tabulce pak můžeme efektivně vybrat
+kandidáta na odpojení.

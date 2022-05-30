@@ -1,0 +1,263 @@
+= BI-BIT-18 Generátory náhodných čísel (PRNG, TRNG). Testy prvočíselnosti (Fermatův test, Rabinův-Millerův test).
+:toc:
+:toc-title: Obsah
+:stem: latexmath
+:imagesdir: images
+
+== Generátory náhodných čísel (RNG)
+
+*Náhodné číslo* - čislo vygenerované procesem, který má nepředpovídatelný
+výsledek a jehož průběh nelze přesně reprodukovat. Tomuto procesu říkáme
+*generátor náhodných čísel* (RNG).
+
+Od náhodných posloupností očekáváme dobré statistické vlastnosti:
+
+* *rovnoměrné rozdělení* - všechny hodnoty jsou generovány stejnou
+pravděpodobností
+* *nezávislost* - jednotlivé generované hodnoty jsou nezávislé (není mezi nimi žádná
+korelace)
+
+Veličina *entropie* popisuje míru nahodilosti - jak obtížné je hodnotu (náhodné číslo, náhodnou posloupnout) uhodnout. Entropie generátoru je maximální, pokud generuje všechny možné hodnoty se stejnou pravděpodobností.
+
+=== Pseudonáhodné generátory (PRNG)
+
+Algoritmus, jehož výstupem je posloupnost, která sice ve skutečnosti není náhodná, ale která se zdá být náhodná, pokud útočníkovi nejsou známy některé parametry generátoru.
+
+* + algoritmické ⇒ snadno realizovatelné
+* + obvykle rychlé
+* + zpravidla mají dobré statistické vlastnosti
+* - výstup je předvídatelný
+
+
+==== Lineární kongruenční generátor
+
+Není kryptograficky bezpečný.
+
+latexmath:[X_{n+1} = (aX_n + c) \mod m]
+
+=== Kryptograficky bezpečné pseudonáhodné generátory
+
+Jedná se o algoritmicky generovaná "náhodná" čísla (deterministickým počítačem). G
+
+Kryptograficky bezpečný PRNG musí splňovat:
+
+* *next-bit test*: pokud se zná prvních n bitů náhodné posloupnost, nesmí
+existovat algoritmus, který v polynomiálním čase dokáže předpovědět
+další bit, s pravděpodobnstí větsí jak 1/2.
+* *state compromise*: i když je znám vnitřní stav generátoru, nelze zpětně
+zrekonstruovat dosavadní vygenerovanou posloupnost. Navíc, pokud do
+generátoru za běhu vstupuje entropie, nemělo by být možné ze znalosti
+stavu předpovědět stav v dalších iteracích.
+
+Tyto generátory obvykle vyžadují náhodný a tajný seed. Entropie je získána seedem, samotný generátor žádnou entropii nepřidává. Kvalita generátoru se tak odvíjí od kvality seedu.
+
+==== Blum-Blum-Shub
+
+Jedná se o PRNG, který by měl být kryptograficky bezpečný.
+
+latexmath:[$x_{n+1} = x^2_{n-1} mod m$]
+
+* latexmath:[$x_0$] je definováno seedem a musí být větší 1 (jinak by
+nefungovalo to umocňování)
+* modul latexmath:[m = q*r], kde _q_ i _r_ jsou prvočísla
+* pro q i r musí platit, že latexmath:[q/r = 3 (mod 4)]
+* při znalosti latexmath:[$x_0$] lze dopočítat pomocí rovnice jakýkoliv člen, proto
+musí zůstat utajen
+* pokud latexmath:[$x_{n+1}$] vyjde sudé, jde na výstup 0, jinak 1
+
+=== Skutečně náhodné generátory (TRNG)
+Využívají zdroj entropie, kterým je zpravidla nějaký fyzikální jev.
+
+* radioaktivní rozpad
+* teplotní šum (např. na analogových součástkách)
+* chování uživatele (pohyb myší, prodlevy při psaní na klávesnici)
+
+Není předvídatelný i když známe všechny parametry.
+
+Má horší statistické vlastnosti, je nutné následné zpracování (post-processing).
+
+=== Post-processing
+
+Účelem je vylepšit statistické vlastnosti TRNG, zejména:
+
+* Odstranění nevyváženosti jedniček a nul (bias) a zajištění rovnoměrného rozdělení.
+* Extrakce entropie – zvýšení entropie výstupních bit̊u za cenu snížení rychlosti jejich generování (bitrate).
+
+==== Metody post-processingu
+
+* *John von Neumannův dekorelátor* je schopen eliminovat nevyváženost a snížit korelovanost výstupu. Bity se odebírají po dvou.
+
+[cols="1,1"]
+|===
+|Vstup|Výstup
+
+|00, 11
+|(vstup se zahodí)
+
+|01
+|0
+
+|10
+|1
+|===
+
+* XOR s výstupem kryptograficky silného PRNG
+* XOR výstupů různých TRNG
+* Hashování výstupu kryptograficky kvalitní hashovací funkcí
+
+=== Testování náhodných generátorů
+
+K ověření vlastností náhodných generátorů se používají *statistické testy*. Testy ověřují, zda generovaná posloupnost splňuje některé vlastnosti náhodné posloupnosti.
+
+Statistické testy mohou ukázat, že generátor NENÍ kvalitní. Nelze však prokázat, že JE kvalitní. Generátor může obsahovat slabinu, kterou testy neodhalily.
+
+==== Příklady testů náhodnosti
+* frekvenční test
+* "runs" test
+* test hodnosti matic
+* spektrální test
+* Maurerův univezální statistický test
+
+==== Známé testovací sady
+* Diehard - 12 testů
+* Dieharder - reimplementace a rozšíření Diehard testů
+* NIST - 16 testů
+
+Tyto sady byly nicméně vyvinuty převážně pro testování PRNG. Při testování TRNG je třeba důkladně analyzovat zdroj entropie a navrhnout a provést cílené testy, které by odhalily případné slabiny specifické pro tento zdroj entropie.
+
+== Testy prvočíselnosti
+
+Hledání prvočísel: náhodné vygenerování čísla, které následně testujeme, zda-li je prvočíslem.
+
+Testy prvočíslenosti můžeme dělit na:
+
+* testy, které nám s jistotou řeknou, zda-li je číslo prvočíslem nebo ne (jsou pomalé)
+* testy, které nám s jistotou řeknou, že číslo není prvočíslem a nebo že číslo je prvočíslem s určitou pravděpodobností  (jsou rychlé)
+
+=== Test hrubou silou
+
+Dělíme všemy prvočísly, která jsou menší nebo rovné latexmath:[\sqrt{N}]
+
+=== Fermatův test (z courses)
+
+Vycházíme ze znalosti Malé Fermatovy věty: Nechť stem:[p] je prvočíslo, stem:[a \in \mathbb{Z}], stem:[p \nmid a]. Potom stem:[a^{p-1} \equiv 1 \;\pmod{p}].
+Pokud stem:[{\left|a^{p-1}\right|}_{p} \not= 1], tak stem:[p] je určitě složené. Číslo stem:[a] je *svědkem* složenosti čísla stem:[p].
+Pokud stem:[{\left|a^{p-1}\right|}_{p} = 1], tak stem:[p] je pravděpodobně prvočíslo.
+
+[options="autowidth"]
+[%header,cols="3*^"]
+|====
+^h|   a     ^h|   stem:[{\left\|a^{p-1}\right\|}_{p}]    ^|
+^|    1     ^|             1                           ^|         Fermatův lhář
+^|    2     ^|             4                           ^|
+^|    3     ^|             9                           ^|         stem:[a \mid p]
+^|    4     ^|             1                           ^|         Fermatův lhář
+^|    5     ^|             10                          ^|         stem:[a \mid p]
+^|    6     ^|             6                           ^|
+^|    7     ^|             4                           ^|
+^|    8     ^|             4                           ^|
+^|    9     ^|             6                           ^|
+^|    10    ^|             10                          ^|
+^|    11    ^|             1                           ^|         Fermatův lhář
+^|    12    ^|             9                           ^|
+^|    13    ^|             4                           ^|
+^|    14    ^|             1                           ^|         Fermatův lhář
+|====
+
+* *Složené* číslo stem:[p], které pro některou bázi stem:[a] projde Fermatovým testem jako prvočíslo, se nazývá *pseudoprvočíslo* vzhledem k bázi stem:[a].
+  Číslo stem:[a] je *Fermatův lhář* pro číslo stem:[p].
+* Existují čísla, která jsou pseudoprvočísly pro všechny nesoudělné báze: *Carmichaelova čísla*. Na ně tedy Fermatův test „nefunguje“.
+* Čísla stem:[1] a stem:[p - 1] jsou vždy lháři, nemá tedy cenu je volit jako báze pro Fermatův test.
+
+=== Fermatův test
+
+Používá Malou Fermatovu větu.
+
+stem:[a^{p-1} \equiv 1 \mod p]
+
+Testujeme, zda-li _n_ je prvočíslo (např. latexmath:[n = 100]):
+
+. náhodně zvolíme celé číslo _a_ (tzv. svědek)
+** např. latexmath:[a_1 = 3]
+. dosadíme do MFV
+** stem:[3^{100-1} \equiv ? \mod 100]
+*** pokud vyjde 1 -> může být prvočíslem
+*** pokud nevyjde 1 -> není prvočíslem
+
+Existují bohužel tzv. _Carmichaelova čísla_, která jsou složená, ale vždy vyjde výsledek 1.
+
+=== Lehmanův test
+
+Používá Malou Fermatovu větu.
+
+Testujeme, zda-li _n_ je prvočíslo (např. latexmath:[n = 101]):
+
+* pokud _n_ je sudé -> není prvočíslo (pouze 2)
+* pokud _n_ je liché -> tak latexmath:[(n - 1)] je sudé (lze zapsat jako latexmath:[2k])
+
+Obecné úpravy (předpokládáme _n_ liché):
+
+latexmath:[a^{n-1} \equiv 1 \mod n] (Malá Fermatova věta)
+
+latexmath:[a^{n-1} - 1 \equiv 0 \mod n]
+
+latexmath:[a^{2k} - 1 \equiv 0 \mod n] (sudé číslo zapíšeme jako latexmath:[2k])
+
+latexmath:[(a^k + 1)(a^k - 1) \equiv 0 \mod n] (středoškolský vzorec pro latexmath:[a^2 - b^2])
+
+. případ: latexmath:[(a^k + 1) = 0] nebo latexmath:[(a^k - 1) = 0] -> *_n_* může být prvočíslo
+. případ: obě závorky jsou nenulové -> *_n_* není prvočíslo
+
+Může se stát, že nám test s náhodně vybraným svědkem nepravdivě řekne "*_n_* může být prvočíslo". Existuje však důkaz, že tato chyba může nastat maximálně v 50% případů. Pravděpodobnost, že nám tak např. 6 testů dá pokaždé tuto špatnou odpověď je latexmath:[0.5^{6} \approx 0.0016].
+
+Příklad:
+
+. testujeme, zda-li např. latexmath:[n = 101] je prvočíslo
+. náhodně zvolíme _svědka_ např. latexmath:[a_1 = 3]
+. dosadíme do latexmath:[(a^k + 1)(a^k - 1) \equiv 0 \mod n]
+** latexmath:[n - 1 = 2k = 100] -> latexmath:[\boldsymbol{k = 50}]
+** latexmath:[(3^{50} + 1)(3^{50} - 1) \equiv 0 \mod 101]
+*** počítáme první závorku:
+**** latexmath:[(3^{50} + 1) \mod 101 = (100 + 1) \mod 101 = \boldsymbol{0}]
+**** vyšla 0 -> číslo latexmath:[\boldsymbol{n}] může být prvočíslo, dále nepokračujeme
+
+=== Rabinův-Millerův test
+
+Používá Malou Fermatovu větu.
+
+Testujeme, zda-li _n_ je prvočíslo (např. latexmath:[n = 101]):
+
+* pokud _n_ je sudé -> není prvočíslo (pouze 2)
+* pokud _n_ je liché -> tak latexmath:[(n - 1)] je sudé (lze zapsat jako latexmath:[2k])
+
+Obecné úpravy (předpokládáme _n_ liché):
+
+latexmath:[a^{n-1} \equiv 1 \mod n] (Malá Fermatova věta)
+
+latexmath:[a^{n-1} - 1 \equiv 0 \mod n]
+
+latexmath:[a^{2k} - 1 \equiv 0 \mod n] (sudé číslo zapíšeme jako latexmath:[2k])
+
+latexmath:[(a^k + 1)(a^k - 1) \equiv 0 \mod n] (středoškolský vzorec pro latexmath:[a^2 - b^2])
+
+latexmath:[(a^{2l} + 1)(a^l + 1)(a^l - 1) \equiv 0 \mod n] (pokud latexmath:[k] je sudé, zapíšeme jako latexmath:[2l] a opakujeme předchozí krok)
+
+latexmath:[(a^{4m} + 1)(a^{2m} + 1)(a^m + 1)(a^m - 1) \equiv 0 \mod n] (pokud latexmath:[l] je sudé, zapíšeme jako latexmath:[2m] a opakujeme předchozí krok)
+
+. případ: pokud alespoň jedna závorka je nulová -> *_n_* může být prvočíslo
+. případ: žádná závorka není nulová -> *_n_* není prvočíslo
+
+Může se stát, že nám test s náhodně vybraným svědkem nepravdivě řekne "*_n_* může být prvočíslo". Existuje však důkaz, že tato chyba může nastat maximálně v 25% případů. Pravděpodobnost, že nám tak např. 3 testy dají pokaždé tuto špatnou odpověď je latexmath:[0.25^{3} \approx 0.0156].
+
+Příklad:
+
+. testujeme, zda-li např. latexmath:[n = 101] je prvočíslo
+. náhodně zvolíme _svědka_ např. latexmath:[a_1 = 3]
+. dosadíme do latexmath:[(a^k + 1)(a^k - 1) \equiv 0 \mod n]
+** latexmath:[n - 1 = 2k = 100] -> latexmath:[\boldsymbol{k = 50}]
+** latexmath:[(3^{50} + 1)(3^{50} - 1) \equiv 0 \mod 101]
+*** počítáme první závorku:
+**** latexmath:[(3^{50} + 1) \mod 101 = (100 + 1) \mod 101 = \boldsymbol{0}]
+**** vyšla 0 -> číslo latexmath:[\boldsymbol{n}] může být prvočíslo, dále nepokračujeme
+
+

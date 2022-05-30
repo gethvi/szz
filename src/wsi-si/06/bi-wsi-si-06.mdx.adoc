@@ -1,0 +1,156 @@
+= BI-WSI-SI-6
+:stem:
+:imagesdir: images
+
+== OntoUML
+
+OntoUML je jedním z možných nástrojů konceptuálního modelování pro
+popisování reálného světa. Narozdíl od UML nepopisuje třídy a objekty z
+programátorského hlediska, místo toho definuje objekty podle jejich
+vlastností a stavů.
+
+Součástí OntoUML je Unified Foundational Ontology (UFO), ta se dělá na
+tři části:
+
+[arabic]
+. *UFO-A*: strukturální aspekty reality - objekty, jejich typy, podčásti
+a role (v OntoUML se jedná o sortály)
+. *UFO-B*: dynamické aspekty - události, jejich části a vazby mezi nimi
+(non-sortály)
+. *UFO-C*: sociální aspekty - cíle, vztahy, stavy
+
+Používá modální logiku (rozšíření predikátové logiky):
+
+* existenční kvantifikátor
+* univerzální kvantifikátor
+* nutnost - ve všech světech platí
+* možnost - v některém světě platí
+
+Postup modelování:
+
+[arabic]
+. Vytvoření slovníku pojmů.
+. Vytváření ontologie na základě ontologických vzorů.
+. Validace konceptuálního modelu se zadavatelem.
+
+== Konstrukty
+
+* *Třída* - vychází z koncepce UML, popisuje vlastnosti sdílené mezi
+určitými entitami - *instance třídy*.
+* *Atribut* - reprezentuje vlastnosti sdílené instancemi třídy.
+
+=== Dědění
+
+Dědění - Třídy sdílející společný nadtyp mohou být sdruženy v tzv.
+množině nadtypu (Generalization Set). Lze upřesnit na:
+
+* *Complete* - Podtřídy pokrývají všechny možné instance přímé
+nadtřídy. +
+()
++
+image:complete.png[image,width=283]
+* *Disjoint* - všechny podmnožiny zapojené v generalizaci jsou vzájemně
+disjunktní +
+()
++
+image:disjoint.png[image,width=283]
+* *Complete a Disjoint* (Partition) - každá instance nadtřídy je
+instance právě jedné podtřídy. +
+()
+
+=== Typy objektů
+
+* *Sortal*
+** *Rigid*
+*** *Kind* - poskytuje identitu
+*** *SubKind*
+** *Anti-rigid*
+*** *Phase*
+*** *Role*
+* *Non-sortal*
+** *Rigid*
+*** *Category* - nutné vlastnosti více Kinds.
+** *Non-rigid*
+*** *Mixin* - vlastnosti více Kinds, které jsou nutné pro některé
+instance a možné pro jiné.
+*** *RoleMixin* - možné a relační vlastnosti sdílené entitami vícero
+typů.
+
+image:type-categories.png[image,scaledwidth=80.0%]
+
+=== Sortal
+
+* *Sortal* - poskytuje identitu
+* *Non-sortal* - z hlediska našeho vnímání nemá vlastní identitu
+
+=== Rigidity
+
+* *Rigid* - Typ je rigidní pro každou instanci latexmath:[$x$] právě
+tehdy, když latexmath:[$x$] je nutně (v modálním slova smyslu) instancí
+latexmath:[$T$]. _Platí ve všech světech. Nemění se v čase._ +
++
+[latexmath]
+++++
+\[R_+(T) \vcentcolon= \square(\forall x~T(x) \Rightarrow \square(T(x)))\]
+++++
+* *Anti-rigid* - Typ latexmath:[$T$] je anti-rigidní pro každou instanci
+latexmath:[$x$], právě tehdy když je možné (v modálním slova smyslu), že
+latexmath:[$x$] nemusí být instancí latexmath:[$T$]. _Platí v nějakém
+světě._ +
++
+[latexmath]
+++++
+\[R_-(T) \vcentcolon= \square(\forall x~T(x) \Rightarrow \Diamond(\neg T(x)))\]
+++++
+* *Non-rigid* - logická negace rigidity.
++
+[latexmath]
+++++
+\[NR(T) \vcentcolon= \Diamond(\exists x~T(x) \Rightarrow \Diamond(\neg T(x)))\]
+++++
+
+=== Celek-část
+
+* *Povinná část* - Celek má alespoň jednu část
+* *Esenciální část* - Instanci části nelze měnit
+* *Nepovinný celek* - Část nepotřebuje celek
+* *Povinný celek* - Část vyžaduje celek
+* *Neoddělitelná část* - Instanci celku nelze měnit
+* *Neměnitelná část* - Část nelze měnit, celek není rigidní
+* *Neměnitelný celek* - Celek nelze měnit, část není rigidní
+
+* *Quantity* - typicky materiály (např. písek, víno, dřevo, …);
+esenciální, tranzitivní, reflexivní
+** *SubQuantityOf*: alkohol-víno
+* *Collective* -
+** *MemberOf*: strom-les, student-paralelka
+** *SubCollectionOf*: studenti s vyznamenáním-studenti
+* *Functional Whole*
+** *ComponentOf*: srdce-oběhový systém, ředitel-firma
+
+== Transformace do objektového modelu
+
+Transformace OntoUML do objektoveho modelu () pomocí:
+
+* objektů (tříd) s atributy a metodami
+* skládání objektů
+* dědění mezi třídami
+
+[arabic]
+. Entity latexmath:[$\to$] Třídy (kind, subkind, role, …)
+. Complete - Abstraktní třída
+. Zajištění povinnosti 1...:
+* hard metoda (vynutíme v konstruktoru),
+* soft metoda (kontrolujeme konzistenci v programu).
+. Vztah 0...1 – instanční proměnné
+. Vztah 0...* – kolekce
+. *Complete* – nadtřída implementována jako abstraktní.
+. *Disjoint* – standardní chovaní s jednoduchou dědičností.
+. *Non-disjoint* - implementace děděním (exponenciální počet tříd) nebo
+skládáním.
+. *Sortal* – v implementaci jednoznačný identifikátor, který v reálném
+světě neexistuje.
+. *Role* – implementace jako třída, příslušnost role skládáním.
+. *Phase* – implementována návrhovým vzorem State.
+. *Non-sortal* – slouží jako další dimenze kategorizace. Zpravidla
+vytváří problém s vícenásobnou dědičností / skládání.

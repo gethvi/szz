@@ -1,0 +1,268 @@
+= BI-SPOL-33
+:stem:
+:imagesdir: images
+
+== Modulární aritmetika
+
+latexmath:[$\mathbb{Z}_m$] (nebo též latexmath:[$\mathbb{Z} mod m$]) je
+množina celých čísel modulo nějaké dané přirozené číslo latexmath:[$m$].
+Nejčastěji se setkáme se zápisem
+latexmath:[$\mathbb{Z}_m = \{0, 1, 2 . . . , m - 1\}$].
+
+Nechť latexmath:[$a, b, c, d, m \in \mathbb{Z}$],
+latexmath:[$m \geq 2$]. Pak pokud platí současně
+latexmath:[$a \equiv b \text{ mod } m$] a
+latexmath:[$c \equiv d \text{ mod } m$], potom platí:
+
+latexmath:[$a + c \equiv b + d \text{ mod } m$]
+
+latexmath:[$a - c \equiv b - d \text{ mod } m$]
+
+latexmath:[$a \cdot c \equiv b \cdot d \text{ mod } m$]
+
+Nechť latexmath:[$a, b \in \mathbb{Z}$]. Řekneme, že latexmath:[$a$]
+dělí latexmath:[$b$], značíme latexmath:[$a|b$], jestliže existuje
+latexmath:[$k \in \mathbb{Z}$] takové, že latexmath:[$b = k \cdot a$].
+
+Vlastnosti
+
+* uzavřenost latexmath:[$a$] latexmath:[$+$]
+latexmath:[$b \in \mathbb{Z}_m$], latexmath:[$a$] latexmath:[$\cdot$]
+latexmath:[$b \in \mathbb{Z}_m$]
+* komutativita latexmath:[$a$] latexmath:[$+$] latexmath:[$b = b$]
+latexmath:[$+$] latexmath:[$a$], latexmath:[$a$] latexmath:[$\cdot$]
+latexmath:[$b = b$] latexmath:[$\cdot$] latexmath:[$a$]
+* asociativita latexmath:[$a$] latexmath:[$+$] latexmath:[$(b$]
+latexmath:[$+$] latexmath:[$c) = (a$] latexmath:[$+$] latexmath:[$b)$]
+latexmath:[$+$] latexmath:[$c$], latexmath:[$a$] latexmath:[$\cdot$]
+latexmath:[$(b$] latexmath:[$\cdot$] latexmath:[$c) = (a$]
+latexmath:[$\cdot$] latexmath:[$b)$] latexmath:[$\cdot$]
+latexmath:[$c$]
+* neutrální prvek latexmath:[$a$] latexmath:[$+$]
+latexmath:[$0 = |a|_m$], latexmath:[$a \cdot 1 = |a|_m$]
+* inv. prvek latexmath:[$a$] latexmath:[$+$] latexmath:[$\bar{a} = 0$]
+* distributivita latexmath:[$a$] latexmath:[$\cdot$] latexmath:[$(b$]
+latexmath:[$+$] latexmath:[$c) = a$] latexmath:[$\cdot$]
+latexmath:[$b$] latexmath:[$+$] latexmath:[$a$] latexmath:[$\cdot$]
+latexmath:[$c$]
+
+== GCD & LCM
+
+Číslo latexmath:[$d \in \mathbb{N}^+$] je společný dělitel čísel
+latexmath:[$a$], latexmath:[$b$], jestliže latexmath:[$d|a$] a
+latexmath:[$d|b$]. Největší z nich je poté gcdlatexmath:[$(a,b)$].
+
+Číslo latexmath:[$n \in \mathbb{N}^+$] je společný násobek čísel
+latexmath:[$a$], latexmath:[$b$], jestliže latexmath:[$a|n$] a
+latexmath:[$b|n$]. Nejmenší z nich je poté lcmlatexmath:[$(a,b)$].
+
+(Vlastnosti gcd a lcm). Nechť latexmath:[$a$], latexmath:[$b$]
+latexmath:[$\in \mathbb{Z}$]. Potom platí:
+
+* Jestliže je n společný násobek latexmath:[$a$], latexmath:[$b$], pak
+latexmath:[$\text{lcm}(a, b)$] dělí latexmath:[$n$].
+* Jestliže latexmath:[$a|n$] a latexmath:[$b|n$], pak
+latexmath:[$\text{lcm}(a, b)|n$].
+* latexmath:[$\text{gcd}(a, b) = \text{gcd}(|a|, |b|)$] a
+latexmath:[$\text{lcm}(a, b) = \text{lcm}(|a|, |b|)$].
+* latexmath:[$\text{gcd}(a + cb, b) = \text{gcd}(a, b)$] pro libovolné
+latexmath:[$c \in \mathbb{Z}$].
+* Jestliže latexmath:[$a|bc$], pro nějaké latexmath:[$c \in \mathbb{Z}$]
+a čísla latexmath:[$a$], latexmath:[$b$] jsou nesoudělná (tj.
+latexmath:[$\text{gcd}(a, b) = 1$]), potom latexmath:[$a|c$].
+* latexmath:[$|a|\cdot|b| = \text{gcd}(a,b) \cdot \text{lcm}(a,b)$]
++
+latexmath:[$\text{gcd}(a, b) = d = \alpha \cdot a + \beta \cdot b$],
++
+kde latexmath:[$\alpha$], latexmath:[$\beta$] jsou celočíselné
+koeficienty této lineární kombinace.
+
+== Teorie čísel
+
+=== Vlastnosti prvočísel
+
+Funkce latexmath:[$\pi(n) : \mathbb{N}^+ \rightarrow \mathbb{N}$] určuje
+počet prvočísel, která jsou menší než latexmath:[$n$].
+
+Poměr latexmath:[$\pi(n)$] k výrazu latexmath:[$n/\text{log}(n)$] se s
+rostoucím latexmath:[$n$] přibližuje hodnotě latexmath:[$1$].
+
+Eulerova funkce latexmath:[$\Phi$] Eulerova funkce
+latexmath:[$\Phi(n) : \mathbb{N}^+ \rightarrow \mathbb{N}^+$] udává
+počet kladných celých čísel menších nebo rovných latexmath:[$n$], která
+jsou nesoudělná s latexmath:[$n$].
+
+Nechť latexmath:[$m \in \mathbb{N}^+$] a latexmath:[$a \in \mathbb{Z}$]
+je číslo nesoudělné s latexmath:[$m$]. Potom platí
+latexmath:[$a^{\Phi(m)} \equiv 1~(\text{mod }m)$].
+
+Přirozené číslo latexmath:[$p$] je prvočíslem, právě když platí
+latexmath:[$\Phi(p) = p - 1$].
+
+Nechť latexmath:[$p$] je prvočíslo a latexmath:[$a \in N$]. Potom
+latexmath:[$\Phi(p^a) = p^a - p^{a-1}$].
+
+Nechť latexmath:[$m, n \in N$] a gcdlatexmath:[$(m, n) = 1$]. Potom
+latexmath:[$\Phi(mn) = \Phi(m)\Phi(n)$].
+
+image:primes.png[image]
+
+=== Eukleidův algoritmus
+
+Nechť a, b jsou celá čísla, pro která platí latexmath:[$a \geq b > 0$].
+Nechť latexmath:[$\{r_n\}^{k+1}_{n=0}$] je klesající posloupnost zbytků
+definovaná rekurentním vztahem
+latexmath:[$r_{n+2} = r_n\text{ mod }r_{n+1}$] s počátečními podmínkami
+latexmath:[$r_0 = a$], latexmath:[$r_1 = b$]. kde
+latexmath:[$r_{k+1} = 0$] pro latexmath:[$(k > 0)$] je její první nulový
+člen. Potom její poslední nenulový člen (tj. poslední nenulový zbytek)
+je největším společným dělitelem latexmath:[$a$] a latexmath:[$b$], tedy
+gcdlatexmath:[$(a, b) = r_k$].
+
+== Malá Fermatova věta
+
+Nechť latexmath:[$p$] je prvočíslo a latexmath:[$a \in \mathbb{N}^+$]
+takové přirozené číslo, které není násobkem latexmath:[$p$]. Potom platí
+latexmath:[$a^{p-1} \equiv 1~(\text{mod }p)$].
+
+Nechť latexmath:[$a, b, c \in \mathbb{Z}$] a
+latexmath:[$m \in \mathbb{N}^+$] a nechť platí
+latexmath:[$ac \equiv bc~(\text{mod } m)$]. Potom platí
+latexmath:[$a \equiv b~(\text{mod } m/d)$], kde latexmath:[$d$] je
+největší společný dělitel čílsel latexmath:[$m$] a latexmath:[$c$].
+
+== Diofantické rovnice
+
+Jako lineární diofantickou rovnici označujeme libovolnou rovnici typu
+latexmath:[$ax +\nolinebreak by = c$] s neznámými latexmath:[$x, y$],
+kde latexmath:[$a, b, c \in \mathbb{Z}$], pro jejíž řešení má rovněž
+platit latexmath:[$x, y \in\nolinebreak Z$].
+
+Lineární diofantická rovnice latexmath:[$ax + by = c$] má alespoň jedno
+řešení právě tehdy, když latexmath:[$c$] je násobkem
+gcdlatexmath:[$(a, b)$].
+
+Nechť latexmath:[$a, b$] jsou nenulová celá čísla a dvojice
+latexmath:[$(x_0, y_0)$] je řešením rovnice
+latexmath:[$ax +\nolinebreak by =\nolinebreak c$]. Potom množina všech
+celočíselných řešení této rovnice je
+latexmath:[$\{(x_0 +\dfrac{b}{d}k, y_0 -\dfrac{a}{d}k) :\nolinebreak k \in\nolinebreak \mathbb{Z}\}$],
+kde latexmath:[$d = \text{gcd}(a, b)$].
+
+== Lineární kongruence
+
+(skvělá ukázka na:
+http://mi21.vsb.cz/sites/mi21.vsb.cz/files/unit/linearni_kongruence.pdf)
+Pro daná celá čísla latexmath:[$a, b$] a latexmath:[$m > 1$] hledáme
+celé latexmath:[$x$] takové, že platí
+latexmath:[$ax \equiv b~(\text{mod } m)$].
+
+Lineární kongruence má řešení právě tehdy, když
+gcdlatexmath:[$(a, m)|b$]. Všechna řešení jsou tvaru
+
+latexmath:[$x = x_0 + k ·\dfrac{m}{\text{gcd}(a, m)}$],
+
+kde latexmath:[$k$] je libovolné celé číslo a pro latexmath:[$x_0$]
+existuje latexmath:[$y_0$] takové, že dvojice latexmath:[$(x_0, y_0)$]
+je řešením rovnice latexmath:[$ax + my = b$].
+
+Jestliže gcdlatexmath:[$(a, m)|b$], potom kongruence
+latexmath:[$ax \equiv b~(\text{mod } m)$] má konečně mnoho řešení modulo
+m. Tato řešení jsou dána výrazem
+
+latexmath:[$|x_0 + k ·\dfrac{m}{\text{gcd}(a, m)}|_m$]
+
+pro latexmath:[$k =\nolinebreak 1, 2, 3, . . . , \text{gcd}(a, m)$], kde
+pro latexmath:[$x_0$] existuje nějaké latexmath:[$y_0$] tak, že dvojice
+latexmath:[$(x_0, y_0)$] je řešením latexmath:[$ax + my = b$].
+
+== Čínská věta
+
+Budeme řešit systém lineárních kongruencí:
+
+latexmath:[$x \equiv a_1~(\text{mod } m_1)$]
+
+latexmath:[$x \equiv a_2~(\text{mod } m_2)$]
+
+· · ·
+
+latexmath:[$x \equiv a_N~(\text{mod } m_N )$]
+
+kde čísla latexmath:[$m_i$] jsou po dvou nesoudělná, tedy
+gcdlatexmath:[$(m_i, m_j ) = 1$] pro všechna latexmath:[$i, j$], kde
+latexmath:[$i \neq\nolinebreak j$].
+
+Řešení tohoto systému existuje a všechna řešení jsou kongruentní modulo
+latexmath:[$M$] (tedy v latexmath:[$Z_M$] je řešení určeno jednoznačně),
+kde
+
+latexmath:[$M = \prod\limits_{i=1}^{N}m_i$].
+
+Definujme latexmath:[$M_i = \dfrac{M}{m_i}$].
+
+Jelikož gcdlatexmath:[$(m_i, M_i) = 1$], pak existují řešení
+latexmath:[$X_i$] lineárních kongruencí latexmath:[$M_iX_i \equiv 1$]
+(mod latexmath:[$mi$]) pro všechna latexmath:[$i \in \{1, . . . , N\}$],
+navíc platí pro všechna
+latexmath:[$j \neq i$]latexmath:[$M_iX_i \equiv 0$] (mod latexmath:[$m_j$]).
+
+Z čehož plyne:
+
+latexmath:[$x \equiv a_1X_1M_1 + . . . + a_N X_NM_N~(\text{mod }M)$]
+
+Příklad 1:
+
+latexmath:[$x \equiv 1~(\text{mod } 2)$]
+latexmath:[$x \equiv 2~(\text{mod } 3)$]
+latexmath:[$x \equiv 3~(\text{mod } 5)$]
+
+- - -
+
+latexmath:[$M = 2\cdot 3 \cdot 5 = 30$]
+latexmath:[$M_1 = 15,~M_2=10,~M_3=6$]
+
+latexmath:[$M_1X_1 = 15X_1 \equiv 1~(\text{mod }2)$]
+latexmath:[$X_1 = 1$]
+
+latexmath:[$M_2X_2 = 10X_2 \equiv 1~(\text{mod }3)$]
+latexmath:[$X_2 = 1$]
+
+latexmath:[$M_3X_3 = 6X_3 \equiv 1~(\text{mod }5)$]
+latexmath:[$X_3 = 1$]
+
+- - -
+
+latexmath:[$x = 1 \cdot 1 \cdot 15 + 2 \cdot 1 \cdot 10 + 3 \cdot 1 \cdot 6 = 53 \equiv 23~(\text{mod }30)$]
+
+== Zobecněná Čínská věta
+
+Systém lineárních kongruencí má řešení právě tehdy, když
+gcdlatexmath:[$(m_i, m_j)$] dělí latexmath:[$a_i - a_j$] pro všechna
+latexmath:[$i, j : 1 \leq i < j \leq N$]. Pokud řešení existuje, je
+určeno jednoznačně modulo lcmlatexmath:[$(m_1, m_2, . . . , m_N)$].
+
+Příklad 2:
+
+latexmath:[$x \equiv 5~(\text{mod } 6)$]
+latexmath:[$x \equiv 3~(\text{mod } 10)$]
+latexmath:[$x \equiv 8~(\text{mod } 15)$]
+
+- - -
+
+latexmath:[$x = 5 + 6t$]
+
+latexmath:[$5 + 6t \equiv 3~(\text{mod } 10)$]
+latexmath:[$6t \equiv 8~(\text{mod } 10)$]
+latexmath:[$t \equiv 8 \cdot 6^{-1}~(\text{mod } 10)$]
+latexmath:[$t \equiv 3~(\text{mod } 10)$] latexmath:[$t = 3 + 10u$]
+
+latexmath:[$x = 5 + 6t = 5 + 6(3 + 10u) = 23 + 60u$]
+
+latexmath:[$23 + 60u \equiv 8~(\text{mod } 15)$]
+latexmath:[$0\cdot u \equiv 0~(\text{mod } 15)$] latexmath:[$u \in N$]
+
+- - -
+
+latexmath:[$x = 5 + 6t = 23 + 60u$] lcmlatexmath:[$(6, 10, 15) = 30$]
+
+latexmath:[$x \equiv 23~(\text{mod } 30)$]

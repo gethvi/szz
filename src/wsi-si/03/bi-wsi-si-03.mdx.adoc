@@ -1,0 +1,96 @@
+= BI-WSI-SI-3
+:stem:
+:imagesdir: images
+
+== Normalizace
+
+Cílem normalizace je minimalizovat redundanci data a aktualizační
+anomálie. Měla by vést k vzniku tabulek, které lze snadno udržovat.
+
+=== Fuknční závislost
+
+latexmath:[$X$] je množina všech atributů, latexmath:[$Y$] a
+latexmath:[$Z$] jsou latexmath:[$\subseteq$] latexmath:[$X$].
+latexmath:[$Z$] závisí funkčně na latexmath:[$Y$], jestliže ke každé
+latexmath:[$Y$] hodnotě existuje maximálně jedna latexmath:[$Z$]
+hodnota. Značí se jako latexmath:[$Y \rightarrow Z$].
+
+==== Příklad
+
+* ke každému kinu existuje nanejvýš jedna adresa
+latexmath:[$\Rightarrow$] nazev_kina latexmath:[$\rightarrow$] adresa
+** název kina určuje atribut adresa
+** naopak adresa závizí na názvu kina
+* pro každou dvojici kino, film existuje nejvýše jedno datum, kdy se
+film v kině vysílá latexmath:[$\Rightarrow$] nazev_kina, jmeno_filmu
+latexmath:[$\rightarrow$] datum
+** dvojice jméno kina a jméno filmu určuje atribut datum
+** datum závisí na dvojici jmen
+
+==== Amstrongova pravidla
+
+* triviální funkční závislost = jestliže Y je latexmath:[$\subseteq$] X,
+pak X latexmath:[$\rightarrow$] Y
+* tranzitivita = jestliže X latexmath:[$\rightarrow$] Y a Y
+latexmath:[$\rightarrow$] Z, pak X latexmath:[$\rightarrow$] Z
+* kompozice pravé strany = X latexmath:[$\rightarrow$] Y a X
+latexmath:[$\rightarrow$] Z, pak X latexmath:[$\rightarrow$] YZ
+* dekompozice pravé strany = X latexmath:[$\rightarrow$] YZ, pak X
+latexmath:[$\rightarrow$] Y a X latexmath:[$\rightarrow$] Z
+
+==== Klíč relace
+
+Řekněme R(A), kde K je latexmath:[$\subseteq$] A. Tak K je klíčem
+schématu R(A), jestliže splňuje dvě vlastnosti:
+
+* K latexmath:[$\rightarrow$] A
+* neexistuje K’ latexmath:[$\subset$] K taková, že K’
+latexmath:[$\rightarrow$] A
+
+== Normální formy
+
+* 1NF - atributy jsou atomické (nexistují strukturované a vicehodnotové
+atributy)
+* 2NF - žádný neklíčový atribut není závislý na části klíče (vždy závisí
+na celém)
+* 3NF - jsou-li všechny neklíčové atributy závislé na klíči přímo a
+nikoliv tranzitivně
+** nesmí tranzitivně záviset na jiném klíči
+** nesmí záviset na jiném neklíčovém atributu
+** musí záviset pouze na primárním klíči
+
+=== BCNF - Boyce-Coddova normální forma
+
+Schéma relace R je v BNFC, jestliže pro každou netriviální závistlo X
+latexmath:[$\rightarrow$] Y platí, že X obsahuje klíč schématu R. Pokud
+je schéma v BCNF, pak je i v 3NF.
+
+== Normalizace
+
+Eliminace aktualizačních anomálií se zajišťuje převedením relačního
+schématu do 3NF (resp. BCNF). Lze normalizovat pomocí dekompozice.
+Požadavky dekompozice:
+
+* výsledná schémata by měla mít "stejnou" sémantiku - nové i staré
+schéma musí mít stejnou funkční závislost
+* nová relace by měla obsahovat "stejná" data, jaká by obsahovala
+původní relace
+* o dekompozici lze uvažovat jako o projekcích původní relace, kde každá
+projekce definujé nové relace, a jejich spojením se musí dostat stejná
+data jako měla původní relace - `beztrátová dekompozice`
+
+=== Beztrátová dekompozice
+
+Musí být splněna pravidla:
+
+* schéma R([.ul]#A#,B,C), kde A, B, C jsou disjuktní, a je splněna
+funkční závislost B latexmath:[$\rightarrow$] C
+* po rozdělení R na schémata R1([.ul]#B#,C) a R2([.ul]#A#,B)
+latexmath:[$\Leftrightarrow$] je rozdělení (dekompozice) bezztrátové
+
+Normalizace je důležitá u "write intesive" databází, databáze kde se
+hodně zapisují a upravují data. Naopak u "read only" databází se vyplatí
+denormalizace, zavedením redundance se sníží odezva na složitejší
+dotazy, protože denormalizované databáze mají většinou méně tabulek než
+normalizované. A každé spojování tabulek při dotazování prodlužuje dobu
+odezvy.
