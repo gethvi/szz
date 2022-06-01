@@ -1,4 +1,5 @@
-= BI-SPOL-09
+= BI-SPOL-10  Transakce a jejich vlastnosti - ACID.
+
 :stem:
 :imagesdir: images
 

@@ -1,4 +1,5 @@
-= BI-SPOL-24
+= BI-SPOL-24 Protokolová rodina TCP/IP (IPv4, IPv6, TCP, UDP, aplikační protokoly). Řízení datového toku. Princip a využití NAT. Systém DNS.
+
 :stem:
 :imagesdir: images
 

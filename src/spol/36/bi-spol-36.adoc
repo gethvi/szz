@@ -1,4 +1,5 @@
-= BI-SPOL-36
+= BI-SPOL-36 Číselné řady (konvergence číselné řady, kritéria konvergence, odhadování rychlosti růstu řad pomocí určitého integrálu).
+
 :stem:
 :imagesdir: images
 

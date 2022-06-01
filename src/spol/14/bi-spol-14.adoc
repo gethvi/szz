@@ -1,4 +1,5 @@
-= BI-SPOL-14
+= BI-SPOL-14 Výroková logika: splnitelnost formulí, logická ekvivalence a důsledek, universální systém logických spojek, disjuntivní a konjunktivní normální tvary, úplné normální tvary.
+
 :stem:
 :imagesdir: images
 

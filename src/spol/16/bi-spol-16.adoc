@@ -1,4 +1,5 @@
-= BI-SPOL-16
+= BI-SPOL-16 Procesy a vlákna, jejich implementace. Synchronizační nástroje. Klasické synchronizační úlohy. Plánování vláken. Přidělování prostředků, Coffmanovy podmínky, způsoby řešení uváznutí.
+
 :stem:
 :imagesdir: images
 

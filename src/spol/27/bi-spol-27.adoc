@@ -1,4 +1,5 @@
-= BI-SPOL-27
+= BI-SPOL-27  Kombinační a sekvenční logické obvody (Mealy, Moore), popis a možnosti implementace na úrovni hradel. Minimalizace vyjádření logické funkce (s využitím map).
+
 :stem:
 :imagesdir: images
 
@@ -6,26 +7,51 @@
 
 === Kombinační
 
-Výstup je dán kombinací vstupů, nezáleží na stavu. +
+Výstup je dán kombinací vstupů, nezáleží na stavu.
+
 Matematický model – logická funkce.
 
+Popis:
+
+* pravdivostní tabulkou
+* algebraicky (logický výraz)
+** úplná normální disjunktivní forma (UNDF)
+** minimální normální disjunktivní forma (MNDF)
+* výčtem stavových indexů
+* mapou
+* schématem
+
 === Sekvenční
+
+Jako *konečný automat*.
+
+Konečný automat definujeme jako šestici: počáteční stav, přechodová funkce, vstupní symboly, výstup, vnitřní stavy, množina stavů,
 
 Výstup závisí na posloupnosti vstupů, realizuje se zpětnými vazbami. +
 Matematický model – konečný automat.
 
-asynchronní::
-  bez hodinového vstupu
-synchronní::
-  s hodinovým vstupem
+Skládá se z kombinačního obvodu a paměťové části (obvykle klopný obvod).
 
-=== Moore
+Uchování
+
+asynchronní::
+  bez hodinového vstupu, změna na vstupu se promítne na výstup ihned
+synchronní::
+  s hodinovým vstupem, změna na vstupu se promítne na výstup až s příchodem hodinového signálu
+
+==== Moore
 
 Reaguje na vstup až při přechodu do dalšího stavu. Výstup je v uzlech.
 
-=== Mealy
+Výstupy svázaný s vnitřním stavem.
+
+
+==== Mealy
 
 Reaguje na vstup ihned. Výstup je v přechodech.
+
+Výstupy svázaný s vnitřním stavem a vstupem.
+
 
 == Popis a možnosti implementace na úrovni hradel.
 

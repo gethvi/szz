@@ -1,4 +1,5 @@
-= BI-SPOL-5
+= BI-SPOL-5  Binární haldy, binomiální haldy. Vyhledávací stromy a jejich vyvažování. Tabulky s rozptylováním (hešováním).
+
 :stem:
 :imagesdir: images
 

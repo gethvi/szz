@@ -1,4 +1,5 @@
-= BI-SPOL-23
+= BI-SPOL-23 ISO/OSI a TCP/IP model. Protokoly linkové vrstvy. Přepínání a směrování. Principy fungování propojovacích síťových prvků.
+
 :stem:
 :imagesdir: images
 

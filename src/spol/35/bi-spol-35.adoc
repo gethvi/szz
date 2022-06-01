@@ -1,4 +1,5 @@
-= BI-SPOL-35
+= BI-SPOL-35 Základy integrálního počtu (primitivní funkce, neurčitý integrál, Riemannův integrál (definice, vlastnosti a geometrický význam)).
+
 :stem:
 :imagesdir: images
 

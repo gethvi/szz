@@ -1,4 +1,5 @@
-= BI-SPOL-34
+= BI-SPOL-34 Limita a derivace funkce (definice a vlastnosti, geometrický význam), využití při vyšetřování průběhu funkce.
+
 :stem:
 :imagesdir: images
 
@@ -90,7 +91,7 @@ image:jed_lim.png[image]
 Hodnota limity závisí na okolí bodu, nikoli na samotném bodě. Funkce
 latexmath:[$f$] v bodě latexmath:[$a$] ani nemusí být definovaná, přesto
 limita může existovat. Příkladem je funkce
-latexmath:[$f(x)\nolinebreak :=\nolinebreak \text{sgn} \frac{1}{x^2}$],
+latexmath:[$f(x) := \text{sgn} \frac{1}{x^2}$],
 latexmath:[$D_f = \mathbb{R} \backslash \{0\}$]. Ačkoliv latexmath:[$0$]
 nepatří do latexmath:[$D_f$] platí
 latexmath:[$\lim\limits_{x\to 0} f(x) = 1$].

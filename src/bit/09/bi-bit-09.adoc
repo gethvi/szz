@@ -1,0 +1,69 @@
+= BI-BIT-09  Paměťová hierarchie se skrytou pamětí (cache memory) a principy paměťové lokality. Princip fungování skryté paměti. Architektura přímé, částečně asociativní, plně asociativní skryté paměti. Funkce skryté paměti v rámci instrukčního cyklu a vliv skryté paměti na rychlost vykonání programů.
+
+== Paměťová hierarchie se skrytou pamětí (cache memory)
+
+registry, L1 cache, L2 cache, L3 cache, RAM, HDD
+
+== Principy paměťové lokality
+
+Programy typicky přistupují v daném okamžiku pouze k malé části instrukčního a datového adresního prostoru.
+
+=== Časová lokalita
+Položky (data/instrukce), ke kterým se přistupovalo nedávno, budou zapotřebí brzy znovu.
+
+Příklad: opakované procházení dat v cyklu nebo opakované čtení instrukcí v rekurzivních algoritmech.
+
+=== Prostorová lokalita
+
+Položky (data/instrukce) poblíž právě používaných budou brzy zapotřebí také.
+
+Příklad: sekvenční přístup k instrukcím programu (jedna instrukce za druhou) či sekvenční přístup k datovým polím nebo lokálním proměnným umístěným poblíž sebe (datová paměť).
+
+== Princip fungování skryté paměti
+
+Proč je cache potřeba? V průběhu vývoje došlo ke značnému zrychlení frekvence procesorů, ale jen relativně minimálnímu zrychlení hlavní paměti. Použití cache tento rozdíl pomáhá překlenout.
+
+Účelem je tedy zrychlit přístup k často přístupným datům a instrukcím tím, že jsou do cache nakopírovány z hlavní paměti.
+
+Cache jsou integrovány jako součást procesoru.
+
+Realizována jako SRAM (static random access memory). (SRAM je rychlejší než DRAM, ale zabírá více křemíku - jedná se o složitější obvod)
+
+== Architektura skryté paměti
+
+Čím větší skrytá paměť, tím je pravděpodobnější, že nastane *cache hit* (nalezení dat v cache), ale zvyšuje se *hit time* (čas potřebný pro nalezení položky).
+
+=== Přímo mapovaná
+
+Má pouze jednu cestu ("jednocestně asociativní paměť") a X setů.
+
+Můžou nastávat kolize, kde přístupujeme k různým blokům hlavní paměti, které se mapují na stejný blok v cache. To vede k častým cache miss a neustále se vzájemně vyhazujícím blokům z cache.
+
+Zvětšení cache může snížit pravděpodobnost kolize, ale neodstraňuje ji.
+
+=== Částečně asociativní
+
+Rozděluje cache na menší podčásti (cesty). Počet cest (= stupeň asociativity) určuje, kolik kolizí je cache schopna eliminovat. Kolizní blok se uloží do stejného setu, ale v jiné cestě.
+
+
+
+=== Plně asociativní
+
+Má X cest ("X cestně asociativní paměť") a pouze 1 set.
+
+Umožňuje řešit maximální počet kolizí (X kolizí), ale je nejnáročnější na HW (velikost na křemíku).
+
+== Rešení výpadku cache (data nejsou v cache)
+Data nejsou v cache a musí se načíst z hlavní paměti. Když je cache plná, je třeba něco vyhodit.
+
+=== Základní strategie vyhazování obsahu cache
+
+* Náhodně (pseudonáhodně): náhodný výběr bloku, který bude z cache vyhozen
+* LRU (least recently used): vyhození bloku, který byl nejdéle nepoužíván
+* LFU (least frequently used): vyhození bloku, který se nejméně používá
+* ARC (adaptative replacement cache): obvykle kombinace LRU a LFU
+
+
+== Funkce skryté paměti v rámci instrukčního cyklu a vliv skryté paměti na rychlost vykonání programů
+
+Vliv na rychlost programů lze uplatnit i z pohledu programátora, který by měl zohlednit zmíněné principy paměťové lokality (prostorová a časová) a snažit se tedy o přístup k datům s tímto ohledem.

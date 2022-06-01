@@ -1,4 +1,5 @@
-= BI-SPOL-22
+= BI-SPOL-22 Abstraktní datový typ, jeho specifikace a implementace. Zásobník, fronta, pole, seznam, tabulka, množina. Implementace pomocí pole, spojových struktur a stromů.
+
 :stem:
 :imagesdir: images
 

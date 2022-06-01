@@ -1,4 +1,5 @@
-= BI-SPOL-1
+= BI-SPOL-1 Přehled Chomského hierarchie formálních jazyků a gramatik. Turingovy stroje. Třídy problémů P, NP, NP-těžký, NP-úplný.
+
 :stem:
 :imagesdir: images
 

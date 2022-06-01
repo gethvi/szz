@@ -1,3 +1,101 @@
-= BI-SPOL-29
+= BI-SPOL-29  Kódy pro zobrazení čísel se znaménkem a realizace aritmetických operací (paralelní sčítačka/odčítačka, realizace aritmetických posuvů, dekodér, multiplexor, čítač). Reprezentace čísel v pohyblivé řádové čárce.
+
 :stem:
 :imagesdir: images
+
+== Čísla bez znaménka
+
+== Čísla se znaménkem
+
+=== Přímý kód
+* má kladnou a zápornou nulu
+* pro sčítání a odčítaní jsou potřeba odlišné algoritmy, nejdříve se musí testovat znaménko (zda-li se bude sčítat nebo odčítat)
+* samotné číslo je v absolutní hodnotě, pro znaménko je vyhrazen nejvyšší bit
+** když je nejvyšší bit 1, jedná se o záporné číslo
+
+[cols="1,1,1,1,1,1,1,1"]
+|===
+|0|1|2|3|4|5|6|7
+|znaménko
+|bit čísla
+|bit čísla
+|bit čísla
+|bit čísla
+|bit čísla
+|bit čísla
+|bit čísla
+|===
+
+=== Doplňkový kód
+* kladné číslo je zapsáno obvyklým způsobem
+* záporné číslo je zapsáno jako negace bitů kladného čísla a přičtení jedničky
+* sčítání a odčítání jednou operací (odečítání jako sčítání se záporným číslem)
+* když je nejvyšší bit 1, jedná se o záporné číslo
+
+Číslo "5":
+[cols="1,1,1,1,1,1,1,1"]
+|===
+|0|0|0|0|0|1|0|1
+|===
+
+Inverze čísla "5":
+[cols="1,1,1,1,1,1,1,1"]
+|===
+|1|1|1|1|1|0|1|0
+|===
+
+Přičtení jedničky k inverzi:
+[cols="1,1,1,1,1,1,1,1"]
+|===
+|1|1|1|1|1|0|1|1
+|===
+
+Výsledkem je číslo "-5".
+
+
+=== Aditivní kód
+Kód s posunutou nulou.
+
+Příklad pro 4 bitové číslo (-7 až +8):
+
+[cols="1,1"]
+|===
+|číslo|bitová reprezentace
+
+|-7|0000
+|-6|0001
+|-5|0010
+|-4|0011
+|-3|0100
+|-2|0101
+|-1|0110
+|0|0111
+|1|1000
+|2|1001
+|3|1010
+|4|1011
+|5|1100
+|6|1101
+|7|1110
+|8|1111
+|===
+
+=== (Inverzní)
+
+== Reprezentace čísel v pohyblivé řádové čárce.
+
+Zvlášť Mantisa a Exponent.
+
+[cols="1,1,1,1"]
+|===
+|velikost čísla|znaménko|exponent|mantisa
+|32bit|1b|8b|23(24) bitů
+|64bit|1b|11b|52(53) bitů
+|===
+
+mantisa - přímý kód
+exponent - aditivní kód
+
+Výsledné číslo je stem:[M * 2^E]
+
+Mantisa se obvykle normalizuje do podoby "1,001" (jedna jednička před desetinnou čárkou). Tato jednička se pak do manitsy nezapisuje, ale počítá se s použitím tohoto tzv. *principu skryté jedničky*.

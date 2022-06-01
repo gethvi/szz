@@ -1,4 +1,5 @@
-= BI-SPOL-32
+= BI-SPOL-32 Metody řešení rekurentních rovnic, sestavování a řešení rekurentních rovnic při analýze časové složitosti algoritmů.
+
 :stem:
 :imagesdir: images
 
@@ -78,7 +79,7 @@ Uvažujme rovnici latexmath:[$t(n) = 2t(\lfloor n/2 \rfloor) + n$]. Jako
 horní odhad řešení zkusme latexmath:[$t(n) \leq cn~\text{log}~n$], kde
 latexmath:[$c > 0$] je vhodně zvolená konstanta. Indukcí dokážme
 správnost odhadu, tedy že pro řešení rovnice platí
-latexmath:[$t(n) =\nolinebreak O(n~\text{log}~n)$].
+latexmath:[$t(n) = O(n~\text{log}~n)$].
 
 Indukční krok (ověření, že latexmath:[$t(n) \leq cn~\text{log}~n$]
 vyhovuje rekurenci latexmath:[$t(n) = 2t(\lfloor n/2 \rfloor) + n$])

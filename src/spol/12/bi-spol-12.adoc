@@ -1,4 +1,5 @@
-= BI-SPOL-12
+= BI-SPOL-12  Soustavy lineárních rovnic: Frobeniova věta a související pojmy, vlastnosti a popis množiny řešení, Gaussova eliminační metoda.
+
 :stem:
 :imagesdir: images
 

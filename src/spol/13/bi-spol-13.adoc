@@ -1,4 +1,5 @@
-= BI-SPOL-13
+= BI-SPOL-13  Matice: součin matic, regulární matice, inverzní matice a její výpočet, vlastní čísla matice a jejich výpočet, diagonalizace matice.
+
 :stem:
 :imagesdir: images
 

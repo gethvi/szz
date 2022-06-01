@@ -1,4 +1,5 @@
-= BI-SPOL-28
+= BI-SPOL-28 Architektura číslicového počítače, instrukční cyklus počítače, základní třídy souborů instrukcí (ISA). Paměťový subsystém počítače, paměťová hierarchie, cache.
+
 :stem:
 :imagesdir: images
 
@@ -31,7 +32,7 @@ image:hw_architektura.png[image]
 . OF - čtení operandů (operand fetch)
 . IE - provedení instrukce (instruction execute)
 . WE - uložení výsledku (write back)
-. přerušení? (interrupt)
+. kontrola, zda-li nenastalo přerušení? (interrupt) -> skok na instrukce přerušovací rutiny
 * nejnižší ``úroveň'' na které může programátor pracovat - staví se
 pomocí ní SW
 * *instrukce* - příkaz zakódovaný jako číslo, musí obsahovat:
@@ -60,7 +61,7 @@ pomocí ní SW
 *** autoinkrementace/autodekrementace
 
 [[stux159adaux10dovuxe1-acumulator]]
-=== Střadačová (acumulator)
+=== Střadačová (acumulator) (1 adresa v instrukci)
 
 * implicitním operandem ALU je vždy střadač
 * byl populární v 50. a 70. letech, protože HW byl drahý a paměti
@@ -75,7 +76,7 @@ rychlejší než CPU
 ** omezený paralelismus mezi instrukcemi
 
 [[zuxe1sobnuxedkovuxe1-stack]]
-=== Zásobníková (stack)
+=== Zásobníková (stack) (0 adres v instrukci)
 
 * využívání ``HW zásobníku'' při vykonávání programu
 * např. instrukce ADD vezme 2 nejvyšší hodnoty na zásobníku a do vrchní
@@ -93,7 +94,7 @@ uloží jejich součet
 ** těžké omezit přístupy do paměti
 
 [[registrovuxe1-gpr---general-purpose-registers]]
-=== Registrová (GPR - General Purpose Registers)
+=== Registrová (GPR - General Purpose Registers) (2 adresy v instrukci)
 
 * dnes nejrozšířenější
 * RISC a CISC
@@ -119,7 +120,6 @@ TODO???
 [[pamux11bux165ovuxe1-hierarchie]]
 === Paměťová hierarchie
 
-[arabic]
 . registry
 . caches - extrémně rychlé, drahé, kapacitou menší, umístěné co nejblíž
 k procesoru
@@ -131,6 +131,12 @@ k procesoru
 image:mem_hierarchie.png[image]
 
 === Cache
+můžeme dělit:
+
+* plně asociativní (cachování dat pro celou konkrétní adresu)
+* s omezeným stupněm asociativity (cachování dat podle části adresy)
+
+vlastnosti:
 
 * řeší nízkou rychlost hlavní paměti
 * většinou ve více vrstvách (L1, L2, …)
@@ -146,7 +152,5 @@ image:mem_hierarchie.png[image]
 * zápis:
 ** pokud není v cache jde rovnou do paměti
 ** *write throught* - nová hodnota se zapíše do cache i do hlavní paměti
-** *write back* - zapíše se do paměti pouze když by měla být z cache
-vyřazena
-* více stupňů asociativity - více míst kam uložit paměť se stejným
-klíčem (použití LRU při kolizích pro vyhození)
+** *write back* - zapíše se do paměti pouze když by měla být z cache vyřazena
+* více stupňů asociativity - více míst kam uložit paměť se stejným klíčem (použití LRU při kolizích pro vyhození)

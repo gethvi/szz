@@ -1,4 +1,5 @@
-= BI-SPOL-31
+= BI-SPOL-31 Analytický doménový model tříd a popis životního cyklu identifikovaných tříd (cíle, UML diagram tříd, UML stavový diagram).
+
 :stem:
 :imagesdir: images
 

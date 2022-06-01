@@ -1,18 +1,20 @@
-= BI-SPOL-09
+= BI-SPOL-09 Relační databáze, dotazování v relační algebře, základní koncepce jazyka SQL (SELECT, DDL, DML, DCL, TCL) , vyjádření integritních omezení v DDL.
+
 :stem:
 :imagesdir: images
 
 == DBS
 
-DBS = database system DBMS = systém řízení bází dat (database managment
+DBS = database system
+
+DBMS = systém řízení bází dat (database managment
 system)
 
 * RDBMS = relační DBMS
 * ODBMS = objektový DBMS
 * ORDBMS = objektově-relační DBMS
 
-Zabývá se seřazením velkého množství, perzistentních, spolehlivých a
-sdílených dat
+Zabývá se seřazením velkého množství, perzistentních, spolehlivých a sdílených dat
 
 * velké množstí = pro data nestačí operační paměť
 * perzistestní = data přetrvávají od zpracování ke zpracování

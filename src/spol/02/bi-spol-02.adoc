@@ -1,4 +1,5 @@
-= BI-SPOL-2
+= BI-SPOL-2 Regulární jazyky: Deterministické a nedeterministické konečné automaty. Determinizace konečného automatu. Minimalizace deterministického konečného automatu. Operace s konečnými automaty. Regulární gramatiky, regulární výrazy, regulární rovnice.
+
 :stem:
 :imagesdir: images
 

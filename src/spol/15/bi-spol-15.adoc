@@ -1,4 +1,5 @@
-= BI-SPOL-15
+= BI-SPOL-15 Predikátová logika: jazyk, interpretace, splnitelnost formulí, logická platnost,  logická ekvivalence a důsledek, teorie, model.
+
 :stem:
 :imagesdir: images
 

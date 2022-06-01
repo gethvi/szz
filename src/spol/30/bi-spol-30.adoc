@@ -1,4 +1,5 @@
-= BI-SPOL-30
+= BI-SPOL-30  Nástroje pro podporu tvorby softwarových produktů: Sledování chyb a správa úkolů (používané nástroje, typický životní cyklus úkolu/chyby), správa a sdílení zdrojových kódů (principy řešení spolupráce, hlavní přínosy, používané nástroje).
+
 :stem:
 :imagesdir: images
 
